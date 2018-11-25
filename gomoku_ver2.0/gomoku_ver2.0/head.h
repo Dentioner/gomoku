@@ -19,8 +19,8 @@
 6. ¡ð_¡ñ¡ñ¡ñ_¡ð
 */
 #define Open_two 1000//Á¬¶þ
-#define depth_of_hashing 100000
-
+#define depth_of_hashing 1000000
+#define infinity 89999900
 
 void myprintf(int array[], int length);
 void initial_board();
@@ -38,6 +38,11 @@ unsigned long long genrand64_int64(void);
 int indexOf(int chess);
 void initTable();
 long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool write);
-
+void pve(long int value);
+int offensive();
+void auto_play(int chess, int opponent_chess);
+long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor);
+int before_evaluation_ver3(int priority_ver2[][2], int floor, int step_count, bool my_turn);
+void quick_sort(int temp_priority[][3], int l, int r);
 
 

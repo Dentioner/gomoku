@@ -23,8 +23,7 @@ void main()
 	//int step_count = 0; //游戏下了几个子的计数
 	
 	bool continue_playing = true; //确认游戏是否继续
-	bool ai_first = false;//默认电脑后走
-
+	
 	long int value = 0;//评分函数的打分
 	long int my_value = 0;//我方得分
 	long int opponent_value = 0;//对方得分
@@ -39,7 +38,7 @@ void main()
 	}
 	else
 	{
-		//pve();
+		pve(value);
 	}
 
 	//DrawBoard(value, mode_choice, step_count);
