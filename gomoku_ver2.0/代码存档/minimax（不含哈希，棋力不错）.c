@@ -3,8 +3,7 @@
 #include<string.h>
 #include"head.h"
 #include<time.h>
-#include<math.h>
-
+//本工程去除了哈希
 extern int board[15][15];
 extern int coordinate[2];
 extern int roaming;
@@ -15,7 +14,7 @@ extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 extern unsigned long long hashing_value2[depth_of_hashing][3];
 extern long int best_score_of_upper[11];
 extern bool not_in_the_same_branch[11];
-//本工程去除了哈希
+
 long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor)
 {
 
@@ -81,7 +80,7 @@ long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor)
 			status = before_evaluation_ver3(priority_ver2, floor, step_count, my_turn);
 
 			if (status != 0)
-			{//类似于最底层，先不hash了
+			{
 
 
 				long int temp_score1 = 0;
@@ -183,16 +182,11 @@ long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor)
 							*/
 
 
-							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
-
 							//下面这几行是在测试的时候使用的，正式使用的时候关掉
 
 							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
 
 
-							temp_score = Searching_Hashing(step_count, my_turn, 0, false);
-							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
 
 							if (temp_score == 0)
 							{
@@ -263,19 +257,7 @@ long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor)
 								//复原
 							}
 							board[raw][column] = temp_blank;
-							
-							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
-							{
-								Searching_Hashing(step_count, my_turn, temp_score, true);
 
-
-
-
-							}
-							//上面这几行在启用哈希表搜索的时候要用到，千万不要删了
-
-							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
 							if (best_score > best_score_of_upper[floor - 1])
 							{
 								best_score_of_upper[floor - 1] = best_score;
@@ -393,10 +375,7 @@ long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor)
 							}
 							temp_blank = board[raw][column];
 							board[raw][column] = chess;
-							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-							temp_score = Searching_Hashing(step_count, my_turn, 0, false);
-							//上面这2行在启用哈希表搜索的时候要用到，千万不要删了
-
+							temp_score = 0;
 							//下面这个是在测试的时候输出的，正式使用的时候可以关掉
 							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
 							if (temp_score == 0)
@@ -465,17 +444,7 @@ long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor)
 							}
 
 							board[raw][column] = temp_blank;
-							
-							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
-							{
-								Searching_Hashing(step_count, my_turn, temp_score, true);
 
-
-							}
-							//上面这几行在启用哈希表搜索的时候要用到，千万不要删了
-
-							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
 							if (best_score > best_score_of_upper[floor - 1])
 							{
 								best_score_of_upper[floor - 1] = best_score;
@@ -497,7 +466,7 @@ long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor)
 	}
 	//最底层↓
 	else
-	{//最底层暂时不用hash了
+	{
 		long int temp_score1 = 0;
 		long int temp_score2 = 0;
 		int best_raw = 0;
@@ -616,58 +585,4 @@ long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor)
 	return best_score;
 }
 
-long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
-{
-	long int temp_score;
-	long int temp_score1, temp_score2;
-	int raw, column;
-	long int board_score = 0;
-	//这里删了一堆注释，要恢复的去看别的地方存档的minimax文件
 
-
-			//这个for循环是一开始就有的，别把这个给删了
-	for (raw = 0; raw < 15; raw++)
-	{
-		for (column = 0; column < 15; column++)
-		{
-			if ((board[raw][column] != b)
-				&& (board[raw][column] != w))
-			{
-				//temp_score = evaluation(board, step_count, my_turn, raw, column);
-
-				temp_score1 = evaluation(step_count, my_turn, raw, column);
-				temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);
-				/*
-				temp_score1 = abs(temp_score1) * 1.5;
-				temp_score2 = abs(temp_score2) * 0.75;
-				temp_score = temp_score1 + temp_score2;
-				*/
-				temp_score = temp_score1 * 1.5 + temp_score2 * 0.75;
-				board_score += temp_score;
-				/*
-				if (!initialized)
-				{
-					best_score = temp_score;
-					initialized = true;
-					best_raw = raw;
-					best_column = column;
-
-				}
-				else
-				{
-					if (temp_score > best_score)
-					{
-						best_score = temp_score;
-
-					}
-				}
-				*/
-
-			}
-		}
-	}
-
-
-
-	return board_score;
-}

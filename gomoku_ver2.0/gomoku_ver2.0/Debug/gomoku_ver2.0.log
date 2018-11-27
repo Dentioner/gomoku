@@ -1,29 +1,11 @@
-﻿  Mersenne_Twister.c
-  enlighting_searching.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\enlighting_searching.c(47): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-  evaluation.c
-  hashing.c
-  main.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(131): warning C4013: “system”未定义；假设外部返回 int
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(213): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 参见“scanf”的声明
-  minimax.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(109): warning C4013: “abs”未定义；假设外部返回 int
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(109): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+﻿  minimax.c
 e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(110): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(330): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(331): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(524): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(525): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(564): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(565): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-  pve.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pve.c(191): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 参见“scanf”的声明
-  pvp.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pvp.c(39): warning C4047: “函数”:“int”与“int [2]”的间接级别不同
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pvp.c(39): warning C4024: “get_coordinate”: 形参和实参 1 的类型不同
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pvp.c(39): warning C4020: “get_coordinate”: 实参太多
-  正在生成代码...
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\mersenne_twister.c(172): warning C4715: “indexOf”: 不是所有的控件路径都返回值
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(111): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(335): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(336): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(527): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(528): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(567): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(568): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(645): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
   gomoku_ver2.0.vcxproj -> E:\coding\gomoku\gomoku_ver2.0\Debug\gomoku_ver2.0.exe

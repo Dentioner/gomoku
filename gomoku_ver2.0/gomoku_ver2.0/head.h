@@ -19,7 +19,7 @@
 6. ¡ð_¡ñ¡ñ¡ñ_¡ð
 */
 #define Open_two 1000//Á¬¶þ
-#define depth_of_hashing 1000000
+#define depth_of_hashing 100000
 #define infinity 89999900
 
 void myprintf(int array[], int length);
@@ -44,5 +44,5 @@ void auto_play(int chess, int opponent_chess);
 long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor);
 int before_evaluation_ver3(int priority_ver2[][2], int floor, int step_count, bool my_turn);
 void quick_sort(int temp_priority[][3], int l, int r);
-
-
+long int deepest(int step_count, bool my_turn);
+void shallowest(int step_count, bool my_turn);

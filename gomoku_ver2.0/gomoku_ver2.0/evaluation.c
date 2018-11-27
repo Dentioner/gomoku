@@ -9,9 +9,9 @@ extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
 long int evaluation(int step_count, bool my_turn, int raw, int column)
-	//step_count的作用是，确认这盘是黑子还是白子
-	//my_turn 的作用是，确认这盘是我方还是敌方
-	//raw和column是传递坐标，看看到底是哪个位置需要评估
+//step_count的作用是，确认这盘是黑子还是白子
+//my_turn 的作用是，确认这盘是我方还是敌方
+//raw和column是传递坐标，看看到底是哪个位置需要评估
 {
 	//先确认这把是白子下还是黑子下
 	int chess;
@@ -35,9 +35,10 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//水平方向
 			//●●●●?型
 	if ((board[raw][column - 1] == chess)
-		&& (board[raw][column - 2] == chess) 
+		&& (board[raw][column - 2] == chess)
 		&& (board[raw][column - 3] == chess)
-		&& (board[raw][column - 4] == chess))
+		&& (board[raw][column - 4] == chess)
+		&& (column - 4 >= 0))
 	{
 		value += Consecutive_Five;
 	}
@@ -45,7 +46,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
 		&& (board[raw][column - 3] == chess)
-		&& (board[raw][column + 1] == chess))
+		&& (board[raw][column + 1] == chess)
+		&& (column + 1 <= 14) && (column - 3 >= 0))
 	{
 		value += Consecutive_Five;
 	}
@@ -54,7 +56,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
 		&& (board[raw][column + 1] == chess)
-		&& (board[raw][column + 2] == chess))
+		&& (board[raw][column + 2] == chess)
+		&& (column - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -63,7 +66,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column + 1] == chess)
 		&& (board[raw][column + 2] == chess)
-		&& (board[raw][column + 3] == chess))
+		&& (board[raw][column + 3] == chess)
+		&& (column + 3 <= 14) && (column - 1 >= 0))
 	{
 		value += Consecutive_Five;
 	}
@@ -72,7 +76,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column + 2] == chess)
 		&& (board[raw][column + 3] == chess)
-		&& (board[raw][column + 4] == chess))
+		&& (board[raw][column + 4] == chess)
+		&& (column + 4 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -82,7 +87,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
 		&& (board[raw - 3][column] == chess)
-		&& (board[raw - 4][column] == chess))
+		&& (board[raw - 4][column] == chess)
+		&& (raw - 4 >= 0))
 	{
 		value += Consecutive_Five;
 	}
@@ -91,7 +97,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
 		&& (board[raw - 3][column] == chess)
-		&& (board[raw + 1][column] == chess))
+		&& (board[raw + 1][column] == chess)
+		&& (raw - 3 >= 0) && (raw + 1 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -100,7 +107,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
 		&& (board[raw + 1][column] == chess)
-		&& (board[raw + 2][column] == chess))
+		&& (board[raw + 2][column] == chess)
+		&& (raw - 2 >= 0) && (raw + 2 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -110,7 +118,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
-		&& (board[raw + 3][column] == chess))
+		&& (board[raw + 3][column] == chess)
+		&& (raw - 1 >= 0) && (raw + 3 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -119,7 +128,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
 		&& (board[raw + 3][column] == chess)
-		&& (board[raw + 4][column] == chess))
+		&& (board[raw + 4][column] == chess)
+		&& (raw + 4 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -130,7 +140,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
 		&& (board[raw + 3][column - 3] == chess)
-		&& (board[raw + 4][column - 4] == chess))
+		&& (board[raw + 4][column - 4] == chess)
+		&& (raw + 4 <= 14) && (column - 4 >= 0))
 	{
 		value += Consecutive_Five;
 	}
@@ -139,7 +150,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
 		&& (board[raw + 3][column - 3] == chess)
-		&& (board[raw - 1][column + 1] == chess))
+		&& (board[raw - 1][column + 1] == chess)
+		&& (raw + 3 <= 14) && (raw - 1 >= 0)
+		&& (column - 3 >= 0) && (column + 1 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -148,7 +161,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
 		&& (board[raw + 1][column - 1] == chess)
-		&& (board[raw + 2][column - 2] == chess))
+		&& (board[raw + 2][column - 2] == chess)
+		&& (raw + 2 <= 14) && (raw - 2 >= 0)
+		&& (column - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -157,7 +172,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
 		&& (board[raw - 3][column + 3] == chess)
-		&& (board[raw + 1][column - 1] == chess))
+		&& (board[raw + 1][column - 1] == chess)
+		&& (raw + 1 <= 14) && (raw - 3 >= 0)
+		&& (column - 1 >= 0) && (column + 3 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -166,7 +183,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
 		&& (board[raw - 3][column + 3] == chess)
-		&& (board[raw - 4][column + 4] == chess))
+		&& (board[raw - 4][column + 4] == chess)
+		&& (raw - 4 >= 0)
+		&& (column + 4 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -176,7 +195,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
 		&& (board[raw - 3][column - 3] == chess)
-		&& (board[raw - 4][column - 4] == chess))
+		&& (board[raw - 4][column - 4] == chess)
+		&& (raw - 4 >= 0)
+		&& (column - 4 >= 0))
 	{
 		value += Consecutive_Five;
 	}
@@ -185,7 +206,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
 		&& (board[raw - 3][column - 3] == chess)
-		&& (board[raw + 1][column + 1] == chess))
+		&& (board[raw + 1][column + 1] == chess)
+		&& (raw + 1 <= 14) && (raw - 3 >= 0)
+		&& (column - 3 >= 0) && (column + 1 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -194,7 +217,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
 		&& (board[raw + 1][column + 1] == chess)
-		&& (board[raw + 2][column + 2] == chess))
+		&& (board[raw + 2][column + 2] == chess)
+		&& (raw + 2 <= 14) && (raw - 2 >= 0)
+		&& (column - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -203,7 +228,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
-		&& (board[raw + 3][column + 3] == chess))
+		&& (board[raw + 3][column + 3] == chess)
+		&& (raw + 3 <= 14) && (raw - 1 >= 0)
+		&& (column - 1 >= 0) && (column + 3 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -212,7 +239,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
 		&& (board[raw + 3][column + 3] == chess)
-		&& (board[raw + 4][column + 4] == chess))
+		&& (board[raw + 4][column + 4] == chess)
+		&& (raw + 4 <= 14)
+		&& (column + 4 <= 14))
 	{
 		value += Consecutive_Five;
 	}
@@ -239,7 +268,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 2] == chess)
 		&& (board[raw][column + 3] != chess)
 		&& (board[raw][column + 3] != opponent_chess)
-		&& (board[raw][column - 2] !=chess)
+		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
 		&& (column + 3 <= 14) && (column - 2 >= 0))
 	{
@@ -444,7 +473,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 3] != opponent_chess)
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
-		&& (column - 1 >= 0))
+		&& (column - 1 >= 0)
+		&& (column + 4 <= 14))
 	{
 		if ((board[raw][column + 4] == chess))
 		{
@@ -465,7 +495,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 2] != opponent_chess)
 		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
-		&& (column - 2 >= 0))
+		&& (column - 2 >= 0)
+		&& (column + 3 <= 14))
 	{
 		if ((board[raw][column + 3] == chess))
 		{
@@ -486,7 +517,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column - 3] != opponent_chess)
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
-		&& (column - 3 >= 0))
+		&& (column - 3 >= 0)
+		&& (column + 2 <= 14))
 	{
 		if ((board[raw][column + 2] == chess))
 		{
@@ -521,7 +553,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw + 3][column] != chess)
 		&& (board[raw + 3][column] != opponent_chess)
-		&& (raw - 1 >= 0))
+		&& (raw - 1 >= 0)
+		&& (raw + 4 <= 14))
 	{
 		if ((board[raw + 4][column] == chess))
 		{
@@ -542,7 +575,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column] != opponent_chess)
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
-		&& (raw - 2 >= 0))
+		&& (raw - 2 >= 0)
+		&& (raw + 3 <= 14))
 	{
 		if ((board[raw + 3][column] == chess))
 		{
@@ -564,7 +598,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw - 3][column] != chess)
 		&& (board[raw - 3][column] != opponent_chess)
-		&& (raw - 3 >= 0))
+		&& (raw - 3 >= 0)
+		&& (raw + 2 <= 14))
 	{
 		if ((board[raw + 2][column] == chess))
 		{
@@ -599,7 +634,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw - 3][column + 3] != chess)
 		&& (board[raw - 3][column + 3] != opponent_chess)
-		&& (raw + 1 <= 14) && (column - 1 >= 0))
+		&& (raw + 1 <= 14) && (column - 1 >= 0)
+		&& (raw - 4 >= 0) && (column + 4 <= 14))
 	{
 		if ((board[raw - 4][column + 4] == chess))
 		{
@@ -620,7 +656,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column + 2] != opponent_chess)
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
-		&& (raw + 2 <= 14) && (column - 2 >= 0))
+		&& (raw + 2 <= 14) && (column - 2 >= 0)
+		&& (raw - 3 >= 0) && (column + 3 <= 14))
 	{
 		if ((board[raw - 3][column + 3] == chess))
 		{
@@ -642,7 +679,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw + 3][column - 3] != chess)
 		&& (board[raw + 3][column - 3] != opponent_chess)
-		&& (raw + 3 <= 14) && (column - 3 >= 0))
+		&& (raw + 3 <= 14) && (column - 3 >= 0)
+		&& (raw - 2 >= 0) && (column + 2 <= 14))
 	{
 		if ((board[raw - 2][column + 2] == chess))
 		{
@@ -677,7 +715,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw + 3][column + 3] != chess)
 		&& (board[raw + 3][column + 3] != opponent_chess)
-		&& (raw - 1 >= 0) && (column - 1 >= 0))
+		&& (raw - 1 >= 0) && (column - 1 >= 0)
+		&& (raw + 4 <= 14) && (column + 4 <= 14))
 	{
 		if ((board[raw + 4][column + 4] == chess))
 		{
@@ -698,7 +737,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column - 2] != opponent_chess)
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
-		&& (raw - 2 >= 0) && (column - 2 >= 0))
+		&& (raw - 2 >= 0) && (column - 2 >= 0)
+		&& (raw + 3 <= 14) && (column + 3 <= 14))
 	{
 		if ((board[raw + 3][column + 3] == chess))
 		{
@@ -720,7 +760,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw - 3][column - 3] != chess)
 		&& (board[raw - 3][column - 3] != opponent_chess)
-		&& (raw - 3 >= 0) && (column - 3 >= 0))
+		&& (raw - 3 >= 0) && (column - 3 >= 0)
+		&& (raw + 2 <= 14) && (column + 2 <= 14))
 	{
 		if ((board[raw + 2][column + 2] == chess))
 		{
@@ -761,7 +802,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column + 2] != chess)//排除__●●●_●这个情况
-		&& (column + 1 <= 14))
+		&& (column + 1 <= 14)
+		&& (column - 4 >= 0))
 	{
 		if ((board[raw][column - 4] == chess))
 		{
@@ -790,7 +832,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
 		&& (board[raw][column + 3] != chess)//排除__●●●_●这个情况
-		&& (column + 2 <= 14))
+		&& (column + 2 <= 14)
+		&& (column - 3 >= 0))
 	{
 		if ((board[raw][column - 3] == chess))
 		{
@@ -818,7 +861,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column + 4] != chess)//排除__●●●_●这个情况
-		&& (column + 3 <= 14))
+		&& (column + 3 <= 14)
+		&& (column - 2 >= 0))
 	{
 		if ((board[raw][column - 2] == chess))
 		{
@@ -861,7 +905,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 3][column] != chess)
 		&& (board[raw - 3][column] != opponent_chess)
 		&& (board[raw + 2][column] != chess)//排除__●●●_●这个情况
-		&& (raw + 1 <= 14))
+		&& (raw + 1 <= 14)
+		&& (raw - 4 >= 0))
 	{
 		if ((board[raw - 4][column] == chess))
 		{
@@ -889,7 +934,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column] != chess)
 		&& (board[raw - 2][column] != opponent_chess)
 		&& (board[raw + 3][column] != chess)//排除__●●●_●这个情况
-		&& (raw + 2 <= 14))
+		&& (raw + 2 <= 14)
+		&& (raw - 3 >= 0))
 	{
 		if ((board[raw - 3][column] == chess))
 		{
@@ -917,7 +963,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 3][column] != chess)
 		&& (board[raw + 3][column] != opponent_chess)
 		&& (board[raw + 4][column] != chess)//排除__●●●_●这个情况
-		&& (raw + 3 <= 14))
+		&& (raw + 3 <= 14)
+		&& (raw - 2 >= 0))
 	{
 		if ((board[raw - 2][column] == chess))
 		{
@@ -962,7 +1009,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 3][column - 3] != chess)
 		&& (board[raw + 3][column - 3] != opponent_chess)
 		&& (board[raw - 2][column + 2] != chess)//排除__●●●_●这个情况
-		&& (raw - 1 >= 0) && (column + 1 <= 14))
+		&& (raw - 1 >= 0) && (column + 1 <= 14)
+		&& (raw + 4 <= 14) && (column - 4 >= 0))
 	{
 		if ((board[raw + 4][column - 4] == chess))
 		{
@@ -991,7 +1039,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
 		&& (board[raw - 3][column + 3] != chess)//排除__●●●_●这个情况
-		&& (raw - 2 >= 0) && (column + 2 <= 14))
+		&& (raw - 2 >= 0) && (column + 2 <= 14)
+		&& (raw + 3 <= 14) && (column - 3 >= 0))
 	{
 		if ((board[raw + 3][column - 3] == chess))
 		{
@@ -1019,7 +1068,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 3][column + 3] != chess)
 		&& (board[raw - 3][column + 3] != opponent_chess)
 		&& (board[raw - 4][column + 4] != chess)//排除__●●●_●这个情况
-		&& (raw - 3 >= 0) && (column + 3 <= 14))
+		&& (raw - 3 >= 0) && (column + 3 <= 14)
+		&& (raw + 2 <= 14) && (column - 2 >= 0))
 	{
 		if ((board[raw + 2][column - 2] == chess))
 		{
@@ -1062,7 +1112,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 3][column - 3] != chess)
 		&& (board[raw - 3][column - 3] != opponent_chess)
 		&& (board[raw + 2][column + 2] != chess)//排除__●●●_●这个情况
-		&& (raw + 1 <= 14) && (column + 1 <= 14))
+		&& (raw + 1 <= 14) && (column + 1 <= 14)
+		&& (raw - 4 >= 0) && (column - 4 >= 0))
 	{
 		if ((board[raw - 4][column - 4] == chess))
 		{
@@ -1090,7 +1141,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
 		&& (board[raw + 3][column + 3] != chess)//排除__●●●_●这个情况
-		&& (raw + 2 <= 14) && (column + 2 <= 14))
+		&& (raw + 2 <= 14) && (column + 2 <= 14)
+		&& (raw - 3 >= 0) && (column - 3 >= 0))
 	{
 		if ((board[raw - 3][column - 3] == chess))
 		{
@@ -1119,7 +1171,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 3][column + 3] != chess)
 		&& (board[raw + 3][column + 3] != opponent_chess)
 		&& (board[raw + 4][column + 4] != chess)//排除__●●●_●这个情况
-		&& (raw + 3 <= 14) && (column + 3 <= 14))
+		&& (raw + 3 <= 14) && (column + 3 <= 14)
+		&& (raw - 2 >= 0) && (column - 2 >= 0))
 	{
 		if ((board[raw - 2][column - 2] == chess))
 		{
@@ -1162,7 +1215,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 3] == chess)
 		&& (board[raw][column + 4] == chess)
 		&& (board[raw][column + 2] != chess)
-		&& (board[raw][column + 2] != opponent_chess))
+		&& (board[raw][column + 2] != opponent_chess)
+		&& (column + 4 <= 14))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1172,7 +1226,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 2] == chess)
 		&& (board[raw][column + 3] == chess)
 		&& (board[raw][column + 1] != chess)
-		&& (board[raw][column + 1] != opponent_chess))
+		&& (board[raw][column + 1] != opponent_chess)
+		&& (column + 3 <= 14) && (column - 1 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1182,7 +1237,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column - 2] == chess)
 		&& (board[raw][column - 3] == chess)
 		&& (board[raw][column - 1] != chess)
-		&& (board[raw][column - 1] != opponent_chess))
+		&& (board[raw][column - 1] != opponent_chess)
+		&& (column + 1 <= 14) && (column - 3 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1192,7 +1248,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column - 3] == chess)
 		&& (board[raw][column - 4] == chess)
 		&& (board[raw][column - 2] != chess)
-		&& (board[raw][column - 2] != opponent_chess))
+		&& (board[raw][column - 2] != opponent_chess)
+		&& (column - 4 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1203,7 +1260,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 3][column] == chess)
 		&& (board[raw + 4][column] == chess)
 		&& (board[raw + 2][column] != chess)
-		&& (board[raw + 2][column] != opponent_chess))
+		&& (board[raw + 2][column] != opponent_chess)
+		&& (raw + 4 <= 14))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1213,7 +1271,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 2][column] == chess)
 		&& (board[raw + 3][column] == chess)
 		&& (board[raw + 1][column] != chess)
-		&& (board[raw + 1][column] != opponent_chess))
+		&& (board[raw + 1][column] != opponent_chess)
+		&& (raw + 3 <= 14) && (raw - 1 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1223,7 +1282,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column] == chess)
 		&& (board[raw - 3][column] == chess)
 		&& (board[raw - 1][column] != chess)
-		&& (board[raw - 1][column] != opponent_chess))
+		&& (board[raw - 1][column] != opponent_chess)
+		&& (raw + 1 <= 14) && (raw - 3 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1233,7 +1293,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 3][column] == chess)
 		&& (board[raw - 4][column] == chess)
 		&& (board[raw - 2][column] != chess)
-		&& (board[raw - 2][column] != opponent_chess))
+		&& (board[raw - 2][column] != opponent_chess)
+		&& (raw - 4 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1244,7 +1305,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 3][column + 3] == chess)
 		&& (board[raw - 4][column + 4] == chess)
 		&& (board[raw - 2][column + 2] != chess)
-		&& (board[raw - 2][column + 2] != opponent_chess))
+		&& (board[raw - 2][column + 2] != opponent_chess)
+		&& (raw - 4 >= 0) && (column + 4 <= 14))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1254,7 +1316,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column + 2] == chess)
 		&& (board[raw - 3][column + 3] == chess)
 		&& (board[raw - 1][column + 1] != chess)
-		&& (board[raw - 1][column + 1] != opponent_chess))
+		&& (board[raw - 1][column + 1] != opponent_chess)
+		&& (raw - 3 >= 0) && (raw + 1 <= 14)
+		&& (column + 3 <= 14) && (column - 1 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1264,7 +1328,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 2][column - 2] == chess)
 		&& (board[raw + 3][column - 3] == chess)
 		&& (board[raw + 1][column - 1] != chess)
-		&& (board[raw + 1][column - 1] != opponent_chess))
+		&& (board[raw + 1][column - 1] != opponent_chess)
+		&& (raw - 1 >= 0) && (raw + 3 <= 14)
+		&& (column + 1 <= 14) && (column - 3 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1274,7 +1340,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 3][column - 3] == chess)
 		&& (board[raw + 4][column - 4] == chess)
 		&& (board[raw + 2][column - 2] != chess)
-		&& (board[raw + 2][column - 2] != opponent_chess))
+		&& (board[raw + 2][column - 2] != opponent_chess)
+		&& (raw + 4 <= 14)
+		&& (column - 4 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1285,7 +1353,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 3][column + 3] == chess)
 		&& (board[raw + 4][column + 4] == chess)
 		&& (board[raw + 2][column + 2] != chess)
-		&& (board[raw + 2][column + 2] != opponent_chess))
+		&& (board[raw + 2][column + 2] != opponent_chess)
+		&& (raw + 4 <= 14)
+		&& (column + 4 <= 14))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1295,7 +1365,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 2][column + 2] == chess)
 		&& (board[raw + 3][column + 3] == chess)
 		&& (board[raw + 1][column + 1] != chess)
-		&& (board[raw + 1][column + 1] != opponent_chess))
+		&& (board[raw + 1][column + 1] != opponent_chess)
+		&& (raw - 1 >= 0) && (raw + 3 <= 14)
+		&& (column + 3 <= 14) && (column - 1 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1305,7 +1377,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column - 2] == chess)
 		&& (board[raw - 3][column - 3] == chess)
 		&& (board[raw - 1][column - 1] != chess)
-		&& (board[raw - 1][column - 1] != opponent_chess))
+		&& (board[raw - 1][column - 1] != opponent_chess)
+		&& (raw - 3 >= 0) && (raw + 1 <= 14)
+		&& (column + 1 <= 14) && (column - 3 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1315,7 +1389,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 3][column - 3] == chess)
 		&& (board[raw - 4][column - 4] == chess)
 		&& (board[raw - 2][column - 2] != chess)
-		&& (board[raw - 2][column - 2] != opponent_chess))
+		&& (board[raw - 2][column - 2] != opponent_chess)
+		&& (raw - 4 >= 0)
+		&& (column - 4 >= 0))
 	{
 		value += Gapped_Two_Two;
 	}
@@ -1342,7 +1418,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& ((board[raw][column - 2] == opponent_chess) || (column - 2 < 0))
 		&& (board[raw][column + 3] != chess)
 		&& (board[raw][column + 3] != opponent_chess)
-		&& (column + 3 <= 14))
+		&& (column + 3 <= 14)
+		&& (column - 1 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1350,10 +1427,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
 		&& (board[raw][column + 1] == chess)
-		&& ((board[raw][column - 3] == opponent_chess)|| (column - 3 < 0))
+		&& ((board[raw][column - 3] == opponent_chess) || (column - 3 < 0))
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
-		&& (column + 2 <= 14))
+		&& (column + 2 <= 14)
+		&& (column - 2 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1361,10 +1439,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
 		&& (board[raw][column - 3] == chess)
-		&& ((board[raw][column - 4] == opponent_chess)|| (column - 4 < 0))
+		&& ((board[raw][column - 4] == opponent_chess) || (column - 4 < 0))
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
-		&& (column + 1 <= 14))
+		&& (column + 1 <= 14)
+		&& (column - 3 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1373,7 +1452,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
 		&& (board[raw + 3][column] == chess)
-		&& ((board[raw - 1][column] == opponent_chess)|| (raw - 1 < 0))
+		&& ((board[raw - 1][column] == opponent_chess) || (raw - 1 < 0))
 		&& (board[raw + 4][column] != chess)
 		&& (board[raw + 4][column] != opponent_chess)
 		&& (raw + 4 <= 14))
@@ -1386,10 +1465,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
-		&& ((board[raw - 2][column] == opponent_chess)|| (raw - 2 < 0))
+		&& ((board[raw - 2][column] == opponent_chess) || (raw - 2 < 0))
 		&& (board[raw + 3][column] != chess)
 		&& (board[raw + 3][column] != opponent_chess)
-		&& (raw + 3 <= 14))
+		&& (raw + 3 <= 14)
+		&& (raw - 1 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1397,10 +1477,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
 		&& (board[raw + 1][column] == chess)
-		&& ((board[raw - 3][column] == opponent_chess)|| (raw - 3 < 0))
+		&& ((board[raw - 3][column] == opponent_chess) || (raw - 3 < 0))
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
-		&& (raw + 2 <= 14))
+		&& (raw + 2 <= 14)
+		&& (raw - 2 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1408,10 +1489,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
 		&& (board[raw - 3][column] == chess)
-		&& ((board[raw - 4][column] == opponent_chess)|| (raw - 4 < 0))
+		&& ((board[raw - 4][column] == opponent_chess) || (raw - 4 < 0))
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
-		&& (raw + 1 <= 14))
+		&& (raw + 1 <= 14)
+		&& (raw - 3 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1421,7 +1503,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
 		&& (board[raw - 3][column + 3] == chess)
-		&& ((board[raw + 1][column - 1] == opponent_chess)|| (raw + 1 > 14) || (column - 1 < 0))
+		&& ((board[raw + 1][column - 1] == opponent_chess) || (raw + 1 > 14) || (column - 1 < 0))
 		&& (board[raw - 4][column + 4] != chess)
 		&& (board[raw - 4][column + 4] != opponent_chess)
 		&& (raw - 4 >= 0) && (column + 4 <= 14))
@@ -1433,10 +1515,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
-		&& ((board[raw + 2][column - 2] == opponent_chess)|| (raw + 2 > 14) || (column - 2 < 0))
+		&& ((board[raw + 2][column - 2] == opponent_chess) || (raw + 2 > 14) || (column - 2 < 0))
 		&& (board[raw - 3][column + 3] != chess)
 		&& (board[raw - 3][column + 3] != opponent_chess)
-		&& (raw - 3 >= 0) && (column + 3 <= 14))
+		&& (raw - 3 >= 0) && (column + 3 <= 14)
+		&& (raw + 1 <= 14) && (column - 1 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1445,10 +1528,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
 		&& (board[raw - 1][column + 1] == chess)
-		&& ((board[raw + 3][column - 3] == opponent_chess)|| (raw + 3 > 14) || (column - 3 < 0))
+		&& ((board[raw + 3][column - 3] == opponent_chess) || (raw + 3 > 14) || (column - 3 < 0))
 		&& (board[raw - 2][column + 2] != chess)
 		&& (board[raw - 2][column + 2] != opponent_chess)
-		&& (raw - 2 >= 0) && (column + 2 <= 14))
+		&& (raw - 2 >= 0) && (column + 2 <= 14)
+		&& (raw + 2 <= 14) && (column - 2 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1457,10 +1541,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
 		&& (board[raw + 3][column - 3] == chess)
-		&& ((board[raw + 4][column - 4] == opponent_chess)|| (raw + 4 > 14) || (column - 4 < 0))
+		&& ((board[raw + 4][column - 4] == opponent_chess) || (raw + 4 > 14) || (column - 4 < 0))
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
-		&& (raw - 1 >= 0) && (column + 1 <= 14))
+		&& (raw - 1 >= 0) && (column + 1 <= 14)
+		&& (raw + 3 <= 14) && (column - 3 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1470,7 +1555,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
 		&& (board[raw + 3][column + 3] == chess)
-		&& ((board[raw - 1][column - 1] == opponent_chess)|| (raw - 1 < 0) || (column - 1 < 0))
+		&& ((board[raw - 1][column - 1] == opponent_chess) || (raw - 1 < 0) || (column - 1 < 0))
 		&& (board[raw + 4][column + 4] != chess)
 		&& (board[raw + 4][column + 4] != opponent_chess)
 		&& (raw + 4 <= 14) && (column + 4 <= 14))
@@ -1482,10 +1567,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
-		&& ((board[raw - 2][column - 2] == opponent_chess)|| (raw - 2 < 0) || (column - 2 < 0))
+		&& ((board[raw - 2][column - 2] == opponent_chess) || (raw - 2 < 0) || (column - 2 < 0))
 		&& (board[raw + 3][column + 3] != chess)
 		&& (board[raw + 3][column + 3] != opponent_chess)
-		&& (raw + 3 <= 14) && (column + 3 <= 14))
+		&& (raw + 3 <= 14) && (column + 3 <= 14)
+		&& (raw - 1 >= 0) && (column - 1 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1494,10 +1580,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
 		&& (board[raw + 1][column + 1] == chess)
-		&& ((board[raw - 3][column - 3] == opponent_chess)|| (raw - 3 < 0) || (column - 3 < 0))
+		&& ((board[raw - 3][column - 3] == opponent_chess) || (raw - 3 < 0) || (column - 3 < 0))
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
-		&& (raw + 2 <= 14) && (column + 2 <= 14))
+		&& (raw + 2 <= 14) && (column + 2 <= 14)
+		&& (raw - 2 >= 0) && (column - 2 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1506,10 +1593,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
 		&& (board[raw - 3][column - 3] == chess)
-		&& ((board[raw - 4][column - 4] == opponent_chess)|| (raw - 4 < 0) || (column - 4 < 0))
+		&& ((board[raw - 4][column - 4] == opponent_chess) || (raw - 4 < 0) || (column - 4 < 0))
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
-		&& (raw + 1 <= 14) && (column + 1 <= 14))
+		&& (raw + 1 <= 14) && (column + 1 <= 14)
+		&& (raw - 3 >= 0) && (column - 3 >= 0))
 	{
 		value += Capped_Four;
 	}
@@ -1520,7 +1608,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
 		&& (board[raw][column - 3] == chess)
-		&& ((board[raw][column + 1] == opponent_chess)|| (column + 1 > 14))
+		&& ((board[raw][column + 1] == opponent_chess) || (column + 1 > 14))
 		&& (board[raw][column - 4] != chess)
 		&& (board[raw][column - 4] != opponent_chess)
 		&& (column - 4 >= 0))
@@ -1531,10 +1619,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
-		&& ((board[raw][column + 2] == opponent_chess)|| (column + 2 > 14))
+		&& ((board[raw][column + 2] == opponent_chess) || (column + 2 > 14))
 		&& (board[raw][column - 3] != chess)
 		&& (board[raw][column - 3] != opponent_chess)
-		&& (column - 3 >= 0))
+		&& (column - 3 >= 0)
+		&& (column + 1 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1543,10 +1632,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column + 2] == chess)
 		&& (board[raw][column - 1] == chess)
-		&& ((board[raw][column + 3] == opponent_chess)|| (column + 3 > 14))
+		&& ((board[raw][column + 3] == opponent_chess) || (column + 3 > 14))
 		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
-		&& (column - 2 >= 0))
+		&& (column - 2 >= 0)
+		&& (column + 2 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1555,10 +1645,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column + 2] == chess)
 		&& (board[raw][column + 3] == chess)
-		&& ((board[raw][column + 4] == opponent_chess)|| (column + 4 > 14))
+		&& ((board[raw][column + 4] == opponent_chess) || (column + 4 > 14))
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
-		&& (column - 1 >= 0))
+		&& (column - 1 >= 0)
+		&& (column + 3 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1568,7 +1659,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
 		&& (board[raw - 3][column] == chess)
-		&& ((board[raw + 1][column] == opponent_chess)|| (raw + 1 > 14))
+		&& ((board[raw + 1][column] == opponent_chess) || (raw + 1 > 14))
 		&& (board[raw - 4][column] != chess)
 		&& (board[raw - 4][column] != opponent_chess)
 		&& (raw - 4 >= 0))
@@ -1580,10 +1671,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
-		&& ((board[raw + 2][column] == opponent_chess)|| (raw + 2 > 14))
+		&& ((board[raw + 2][column] == opponent_chess) || (raw + 2 > 14))
 		&& (board[raw - 3][column] != chess)
 		&& (board[raw - 3][column] != opponent_chess)
-		&& (raw - 3 >= 0))
+		&& (raw - 3 >= 0)
+		&& (raw + 1 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1592,10 +1684,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
 		&& (board[raw - 1][column] == chess)
-		&& ((board[raw + 3][column] == opponent_chess)|| (raw + 3 > 14))
+		&& ((board[raw + 3][column] == opponent_chess) || (raw + 3 > 14))
 		&& (board[raw - 2][column] != chess)
 		&& (board[raw - 2][column] != opponent_chess)
-		&& (raw - 2 >= 0))
+		&& (raw - 2 >= 0)
+		&& (raw + 2 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1604,10 +1697,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
 		&& (board[raw + 3][column] == chess)
-		&& ((board[raw + 4][column] == opponent_chess)|| (raw + 4 > 14))
+		&& ((board[raw + 4][column] == opponent_chess) || (raw + 4 > 14))
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
-		&& (raw - 1 >= 0))
+		&& (raw - 1 >= 0)
+		&& (raw + 3 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1617,7 +1711,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
 		&& (board[raw + 3][column - 3] == chess)
-		&& ((board[raw - 1][column + 1] == opponent_chess)|| (raw - 1 < 0) || (column + 1 > 14))
+		&& ((board[raw - 1][column + 1] == opponent_chess) || (raw - 1 < 0) || (column + 1 > 14))
 		&& (board[raw + 4][column - 4] != chess)
 		&& (board[raw + 4][column - 4] != opponent_chess)
 		&& (raw + 4 <= 14) && (column - 4 >= 0))
@@ -1629,10 +1723,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
-		&& ((board[raw - 2][column + 2] == opponent_chess)|| (raw - 2 < 0) || (column + 2 > 14))
+		&& ((board[raw - 2][column + 2] == opponent_chess) || (raw - 2 < 0) || (column + 2 > 14))
 		&& (board[raw + 3][column - 3] != chess)
 		&& (board[raw + 3][column - 3] != opponent_chess)
-		&& (raw + 3 <= 14) && (column - 3 >= 0))
+		&& (raw + 3 <= 14) && (column - 3 >= 0)
+		&& (raw - 1 >= 0) && (column + 1 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1641,10 +1736,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
 		&& (board[raw + 1][column - 1] == chess)
-		&& ((board[raw - 3][column + 3] == opponent_chess)|| (raw - 3 < 0) || (column + 3 > 14))
+		&& ((board[raw - 3][column + 3] == opponent_chess) || (raw - 3 < 0) || (column + 3 > 14))
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
-		&& (raw + 2 <= 14) && (column - 2 >= 0))
+		&& (raw + 2 <= 14) && (column - 2 >= 0)
+		&& (raw - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1653,10 +1749,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
 		&& (board[raw - 3][column + 3] == chess)
-		&& ((board[raw - 4][column + 4] == opponent_chess)|| (raw - 4 < 0) || (column + 4 > 14))
+		&& ((board[raw - 4][column + 4] == opponent_chess) || (raw - 4 < 0) || (column + 4 > 14))
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
-		&& (raw + 1 <= 14) && (column - 1 >= 0))
+		&& (raw + 1 <= 14) && (column - 1 >= 0)
+		&& (raw - 3 >= 0) && (column + 3 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1666,7 +1763,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
 		&& (board[raw - 3][column - 3] == chess)
-		&& ((board[raw + 1][column + 1] == opponent_chess)|| (raw + 1 > 14) || (column + 1 > 14))
+		&& ((board[raw + 1][column + 1] == opponent_chess) || (raw + 1 > 14) || (column + 1 > 14))
 		&& (board[raw - 4][column - 4] != chess)
 		&& (board[raw - 4][column - 4] != opponent_chess)
 		&& (raw - 4 >= 0) && (column - 4 >= 0))
@@ -1678,10 +1775,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
-		&& ((board[raw + 2][column + 2] == opponent_chess)|| (raw + 2 > 14) || (column + 2 > 14))
+		&& ((board[raw + 2][column + 2] == opponent_chess) || (raw + 2 > 14) || (column + 2 > 14))
 		&& (board[raw - 3][column - 3] != chess)
 		&& (board[raw - 3][column - 3] != opponent_chess)
-		&& (raw - 3 >= 0) && (column - 3 >= 0))
+		&& (raw - 3 >= 0) && (column - 3 >= 0)
+		&& (raw + 1 <= 14) && (column + 1 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1691,10 +1789,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
 		&& (board[raw - 1][column - 1] == chess)
-		&& ((board[raw + 3][column + 3] == opponent_chess)|| (raw + 3 > 14) || (column + 3 > 14))
+		&& ((board[raw + 3][column + 3] == opponent_chess) || (raw + 3 > 14) || (column + 3 > 14))
 		&& (board[raw - 2][column - 2] != chess)
 		&& (board[raw - 2][column - 2] != opponent_chess)
-		&& (raw - 2 >= 0) && (column - 2 >= 0))
+		&& (raw - 2 >= 0) && (column - 2 >= 0)
+		&& (raw + 2 <= 14) && (column + 2 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -1703,10 +1802,11 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
 		&& (board[raw + 3][column + 3] == chess)
-		&& ((board[raw + 4][column + 4] == opponent_chess)|| (raw + 4 > 14) || (column + 4 > 14))
+		&& ((board[raw + 4][column + 4] == opponent_chess) || (raw + 4 > 14) || (column + 4 > 14))
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
-		&& (raw - 1 >= 0) && (column - 1 >= 0))
+		&& (raw - 1 >= 0) && (column - 1 >= 0)
+		&& (raw + 3 <= 14) && (column + 3 <= 14))
 	{
 		value += Capped_Four;
 	}
@@ -2071,7 +2171,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column + 2] == chess)
-		&& ((board[raw][column - 1] == opponent_chess)|| (column - 1 < 0))
+		&& ((board[raw][column - 1] == opponent_chess) || (column - 1 < 0))
 		&& (board[raw][column + 3] != chess)
 		&& (board[raw][column + 3] != opponent_chess)
 		&& (board[raw][column + 4] != chess)
@@ -2085,12 +2185,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column + 1] == chess)
-		&& ((board[raw][column - 2] == opponent_chess)|| (column - 2 < 0))
+		&& ((board[raw][column - 2] == opponent_chess) || (column - 2 < 0))
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
 		&& (board[raw][column + 3] != chess)
 		&& (board[raw][column + 3] != opponent_chess)
-		&& (column + 3 <= 14))
+		&& (column + 3 <= 14)
+		&& (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2099,12 +2200,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
-		&& ((board[raw][column - 3] == opponent_chess)|| (column - 3 < 0))
+		&& ((board[raw][column - 3] == opponent_chess) || (column - 3 < 0))
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
-		&& (column + 2 <= 14))
+		&& (column + 2 <= 14)
+		&& (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2114,7 +2216,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
-		&& ((board[raw][column + 1] == opponent_chess)|| (column + 1 > 14))
+		&& ((board[raw][column + 1] == opponent_chess) || (column + 1 > 14))
 		&& (board[raw][column - 3] != chess)
 		&& (board[raw][column - 3] != opponent_chess)
 		&& (board[raw][column - 4] != chess)
@@ -2128,12 +2230,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column - 1] == chess)
-		&& ((board[raw][column + 2] == opponent_chess)|| (column + 2 > 14))
+		&& ((board[raw][column + 2] == opponent_chess) || (column + 2 > 14))
 		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
 		&& (board[raw][column - 3] != chess)
 		&& (board[raw][column - 3] != opponent_chess)
-		&& (column - 3 >= 0))
+		&& (column - 3 >= 0)
+		&& (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2142,12 +2245,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column + 2] == chess)
-		&& ((board[raw][column + 3] == opponent_chess)|| (column + 3 > 14))
+		&& ((board[raw][column + 3] == opponent_chess) || (column + 3 > 14))
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
-		&& (column - 2 >= 0))
+		&& (column - 2 >= 0)
+		&& (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2158,7 +2262,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
-		&& ((board[raw - 1][column] == opponent_chess)|| (raw - 1 < 0))
+		&& ((board[raw - 1][column] == opponent_chess) || (raw - 1 < 0))
 		&& (board[raw + 3][column] != chess)
 		&& (board[raw + 3][column] != opponent_chess)
 		&& (board[raw + 4][column] != chess)
@@ -2172,12 +2276,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw + 1][column] == chess)
-		&& ((board[raw - 2][column] == opponent_chess)|| (raw - 2 < 0))
+		&& ((board[raw - 2][column] == opponent_chess) || (raw - 2 < 0))
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
 		&& (board[raw + 3][column] != chess)
 		&& (board[raw + 3][column] != opponent_chess)
-		&& (raw + 3 <= 14))
+		&& (raw + 3 <= 14)
+		&& (raw - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2186,12 +2291,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
-		&& ((board[raw - 3][column] == opponent_chess)|| (raw - 3 < 0))
+		&& ((board[raw - 3][column] == opponent_chess) || (raw - 3 < 0))
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
-		&& (raw + 2 <= 14))
+		&& (raw + 2 <= 14)
+		&& (raw - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2201,7 +2307,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
-		&& ((board[raw + 1][column] == opponent_chess)|| (raw + 1 > 14))
+		&& ((board[raw + 1][column] == opponent_chess) || (raw + 1 > 14))
 		&& (board[raw - 3][column] != chess)
 		&& (board[raw - 3][column] != opponent_chess)
 		&& (board[raw - 4][column] != chess)
@@ -2215,12 +2321,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw - 1][column] == chess)
-		&& ((board[raw + 2][column] == opponent_chess)|| (raw + 2 > 14))
+		&& ((board[raw + 2][column] == opponent_chess) || (raw + 2 > 14))
 		&& (board[raw - 2][column] != chess)
 		&& (board[raw - 2][column] != opponent_chess)
 		&& (board[raw - 3][column] != chess)
 		&& (board[raw - 3][column] != opponent_chess)
-		&& (raw - 3 >= 0))
+		&& (raw - 3 >= 0)
+		&& (raw + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2229,12 +2336,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
-		&& ((board[raw + 3][column] == opponent_chess)|| (raw + 3 > 14))
+		&& ((board[raw + 3][column] == opponent_chess) || (raw + 3 > 14))
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw - 2][column] != chess)
 		&& (board[raw - 2][column] != opponent_chess)
-		&& (raw - 2 >= 0))
+		&& (raw - 2 >= 0)
+		&& (raw + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2245,7 +2353,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
-		&& ((board[raw + 1][column - 1] == opponent_chess)|| (raw + 1 > 14) || (column - 1 < 0))
+		&& ((board[raw + 1][column - 1] == opponent_chess) || (raw + 1 > 14) || (column - 1 < 0))
 		&& (board[raw - 3][column + 3] != chess)
 		&& (board[raw - 3][column + 3] != opponent_chess)
 		&& (board[raw - 4][column + 4] != chess)
@@ -2259,12 +2367,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw - 1][column + 1] == chess)
-		&& ((board[raw + 2][column - 2] == opponent_chess)|| (raw + 2 > 14) || (column - 2 < 0))
+		&& ((board[raw + 2][column - 2] == opponent_chess) || (raw + 2 > 14) || (column - 2 < 0))
 		&& (board[raw - 2][column + 2] != chess)
 		&& (board[raw - 2][column + 2] != opponent_chess)
 		&& (board[raw - 3][column + 3] != chess)
 		&& (board[raw - 3][column + 3] != opponent_chess)
-		&& (raw - 3 >= 0) && (column + 3 <= 14))
+		&& (raw - 3 >= 0) && (column + 3 <= 14)
+		&& (raw + 1 <= 14) && (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2273,12 +2382,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
-		&& ((board[raw + 3][column - 3] == opponent_chess)|| (raw + 3 > 14) || (column - 3 < 0))
+		&& ((board[raw + 3][column - 3] == opponent_chess) || (raw + 3 > 14) || (column - 3 < 0))
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw - 2][column + 2] != chess)
 		&& (board[raw - 2][column + 2] != opponent_chess)
-		&& (raw - 2 >= 0) && (column + 2 <= 14))
+		&& (raw - 2 >= 0) && (column + 2 <= 14)
+		&& (raw + 2 <= 14) && (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2288,7 +2398,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
-		&& ((board[raw - 1][column + 1] == opponent_chess)|| (raw - 1 < 0) || (column + 1 > 14))
+		&& ((board[raw - 1][column + 1] == opponent_chess) || (raw - 1 < 0) || (column + 1 > 14))
 		&& (board[raw + 3][column - 3] != chess)
 		&& (board[raw + 3][column - 3] != opponent_chess)
 		&& (board[raw + 4][column - 4] != chess)
@@ -2302,12 +2412,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw + 1][column - 1] == chess)
-		&& ((board[raw - 2][column + 2] == opponent_chess)|| (raw - 2 < 0) || (column + 2 > 14))
+		&& ((board[raw - 2][column + 2] == opponent_chess) || (raw - 2 < 0) || (column + 2 > 14))
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
 		&& (board[raw + 3][column - 3] != chess)
 		&& (board[raw + 3][column - 3] != opponent_chess)
-		&& (raw + 3 <= 14) && (column - 3 >= 0))
+		&& (raw + 3 <= 14) && (column - 3 >= 0)
+		&& (raw - 1 >= 0) && (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2316,12 +2427,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
-		&& ((board[raw - 3][column + 3] == opponent_chess)|| (raw - 3 < 0) || (column + 3 > 14))
+		&& ((board[raw - 3][column + 3] == opponent_chess) || (raw - 3 < 0) || (column + 3 > 14))
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
-		&& (raw + 2 <= 14) && (column - 2 >= 0))
+		&& (raw + 2 <= 14) && (column - 2 >= 0)
+		&& (raw - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2332,7 +2444,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
-		&& ((board[raw - 1][column - 1] == opponent_chess)|| (raw - 1 < 0) || (column - 1 < 0))
+		&& ((board[raw - 1][column - 1] == opponent_chess) || (raw - 1 < 0) || (column - 1 < 0))
 		&& (board[raw + 3][column + 3] != chess)
 		&& (board[raw + 3][column + 3] != opponent_chess)
 		&& (board[raw + 4][column + 4] != chess)
@@ -2346,12 +2458,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw + 1][column + 1] == chess)
-		&& ((board[raw - 2][column - 2] == opponent_chess)|| (raw - 2 < 0) || (column - 2 < 0))
+		&& ((board[raw - 2][column - 2] == opponent_chess) || (raw - 2 < 0) || (column - 2 < 0))
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
 		&& (board[raw + 3][column + 3] != chess)
 		&& (board[raw + 3][column + 3] != opponent_chess)
-		&& (raw + 3 <= 14) && (column + 3 <= 14))
+		&& (raw + 3 <= 14) && (column + 3 <= 14)
+		&& (raw - 1 >= 0) && (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2360,12 +2473,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
-		&& ((board[raw - 3][column - 3] == opponent_chess)|| (raw - 3 < 0) || (column - 3 < 0))
+		&& ((board[raw - 3][column - 3] == opponent_chess) || (raw - 3 < 0) || (column - 3 < 0))
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
-		&& (raw + 2 <= 14) && (column + 2 <= 14))
+		&& (raw + 2 <= 14) && (column + 2 <= 14)
+		&& (raw - 2 >= 0) && (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2375,7 +2489,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
-		&& ((board[raw + 1][column + 1] == opponent_chess)|| (raw + 1 > 14) || (column + 1 > 14))
+		&& ((board[raw + 1][column + 1] == opponent_chess) || (raw + 1 > 14) || (column + 1 > 14))
 		&& (board[raw - 3][column - 3] != chess)
 		&& (board[raw - 3][column - 3] != opponent_chess)
 		&& (board[raw - 4][column - 4] != chess)
@@ -2389,12 +2503,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw - 1][column - 1] == chess)
-		&& ((board[raw + 2][column + 2] == opponent_chess)|| (raw + 2 > 14) || (column + 2 > 14))
+		&& ((board[raw + 2][column + 2] == opponent_chess) || (raw + 2 > 14) || (column + 2 > 14))
 		&& (board[raw - 2][column - 2] != chess)
 		&& (board[raw - 2][column - 2] != opponent_chess)
 		&& (board[raw - 3][column - 3] != chess)
 		&& (board[raw - 3][column - 3] != opponent_chess)
-		&& (raw - 3 >= 0) && (column - 3 >= 0))
+		&& (raw - 3 >= 0) && (column - 3 >= 0)
+		&& (raw + 1 <= 14) && (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2403,12 +2518,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
-		&& ((board[raw + 3][column + 3] == opponent_chess)|| (raw + 3 > 14) || (column + 3 > 14))
+		&& ((board[raw + 3][column + 3] == opponent_chess) || (raw + 3 > 14) || (column + 3 > 14))
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw - 2][column - 2] != chess)
 		&& (board[raw - 2][column - 2] != opponent_chess)
-		&& (raw - 2 >= 0) && (column - 2 >= 0))
+		&& (raw - 2 >= 0) && (column - 2 >= 0)
+		&& (raw + 2 <= 14) && (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2419,7 +2535,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 			//○?●_●_
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column + 3] == chess)
-		&& ((board[raw][column - 1] == opponent_chess)|| (column - 1 < 0))
+		&& ((board[raw][column - 1] == opponent_chess) || (column - 1 < 0))
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
 		&& (board[raw][column + 4] != chess)
@@ -2432,12 +2548,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●?_●_
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column + 2] == chess)
-		&& ((board[raw][column - 2] == opponent_chess)|| (column - 2 < 0))
+		&& ((board[raw][column - 2] == opponent_chess) || (column - 2 < 0))
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column + 3] != chess)
 		&& (board[raw][column + 3] != opponent_chess)
-		&& (column + 3 <= 14))
+		&& (column + 3 <= 14)
+		&& (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2445,12 +2562,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●●_?_
 	if ((board[raw][column - 2] == chess)
 		&& (board[raw][column - 3] == chess)
-		&& ((board[raw][column - 4] == opponent_chess)|| (column - 4 < 0))
+		&& ((board[raw][column - 4] == opponent_chess) || (column - 4 < 0))
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
-		&& (column + 1 <= 14))
+		&& (column + 1 <= 14)
+		&& (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2459,7 +2577,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//_●_●?○
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 3] == chess)
-		&& ((board[raw][column + 1] == opponent_chess)|| (column + 1 > 14))
+		&& ((board[raw][column + 1] == opponent_chess) || (column + 1 > 14))
 		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
 		&& (board[raw][column - 4] != chess)
@@ -2472,12 +2590,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_●_?●○
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column - 2] == chess)
-		&& ((board[raw][column + 2] == opponent_chess)|| (column + 2 > 14))
+		&& ((board[raw][column + 2] == opponent_chess) || (column + 2 > 14))
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column - 3] != chess)
 		&& (board[raw][column - 3] != opponent_chess)
-		&& (column - 3 >= 0))
+		&& (column - 3 >= 0)
+		&& (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2485,12 +2604,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_?_●●○
 	if ((board[raw][column + 2] == chess)
 		&& (board[raw][column + 3] == chess)
-		&& ((board[raw][column + 4] == opponent_chess)|| (column + 4 > 14))
+		&& ((board[raw][column + 4] == opponent_chess) || (column + 4 > 14))
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
-		&& (column - 1 >= 0))
+		&& (column - 1 >= 0)
+		&& (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2500,7 +2620,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○?●_●_
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 3][column] == chess)
-		&& ((board[raw - 1][column] == opponent_chess)|| (raw - 1 < 0))
+		&& ((board[raw - 1][column] == opponent_chess) || (raw - 1 < 0))
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
 		&& (board[raw + 4][column] != chess)
@@ -2513,12 +2633,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●?_●_
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
-		&& ((board[raw - 2][column] == opponent_chess)|| (raw - 2 < 0))
+		&& ((board[raw - 2][column] == opponent_chess) || (raw - 2 < 0))
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw + 3][column] != chess)
 		&& (board[raw + 3][column] != opponent_chess)
-		&& (raw + 3 <= 14))
+		&& (raw + 3 <= 14)
+		&& (raw - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2526,12 +2647,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●●_?_
 	if ((board[raw - 2][column] == chess)
 		&& (board[raw - 3][column] == chess)
-		&& ((board[raw - 4][column] == opponent_chess)|| (raw - 4 < 0))
+		&& ((board[raw - 4][column] == opponent_chess) || (raw - 4 < 0))
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
-		&& (raw + 1 <= 14))
+		&& (raw + 1 <= 14)
+		&& (raw - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2540,7 +2662,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//_●_●?○
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 3][column] == chess)
-		&& ((board[raw + 1][column] == opponent_chess)|| (raw + 1 > 14))
+		&& ((board[raw + 1][column] == opponent_chess) || (raw + 1 > 14))
 		&& (board[raw - 2][column] != chess)
 		&& (board[raw - 2][column] != opponent_chess)
 		&& (board[raw - 4][column] != chess)
@@ -2553,12 +2675,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_●_?●○
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
-		&& ((board[raw + 2][column] == opponent_chess)|| (raw + 2 > 14))
+		&& ((board[raw + 2][column] == opponent_chess) || (raw + 2 > 14))
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw - 3][column] != chess)
 		&& (board[raw - 3][column] != opponent_chess)
-		&& (raw - 3 >= 0))
+		&& (raw - 3 >= 0)
+		&& (raw + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2566,12 +2689,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_?_●●○
 	if ((board[raw + 2][column] == chess)
 		&& (board[raw + 3][column] == chess)
-		&& ((board[raw + 4][column] == opponent_chess)|| (raw + 4 > 14))
+		&& ((board[raw + 4][column] == opponent_chess) || (raw + 4 > 14))
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
-		&& (raw - 1 >= 0))
+		&& (raw - 1 >= 0)
+		&& (raw + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2581,7 +2705,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○?●_●_
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 3][column + 3] == chess)
-		&& ((board[raw + 1][column - 1] == opponent_chess)|| (raw + 1 > 14) || (column - 1 < 0))
+		&& ((board[raw + 1][column - 1] == opponent_chess) || (raw + 1 > 14) || (column - 1 < 0))
 		&& (board[raw - 2][column + 2] != chess)
 		&& (board[raw - 2][column + 2] != opponent_chess)
 		&& (board[raw - 4][column + 4] != chess)
@@ -2594,12 +2718,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●?_●_
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
-		&& ((board[raw + 2][column - 2] == opponent_chess)|| (raw + 2 > 14) || (column - 2 < 0))
+		&& ((board[raw + 2][column - 2] == opponent_chess) || (raw + 2 > 14) || (column - 2 < 0))
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw - 3][column + 3] != chess)
 		&& (board[raw - 3][column + 3] != opponent_chess)
-		&& (raw - 3 >= 0) && (column + 3 <= 14))
+		&& (raw - 3 >= 0) && (column + 3 <= 14)
+		&& (raw + 1 <= 14) && (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2607,12 +2732,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●●_?_
 	if ((board[raw + 2][column - 2] == chess)
 		&& (board[raw + 3][column - 3] == chess)
-		&& ((board[raw + 4][column - 4] == opponent_chess)|| (raw + 4 > 14) || (column - 4 < 0))
+		&& ((board[raw + 4][column - 4] == opponent_chess) || (raw + 4 > 14) || (column - 4 < 0))
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
-		&& (raw - 1 >= 0) && (column + 1 <= 14))
+		&& (raw - 1 >= 0) && (column + 1 <= 14)
+		&& (raw + 3 <= 14) && (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2621,7 +2747,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//_●_●?○
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 3][column - 3] == chess)
-		&& ((board[raw - 1][column + 1] == opponent_chess)|| (raw - 1 < 0) || (column + 1 > 14))
+		&& ((board[raw - 1][column + 1] == opponent_chess) || (raw - 1 < 0) || (column + 1 > 14))
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
 		&& (board[raw + 4][column - 4] != chess)
@@ -2634,12 +2760,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_●_?●○
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
-		&& ((board[raw - 2][column + 2] == opponent_chess)|| (raw - 2 < 0) || (column + 2 > 14))
+		&& ((board[raw - 2][column + 2] == opponent_chess) || (raw - 2 < 0) || (column + 2 > 14))
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw + 3][column - 3] != chess)
 		&& (board[raw + 3][column - 3] != opponent_chess)
-		&& (raw + 3 <= 14) && (column - 3 >= 0))
+		&& (raw + 3 <= 14) && (column - 3 >= 0)
+		&& (raw - 1 >= 0) && (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2647,12 +2774,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_?_●●○
 	if ((board[raw - 2][column + 2] == chess)
 		&& (board[raw - 3][column + 3] == chess)
-		&& ((board[raw - 4][column + 4] == opponent_chess)|| (raw - 4 < 0) || (column + 4 > 14))
+		&& ((board[raw - 4][column + 4] == opponent_chess) || (raw - 4 < 0) || (column + 4 > 14))
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
-		&& (raw + 1 <= 14) && (column - 1 >= 0))
+		&& (raw + 1 <= 14) && (column - 1 >= 0)
+		&& (raw - 3 >= 0) && (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2662,7 +2790,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○?●_●_
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 3][column + 3] == chess)
-		&& ((board[raw - 1][column - 1] == opponent_chess)|| (raw - 1 < 0) || (column - 1 < 0))
+		&& ((board[raw - 1][column - 1] == opponent_chess) || (raw - 1 < 0) || (column - 1 < 0))
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
 		&& (board[raw + 4][column + 4] != chess)
@@ -2675,12 +2803,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●?_●_
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
-		&& ((board[raw - 2][column - 2] == opponent_chess)|| (raw - 2 < 0) || (column - 2 < 0))
+		&& ((board[raw - 2][column - 2] == opponent_chess) || (raw - 2 < 0) || (column - 2 < 0))
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw + 3][column + 3] != chess)
 		&& (board[raw + 3][column + 3] != opponent_chess)
-		&& (raw + 3 <= 14) && (column + 3 <= 14))
+		&& (raw + 3 <= 14) && (column + 3 <= 14)
+		&& (raw - 1 >= 0) && (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2688,12 +2817,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●●_?_
 	if ((board[raw - 2][column - 2] == chess)
 		&& (board[raw - 3][column - 3] == chess)
-		&& ((board[raw - 4][column - 4] == opponent_chess)|| (raw - 4 < 0) || (column - 4 < 0))
+		&& ((board[raw - 4][column - 4] == opponent_chess) || (raw - 4 < 0) || (column - 4 < 0))
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
-		&& (raw + 1 <= 14) && (column + 1 <= 14))
+		&& (raw + 1 <= 14) && (column + 1 <= 14)
+		&& (raw - 3 >= 0) && (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2702,7 +2832,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//_●_●?○
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 3][column - 3] == chess)
-		&& ((board[raw + 1][column + 1] == opponent_chess)|| (raw + 1 > 14) || (column + 1 > 14))
+		&& ((board[raw + 1][column + 1] == opponent_chess) || (raw + 1 > 14) || (column + 1 > 14))
 		&& (board[raw - 2][column - 2] != chess)
 		&& (board[raw - 2][column - 2] != opponent_chess)
 		&& (board[raw - 4][column - 4] != chess)
@@ -2715,12 +2845,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_●_?●○
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
-		&& ((board[raw + 2][column + 2] == opponent_chess)|| (raw + 2 > 14) || (column + 2 > 14))
+		&& ((board[raw + 2][column + 2] == opponent_chess) || (raw + 2 > 14) || (column + 2 > 14))
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw - 3][column - 3] != chess)
 		&& (board[raw - 3][column - 3] != opponent_chess)
-		&& (raw - 3 >= 0) && (column - 3 >= 0))
+		&& (raw - 3 >= 0) && (column - 3 >= 0)
+		&& (raw + 1 <= 14) && (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2728,12 +2859,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_?_●●○
 	if ((board[raw + 2][column + 2] == chess)
 		&& (board[raw + 3][column + 3] == chess)
-		&& ((board[raw + 4][column + 4] == opponent_chess)|| (raw + 4 > 14) || (column + 4 > 14))
+		&& ((board[raw + 4][column + 4] == opponent_chess) || (raw + 4 > 14) || (column + 4 > 14))
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
-		&& (raw - 1 >= 0) && (column - 1 >= 0))
+		&& (raw - 1 >= 0) && (column - 1 >= 0)
+		&& (raw + 3 <= 14) && (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2744,7 +2876,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 			//○?_●●_
 	if ((board[raw][column + 2] == chess)
 		&& (board[raw][column + 3] == chess)
-		&& ((board[raw][column - 1] == opponent_chess)|| (column - 1 < 0))
+		&& ((board[raw][column - 1] == opponent_chess) || (column - 1 < 0))
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column + 4] != chess)
@@ -2757,12 +2889,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●_?●_
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column - 2] == chess)
-		&& ((board[raw][column - 3] == opponent_chess)|| (column - 3 < 0))
+		&& ((board[raw][column - 3] == opponent_chess) || (column - 3 < 0))
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
-		&& (column + 2 <= 14))
+		&& (column + 2 <= 14)
+		&& (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2770,12 +2903,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●_●?_
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 3] == chess)
-		&& ((board[raw][column - 4] == opponent_chess)|| (column - 4 < 0))
+		&& ((board[raw][column - 4] == opponent_chess) || (column - 4 < 0))
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
-		&& (column + 1 <= 14))
+		&& (column + 1 <= 14)
+		&& (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2784,7 +2918,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//_●●_?○
 	if ((board[raw][column - 2] == chess)
 		&& (board[raw][column - 3] == chess)
-		&& ((board[raw][column + 1] == opponent_chess)|| (column + 1 > 14))
+		&& ((board[raw][column + 1] == opponent_chess) || (column + 1 > 14))
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column - 4] != chess)
@@ -2797,12 +2931,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_●?_●○
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column + 2] == chess)
-		&& ((board[raw][column + 3] == opponent_chess)|| (column + 3 > 14))
+		&& ((board[raw][column + 3] == opponent_chess) || (column + 3 > 14))
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
-		&& (column - 2 > 1))
+		&& (column - 2 > 1)
+		&& (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2810,12 +2945,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_?●_●○
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column + 3] == chess)
-		&& ((board[raw][column + 4] == opponent_chess)|| (column + 4 > 14))
+		&& ((board[raw][column + 4] == opponent_chess) || (column + 4 > 14))
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
-		&& (column - 1 > 1))
+		&& (column - 1 > 1)
+		&& (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2825,7 +2961,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○?_●●_
 	if ((board[raw + 2][column] == chess)
 		&& (board[raw + 3][column] == chess)
-		&& ((board[raw - 1][column] == opponent_chess)|| (raw - 1 < 0))
+		&& ((board[raw - 1][column] == opponent_chess) || (raw - 1 < 0))
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw + 4][column] != chess)
@@ -2838,12 +2974,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●_?●_
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
-		&& ((board[raw - 3][column] == opponent_chess)|| (raw - 3 < 0))
+		&& ((board[raw - 3][column] == opponent_chess) || (raw - 3 < 0))
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
-		&& (raw + 2 <= 14))
+		&& (raw + 2 <= 14)
+		&& (raw - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2851,12 +2988,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●_●?_
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 3][column] == chess)
-		&& ((board[raw - 4][column] == opponent_chess)|| (raw - 4 < 0))
+		&& ((board[raw - 4][column] == opponent_chess) || (raw - 4 < 0))
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw - 2][column] != chess)
 		&& (board[raw - 2][column] != opponent_chess)
-		&& (raw + 1 <= 14))
+		&& (raw + 1 <= 14)
+		&& (raw - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2865,7 +3003,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//_●●_?○
 	if ((board[raw - 2][column] == chess)
 		&& (board[raw - 3][column] == chess)
-		&& ((board[raw + 1][column] == opponent_chess)|| (raw + 1 > 14))
+		&& ((board[raw + 1][column] == opponent_chess) || (raw + 1 > 14))
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw - 4][column] != chess)
@@ -2878,12 +3016,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_●?_●○
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
-		&& ((board[raw + 3][column] == opponent_chess)|| (raw + 3 > 14))
+		&& ((board[raw + 3][column] == opponent_chess) || (raw + 3 > 14))
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw - 2][column] != chess)
 		&& (board[raw - 2][column] != opponent_chess)
-		&& (raw - 2 >= 0))
+		&& (raw - 2 >= 0)
+		&& (raw + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2891,12 +3030,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_?●_●○
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 3][column] == chess)
-		&& ((board[raw + 4][column] == opponent_chess)|| (raw + 4 > 14))
+		&& ((board[raw + 4][column] == opponent_chess) || (raw + 4 > 14))
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
-		&& (raw - 1 >= 0))
+		&& (raw - 1 >= 0)
+		&& (raw + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2906,7 +3046,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○?_●●_
 	if ((board[raw - 2][column + 2] == chess)
 		&& (board[raw - 3][column + 3] == chess)
-		&& ((board[raw + 1][column - 1] == opponent_chess)|| (raw + 1 > 14) || (column - 1 < 0))
+		&& ((board[raw + 1][column - 1] == opponent_chess) || (raw + 1 > 14) || (column - 1 < 0))
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw - 4][column + 4] != chess)
@@ -2919,12 +3059,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●_?●_
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
-		&& ((board[raw + 3][column - 3] == opponent_chess)|| (raw + 3 > 14) || (column - 3 < 0))
+		&& ((board[raw + 3][column - 3] == opponent_chess) || (raw + 3 > 14) || (column - 3 < 0))
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw - 2][column + 2] != chess)
 		&& (board[raw - 2][column + 2] != opponent_chess)
-		&& (raw - 2 >= 0) && (column + 2 <= 14))
+		&& (raw - 2 >= 0) && (column + 2 <= 14)
+		&& (raw + 2 <= 14) && (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2932,12 +3073,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●_●?_
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 3][column - 3] == chess)
-		&& ((board[raw + 4][column - 4] == opponent_chess)|| (raw + 4 > 14) || (column - 4 < 0))
+		&& ((board[raw + 4][column - 4] == opponent_chess) || (raw + 4 > 14) || (column - 4 < 0))
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
-		&& (raw - 1 >= 0) && (column + 1 <= 14))
+		&& (raw - 1 >= 0) && (column + 1 <= 14)
+		&& (raw + 3 <= 14) && (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -2946,7 +3088,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//_●●_?○
 	if ((board[raw + 2][column - 2] == chess)
 		&& (board[raw + 3][column - 3] == chess)
-		&& ((board[raw - 1][column + 1] == opponent_chess)|| (raw - 1 < 0) || (column + 1 > 14))
+		&& ((board[raw - 1][column + 1] == opponent_chess) || (raw - 1 < 0) || (column + 1 > 14))
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw + 4][column - 4] != chess)
@@ -2959,12 +3101,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_●?_●○
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
-		&& ((board[raw - 3][column + 3] == opponent_chess)|| (raw - 3 < 0) || (column + 3 > 14))
+		&& ((board[raw - 3][column + 3] == opponent_chess) || (raw - 3 < 0) || (column + 3 > 14))
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
-		&& (raw + 2 <= 14) && (column - 2 >= 0))
+		&& (raw + 2 <= 14) && (column - 2 >= 0)
+		&& (raw - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2972,12 +3115,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_?●_●○
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 3][column + 3] == chess)
-		&& ((board[raw - 4][column + 4] == opponent_chess)|| (raw - 4 < 0) || (column + 4 > 14))
+		&& ((board[raw - 4][column + 4] == opponent_chess) || (raw - 4 < 0) || (column + 4 > 14))
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw - 2][column + 2] != chess)
 		&& (board[raw - 2][column + 2] != opponent_chess)
-		&& (raw + 1 <= 14) && (column - 1 >= 0))
+		&& (raw + 1 <= 14) && (column - 1 >= 0)
+		&& (raw - 3 >= 0) && (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -2987,7 +3131,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○?_●●_
 	if ((board[raw + 2][column + 2] == chess)
 		&& (board[raw + 3][column + 3] == chess)
-		&& ((board[raw - 1][column - 1] == opponent_chess)|| (raw - 1 < 0) || (column - 1 < 0))
+		&& ((board[raw - 1][column - 1] == opponent_chess) || (raw - 1 < 0) || (column - 1 < 0))
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw + 4][column + 4] != chess)
@@ -3000,12 +3144,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●_?●_
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
-		&& ((board[raw - 3][column - 3] == opponent_chess)|| (raw - 3 < 0) || (column - 3 < 0))
+		&& ((board[raw - 3][column - 3] == opponent_chess) || (raw - 3 < 0) || (column - 3 < 0))
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
-		&& (raw + 2 <= 14) && (column + 2 <= 14))
+		&& (raw + 2 <= 14) && (column + 2 <= 14)
+		&& (raw - 2 >= 0) && (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3013,12 +3158,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○●_●?_
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 3][column - 3] == chess)
-		&& ((board[raw - 4][column - 4] == opponent_chess)|| (raw - 4 < 0) || (column - 4 < 0))
+		&& ((board[raw - 4][column - 4] == opponent_chess) || (raw - 4 < 0) || (column - 4 < 0))
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw - 2][column - 2] != chess)
 		&& (board[raw - 2][column - 2] != opponent_chess)
-		&& (raw + 1 <= 14) && (column + 1 <= 14))
+		&& (raw + 1 <= 14) && (column + 1 <= 14)
+		&& (raw - 3 >= 0) && (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3027,7 +3173,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//_●●_?○
 	if ((board[raw - 2][column - 2] == chess)
 		&& (board[raw - 3][column - 3] == chess)
-		&& ((board[raw + 1][column + 1] == opponent_chess)|| (raw + 1 > 14) || (column + 1 > 14))
+		&& ((board[raw + 1][column + 1] == opponent_chess) || (raw + 1 > 14) || (column + 1 > 14))
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw - 4][column - 4] != chess)
@@ -3040,12 +3186,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_●?_●○
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
-		&& ((board[raw + 3][column + 3] == opponent_chess)|| (raw + 3 > 14) || (column + 3 > 14))
+		&& ((board[raw + 3][column + 3] == opponent_chess) || (raw + 3 > 14) || (column + 3 > 14))
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw - 2][column - 2] != chess)
 		&& (board[raw - 2][column - 2] != opponent_chess)
-		&& (raw - 2 >= 0) && (column - 2 >= 0))
+		&& (raw - 2 >= 0) && (column - 2 >= 0)
+		&& (raw + 2 <= 14) && (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3053,12 +3200,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//_?●_●○
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 3][column + 3] == chess)
-		&& ((board[raw + 4][column + 4] == opponent_chess)|| (raw + 4 > 14) || (column + 4 > 14))
+		&& ((board[raw + 4][column + 4] == opponent_chess) || (raw + 4 > 14) || (column + 4 > 14))
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
-		&& (raw - 1 >= 0) && (column - 1 >= 0))
+		&& (raw - 1 >= 0) && (column - 1 >= 0)
+		&& (raw + 3 <= 14) && (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3073,7 +3221,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
 		&& (board[raw][column + 3] != chess)
-		&& (board[raw][column + 3] != opponent_chess))
+		&& (board[raw][column + 3] != opponent_chess)
+		&& (column + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3084,7 +3233,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column + 2] != chess)
-		&& (board[raw][column + 2] != opponent_chess))
+		&& (board[raw][column + 2] != opponent_chess)
+		&& (column + 3 <= 14) && (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3095,7 +3245,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column - 2] != chess)
-		&& (board[raw][column - 2] != opponent_chess))
+		&& (board[raw][column - 2] != opponent_chess)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3107,7 +3258,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column - 2] != chess)
 		&& (board[raw][column - 2] != opponent_chess)
 		&& (board[raw][column - 3] != chess)
-		&& (board[raw][column - 3] != opponent_chess))
+		&& (board[raw][column - 3] != opponent_chess)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3118,7 +3270,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column - 2] != chess)
-		&& (board[raw][column - 2] != opponent_chess))
+		&& (board[raw][column - 2] != opponent_chess)
+		&& (column + 1 <= 14) && (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3129,7 +3282,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column + 2] != chess)
-		&& (board[raw][column + 2] != opponent_chess))
+		&& (board[raw][column + 2] != opponent_chess)
+		&& (column + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3142,7 +3296,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
 		&& (board[raw + 3][column] != chess)
-		&& (board[raw + 3][column] != opponent_chess))
+		&& (board[raw + 3][column] != opponent_chess)
+		&& (raw + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3153,7 +3308,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw + 2][column] != chess)
-		&& (board[raw + 2][column] != opponent_chess))
+		&& (board[raw + 2][column] != opponent_chess)
+		&& (raw + 3 <= 14) && (raw - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3164,7 +3320,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw - 2][column] != chess)
-		&& (board[raw - 2][column] != opponent_chess))
+		&& (board[raw - 2][column] != opponent_chess)
+		&& (raw - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3176,7 +3333,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column] != chess)
 		&& (board[raw - 2][column] != opponent_chess)
 		&& (board[raw - 3][column] != chess)
-		&& (board[raw - 3][column] != opponent_chess))
+		&& (board[raw - 3][column] != opponent_chess)
+		&& (raw - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3187,7 +3345,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw - 2][column] != chess)
-		&& (board[raw - 2][column] != opponent_chess))
+		&& (board[raw - 2][column] != opponent_chess)
+		&& (raw + 1 <= 14) && (raw - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3198,7 +3357,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw + 2][column] != chess)
-		&& (board[raw + 2][column] != opponent_chess))
+		&& (board[raw + 2][column] != opponent_chess)
+		&& (raw + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3211,7 +3371,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column + 2] != chess)
 		&& (board[raw - 2][column + 2] != opponent_chess)
 		&& (board[raw - 3][column + 3] != chess)
-		&& (board[raw - 3][column + 3] != opponent_chess))
+		&& (board[raw - 3][column + 3] != opponent_chess)
+		&& (column + 4 <= 14) && (raw - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3222,7 +3383,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw - 2][column + 2] != chess)
-		&& (board[raw - 2][column + 2] != opponent_chess))
+		&& (board[raw - 2][column + 2] != opponent_chess)
+		&& (raw + 1 <= 14) && (raw - 3 >= 0)
+		&& (column + 3 <= 14) && (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3233,7 +3396,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw + 2][column - 2] != chess)
-		&& (board[raw + 2][column - 2] != opponent_chess))
+		&& (board[raw + 2][column - 2] != opponent_chess)
+		&& (raw + 4 <= 14)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3245,7 +3410,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 2][column - 2] != chess)
 		&& (board[raw + 2][column - 2] != opponent_chess)
 		&& (board[raw + 3][column - 3] != chess)
-		&& (board[raw + 3][column - 3] != opponent_chess))
+		&& (board[raw + 3][column - 3] != opponent_chess)
+		&& (raw + 4 <= 14)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3256,7 +3423,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw + 2][column - 2] != chess)
-		&& (board[raw + 2][column - 2] != opponent_chess))
+		&& (board[raw + 2][column - 2] != opponent_chess)
+		&& (raw + 3 <= 14) && (raw - 1 >= 0)
+		&& (column + 1 <= 14) && (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3267,7 +3436,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw - 2][column + 2] != chess)
-		&& (board[raw - 2][column + 2] != opponent_chess))
+		&& (board[raw - 2][column + 2] != opponent_chess)
+		&& (raw - 4 >= 0)
+		&& (column + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3280,7 +3451,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess)
 		&& (board[raw + 3][column + 3] != chess)
-		&& (board[raw + 3][column + 3] != opponent_chess))
+		&& (board[raw + 3][column + 3] != opponent_chess)
+		&& (raw + 4 <= 14)
+		&& (column + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3291,7 +3464,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw + 2][column + 2] != chess)
-		&& (board[raw + 2][column + 2] != opponent_chess))
+		&& (board[raw + 2][column + 2] != opponent_chess)
+		&& (raw + 3 <= 14) && (raw - 1 >= 0)
+		&& (column + 3 <= 14) && (column - 1 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3302,7 +3477,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw - 2][column - 2] != chess)
-		&& (board[raw - 2][column - 2] != opponent_chess))
+		&& (board[raw - 2][column - 2] != opponent_chess)
+		&& (raw - 4 >= 0)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3314,7 +3491,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 2][column - 2] != chess)
 		&& (board[raw - 2][column - 2] != opponent_chess)
 		&& (board[raw - 3][column - 3] != chess)
-		&& (board[raw - 3][column - 3] != opponent_chess))
+		&& (board[raw - 3][column - 3] != opponent_chess)
+		&& (raw - 4 >= 0)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3325,7 +3504,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw - 2][column - 2] != chess)
-		&& (board[raw - 2][column - 2] != opponent_chess))
+		&& (board[raw - 2][column - 2] != opponent_chess)
+		&& (raw + 1 <= 14) && (raw - 3 >= 0)
+		&& (column + 1 <= 14) && (column - 3 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3336,7 +3517,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw + 2][column + 2] != chess)
-		&& (board[raw + 2][column + 2] != opponent_chess))
+		&& (board[raw + 2][column + 2] != opponent_chess)
+		&& (raw + 4 <= 14)
+		&& (column + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3351,7 +3534,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column + 3] != chess)
-		&& (board[raw][column + 3] != opponent_chess))
+		&& (board[raw][column + 3] != opponent_chess)
+		&& (column + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3361,7 +3545,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column + 1] != chess)
 		&& (board[raw][column + 1] != opponent_chess)
 		&& (board[raw][column - 1] != chess)
-		&& (board[raw][column - 1] != opponent_chess))
+		&& (board[raw][column - 1] != opponent_chess)
+		&& (column + 2 <= 14) && (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3372,7 +3557,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw][column - 1] != chess)
 		&& (board[raw][column - 1] != opponent_chess)
 		&& (board[raw][column - 3] != chess)
-		&& (board[raw][column - 3] != opponent_chess))
+		&& (board[raw][column - 3] != opponent_chess)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3384,7 +3570,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw + 3][column] != chess)
-		&& (board[raw + 3][column] != opponent_chess))
+		&& (board[raw + 3][column] != opponent_chess)
+		&& (raw + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3394,7 +3581,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column] != chess)
 		&& (board[raw + 1][column] != opponent_chess)
 		&& (board[raw - 1][column] != chess)
-		&& (board[raw - 1][column] != opponent_chess))
+		&& (board[raw - 1][column] != opponent_chess)
+		&& (raw + 2 <= 14) && (raw - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3405,7 +3593,8 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column] != chess)
 		&& (board[raw - 1][column] != opponent_chess)
 		&& (board[raw - 3][column] != chess)
-		&& (board[raw - 3][column] != opponent_chess))
+		&& (board[raw - 3][column] != opponent_chess)
+		&& (raw - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3417,7 +3606,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw - 3][column + 3] != chess)
-		&& (board[raw - 3][column + 3] != opponent_chess))
+		&& (board[raw - 3][column + 3] != opponent_chess)
+		&& (raw - 4 >= 0)
+		&& (column + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3427,7 +3618,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column + 1] != chess)
 		&& (board[raw - 1][column + 1] != opponent_chess)
 		&& (board[raw + 1][column - 1] != chess)
-		&& (board[raw + 1][column - 1] != opponent_chess))
+		&& (board[raw + 1][column - 1] != opponent_chess)
+		&& (raw + 2 <= 14) && (raw - 2 >= 0)
+		&& (column + 2 <= 14) && (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3438,7 +3631,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column - 1] != chess)
 		&& (board[raw + 1][column - 1] != opponent_chess)
 		&& (board[raw + 3][column - 3] != chess)
-		&& (board[raw + 3][column - 3] != opponent_chess))
+		&& (board[raw + 3][column - 3] != opponent_chess)
+		&& (raw + 4 <= 14)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3450,7 +3645,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw + 3][column + 3] != chess)
-		&& (board[raw + 3][column + 3] != opponent_chess))
+		&& (board[raw + 3][column + 3] != opponent_chess)
+		&& (raw + 4 <= 14)
+		&& (column + 4 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3460,7 +3657,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw + 1][column + 1] != chess)
 		&& (board[raw + 1][column + 1] != opponent_chess)
 		&& (board[raw - 1][column - 1] != chess)
-		&& (board[raw - 1][column - 1] != opponent_chess))
+		&& (board[raw - 1][column - 1] != opponent_chess)
+		&& (raw + 2 <= 14) && (raw - 2 >= 0)
+		&& (column + 2 <= 14) && (column - 2 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3471,7 +3670,9 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		&& (board[raw - 1][column - 1] != chess)
 		&& (board[raw - 1][column - 1] != opponent_chess)
 		&& (board[raw - 3][column - 3] != chess)
-		&& (board[raw - 3][column - 3] != opponent_chess))
+		&& (board[raw - 3][column - 3] != opponent_chess)
+		&& (raw - 4 >= 0)
+		&& (column - 4 >= 0))
 	{
 		value += Capped_Three;
 	}
@@ -3481,12 +3682,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 			//○_?●●_○
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column + 2] == chess)
-		&& ((board[raw][column - 2] == opponent_chess)|| (column - 2 < 0))
-		&& ((board[raw][column + 4] == opponent_chess)|| (column + 4 > 14))
+		&& ((board[raw][column - 2] == opponent_chess) || (column - 2 < 0))
+		&& ((board[raw][column + 4] == opponent_chess) || (column + 4 > 14))
 		&& (board[raw][column + 3] != chess)
 		&& (board[raw][column + 3] != opponent_chess)
 		&& (board[raw][column - 1] != chess)
-		&& (board[raw][column - 1] != opponent_chess))
+		&& (board[raw][column - 1] != opponent_chess)
+		&& (column - 1 >= 0) && (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3494,12 +3696,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○_●?●_○
 	if ((board[raw][column + 1] == chess)
 		&& (board[raw][column - 1] == chess)
-		&& ((board[raw][column + 3] == opponent_chess)|| (column + 3 > 14))
-		&& ((board[raw][column - 3] == opponent_chess)|| (column - 3 < 0))
+		&& ((board[raw][column + 3] == opponent_chess) || (column + 3 > 14))
+		&& ((board[raw][column - 3] == opponent_chess) || (column - 3 < 0))
 		&& (board[raw][column + 2] != chess)
 		&& (board[raw][column + 2] != opponent_chess)
 		&& (board[raw][column - 2] != chess)
-		&& (board[raw][column - 2] != opponent_chess))
+		&& (board[raw][column - 2] != opponent_chess)
+		&& (column - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3507,12 +3710,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○_●●?_○
 	if ((board[raw][column - 1] == chess)
 		&& (board[raw][column - 2] == chess)
-		&& ((board[raw][column + 2] == opponent_chess)|| (column + 2 > 14))
-		&& ((board[raw][column - 4] == opponent_chess)|| (column - 4 < 0))
+		&& ((board[raw][column + 2] == opponent_chess) || (column + 2 > 14))
+		&& ((board[raw][column - 4] == opponent_chess) || (column - 4 < 0))
 		&& (board[raw][column - 3] != chess)
 		&& (board[raw][column - 3] != opponent_chess)
 		&& (board[raw][column + 1] != chess)
-		&& (board[raw][column + 1] != opponent_chess))
+		&& (board[raw][column + 1] != opponent_chess)
+		&& (column - 3 >= 0) && (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3521,12 +3725,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○_?●●_○
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw + 2][column] == chess)
-		&& ((board[raw - 2][column] == opponent_chess)|| (raw - 2 < 0))
-		&& ((board[raw + 4][column] == opponent_chess)|| (raw + 4 > 14))
+		&& ((board[raw - 2][column] == opponent_chess) || (raw - 2 < 0))
+		&& ((board[raw + 4][column] == opponent_chess) || (raw + 4 > 14))
 		&& (board[raw + 3][column] != chess)
 		&& (board[raw + 3][column] != opponent_chess)
 		&& (board[raw - 1][column] != chess)
-		&& (board[raw - 1][column] != opponent_chess))
+		&& (board[raw - 1][column] != opponent_chess)
+		&& (raw - 1 >= 0) && (raw + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3534,12 +3739,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○_●?●_○
 	if ((board[raw + 1][column] == chess)
 		&& (board[raw - 1][column] == chess)
-		&& ((board[raw + 3][column] == opponent_chess)|| (raw + 3 > 14))
-		&& ((board[raw - 3][column] == opponent_chess)|| (raw - 3 < 0))
+		&& ((board[raw + 3][column] == opponent_chess) || (raw + 3 > 14))
+		&& ((board[raw - 3][column] == opponent_chess) || (raw - 3 < 0))
 		&& (board[raw + 2][column] != chess)
 		&& (board[raw + 2][column] != opponent_chess)
 		&& (board[raw - 2][column] != chess)
-		&& (board[raw - 2][column] != opponent_chess))
+		&& (board[raw - 2][column] != opponent_chess)
+		&& (raw - 2 >= 0) && (raw + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3547,12 +3753,13 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○_●●?_○
 	if ((board[raw - 1][column] == chess)
 		&& (board[raw - 2][column] == chess)
-		&& ((board[raw + 2][column] == opponent_chess)|| (raw + 2 > 14))
-		&& ((board[raw - 4][column] == opponent_chess)|| (raw - 4 < 0))
+		&& ((board[raw + 2][column] == opponent_chess) || (raw + 2 > 14))
+		&& ((board[raw - 4][column] == opponent_chess) || (raw - 4 < 0))
 		&& (board[raw - 3][column] != chess)
 		&& (board[raw - 3][column] != opponent_chess)
 		&& (board[raw + 1][column] != chess)
-		&& (board[raw + 1][column] != opponent_chess))
+		&& (board[raw + 1][column] != opponent_chess)
+		&& (raw - 3 >= 0) && (raw + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3561,12 +3768,14 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○_?●●_○
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw - 2][column + 2] == chess)
-		&& ((board[raw + 2][column - 2] == opponent_chess)|| (raw + 2 > 14) || (column - 2 < 0))
-		&& ((board[raw - 4][column + 4] == opponent_chess)|| (raw - 4 < 0) || (column + 4 > 14))
+		&& ((board[raw + 2][column - 2] == opponent_chess) || (raw + 2 > 14) || (column - 2 < 0))
+		&& ((board[raw - 4][column + 4] == opponent_chess) || (raw - 4 < 0) || (column + 4 > 14))
 		&& (board[raw - 3][column + 3] != chess)
 		&& (board[raw - 3][column + 3] != opponent_chess)
 		&& (board[raw + 1][column - 1] != chess)
-		&& (board[raw + 1][column - 1] != opponent_chess))
+		&& (board[raw + 1][column - 1] != opponent_chess)
+		&& (raw - 3 >= 0) && (raw + 1 <= 14)
+		&& (column - 1 >= 0) && (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3574,12 +3783,14 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○_●?●_○
 	if ((board[raw - 1][column + 1] == chess)
 		&& (board[raw + 1][column - 1] == chess)
-		&& ((board[raw - 3][column + 3] == opponent_chess)|| (raw - 3 < 0) || (column + 3 > 14))
-		&& ((board[raw + 3][column - 3] == opponent_chess)|| (raw + 3 > 14) || (column - 3 < 0))
+		&& ((board[raw - 3][column + 3] == opponent_chess) || (raw - 3 < 0) || (column + 3 > 14))
+		&& ((board[raw + 3][column - 3] == opponent_chess) || (raw + 3 > 14) || (column - 3 < 0))
 		&& (board[raw - 2][column + 2] != chess)
 		&& (board[raw - 2][column + 2] != opponent_chess)
 		&& (board[raw + 2][column - 2] != chess)
-		&& (board[raw + 2][column - 2] != opponent_chess))
+		&& (board[raw + 2][column - 2] != opponent_chess)
+		&& (raw - 2 >= 0) && (raw + 2 <= 14)
+		&& (column - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3587,12 +3798,14 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○_●●?_○
 	if ((board[raw + 1][column - 1] == chess)
 		&& (board[raw + 2][column - 2] == chess)
-		&& ((board[raw - 2][column + 2] == opponent_chess)|| (raw - 2 < 0) || (column + 2 > 14))
-		&& ((board[raw + 4][column - 4] == opponent_chess)|| (raw + 4 > 14) || (column - 4 < 0))
+		&& ((board[raw - 2][column + 2] == opponent_chess) || (raw - 2 < 0) || (column + 2 > 14))
+		&& ((board[raw + 4][column - 4] == opponent_chess) || (raw + 4 > 14) || (column - 4 < 0))
 		&& (board[raw + 3][column - 3] != chess)
 		&& (board[raw + 3][column - 3] != opponent_chess)
 		&& (board[raw - 1][column + 1] != chess)
-		&& (board[raw - 1][column + 1] != opponent_chess))
+		&& (board[raw - 1][column + 1] != opponent_chess)
+		&& (raw - 1 >= 0) && (raw + 3 <= 14)
+		&& (column - 3 >= 0) && (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3601,12 +3814,14 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		//○_?●●_○
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw + 2][column + 2] == chess)
-		&& ((board[raw - 2][column - 2] == opponent_chess)|| (raw - 2 < 0) || (column - 2 < 0))
-		&& ((board[raw + 4][column + 4] == opponent_chess)|| (raw + 4 > 14) || (column + 4 > 14))
+		&& ((board[raw - 2][column - 2] == opponent_chess) || (raw - 2 < 0) || (column - 2 < 0))
+		&& ((board[raw + 4][column + 4] == opponent_chess) || (raw + 4 > 14) || (column + 4 > 14))
 		&& (board[raw + 3][column + 3] != chess)
 		&& (board[raw + 3][column + 3] != opponent_chess, 2)
 		&& (board[raw - 1][column - 1] != chess)
-		&& (board[raw - 1][column - 1] != opponent_chess, 2))
+		&& (board[raw - 1][column - 1] != opponent_chess, 2)
+		&& (raw - 1 >= 0) && (raw + 3 <= 14)
+		&& (column - 1 >= 0) && (column + 3 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3614,12 +3829,14 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○_●?●_○
 	if ((board[raw + 1][column + 1] == chess)
 		&& (board[raw - 1][column - 1] == chess)
-		&& ((board[raw + 3][column + 3] == opponent_chess)|| (raw + 3 > 14) || (column + 3 > 14))
-		&& ((board[raw - 3][column - 3] == opponent_chess)|| (raw - 3 < 0) || (column - 3 < 0))
+		&& ((board[raw + 3][column + 3] == opponent_chess) || (raw + 3 > 14) || (column + 3 > 14))
+		&& ((board[raw - 3][column - 3] == opponent_chess) || (raw - 3 < 0) || (column - 3 < 0))
 		&& (board[raw + 2][column + 2] != chess)
 		&& (board[raw + 2][column + 2] != opponent_chess, 2)
 		&& (board[raw - 2][column - 2] != chess)
-		&& (board[raw - 2][column - 2] != opponent_chess))
+		&& (board[raw - 2][column - 2] != opponent_chess)
+		&& (raw - 2 >= 0) && (raw + 2 <= 14)
+		&& (column - 2 >= 0) && (column + 2 <= 14))
 	{
 		value += Capped_Three;
 	}
@@ -3627,12 +3844,14 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	//○_●●?_○
 	if ((board[raw - 1][column - 1] == chess)
 		&& (board[raw - 2][column - 2] == chess)
-		&& ((board[raw + 2][column + 2] == opponent_chess)|| (raw + 2 > 14) || (column + 2 > 14))
-		&& ((board[raw - 4][column - 4] == opponent_chess)|| (raw - 4 < 0) || (column - 4 < 0))
+		&& ((board[raw + 2][column + 2] == opponent_chess) || (raw + 2 > 14) || (column + 2 > 14))
+		&& ((board[raw - 4][column - 4] == opponent_chess) || (raw - 4 < 0) || (column - 4 < 0))
 		&& (board[raw - 3][column - 3] != chess)
 		&& (board[raw - 3][column - 3] != opponent_chess, 2)
 		&& (board[raw + 1][column + 1] != chess)
-		&& (board[raw + 1][column + 1] != opponent_chess, 2))
+		&& (board[raw + 1][column + 1] != opponent_chess, 2)
+		&& (raw - 3 >= 0) && (raw + 1 <= 14)
+		&& (column - 3 >= 0) && (column + 1 <= 14))
 	{
 		value += Capped_Three;
 	}
