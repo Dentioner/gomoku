@@ -1,7 +1,2 @@
-﻿  enlighting_searching.c
-  minimax.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(445): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(497): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(498): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-  正在生成代码...
+﻿  hashing.c
   gomoku_ver2.0.vcxproj -> E:\coding\gomoku\gomoku_ver2.0\Debug\gomoku_ver2.0.exe
