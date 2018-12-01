@@ -33,7 +33,7 @@ void pve(long int value)
 	int opponent_chess;
 	int step_count = 0; //游戏下了几个子的计数
 
-
+	bool ai_first = false;//默认电脑后走
 	bool my_turn = true; //这个东西是确认这一步是哪一方下子了
 	bool continue_playing = true; //确认游戏是否继续
 
@@ -82,9 +82,8 @@ void pve(long int value)
 			double end_time, cost_time;
 			if (step_count > 2)
 			{
-				init_best_score_of_upper();
-				value = Minimax3(step_count, my_turn, floor);
-				if ((coordinate[0] == 0) && (coordinate[1] == 0))
+				value = Minimax2(step_count, my_turn, ai_first, floor);
+				if ((coordinate[0] == 0) && (coordinate[1] == 1))
 				{
 					auto_play(chess, opponent_chess);
 					chess_play_ver2(step_count);

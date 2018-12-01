@@ -1,9 +1,10 @@
-#define FLOOR 6
+#define FLOOR 1
+#define FLOOR2 6//新加
 #define FLOOR_VCX 3
 //每次更改FLOOR，需要将board.c中的priority, best_score_of_upper, not_in_the_same_branch这三个数组的大小改一下
 #define Consecutive_Five 10000000//连五
 #define Open_Four 1000000//活四
-#define Double_Chess 800000//双活三、双冲四、冲四活三等
+#define Double_Chess 800000//双活三、双冲四、冲四活三等禁手棋
 #define Open_Three 100000//活三
 #define Gapped_Two_Two 100050//下面三种都是冲四，这种是两个2子之间缺了一个子  ●●？●●
 #define Capped_Four 100050//这种冲四是一头被堵住的冲四   ○●●●●和●●●●○。○●●_●●不算，这个是GappedTwoTwo，○●_●●●
@@ -43,10 +44,13 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 void pve(long int value);
 int offensive();
 void auto_play(int chess, int opponent_chess);
-long int Minimax3(int step_count, bool my_turn, int floor);
+long int Minimax2(int step_count, bool my_turn, bool ai_first, int floor);
+int before_evaluation_ver3(int priority_ver2[][2], int floor, int step_count, bool my_turn);
 void quick_sort(int temp_priority[][3], int l, int r);
+long int Minimax3(int step_count, bool my_turn, int floor);
 long int deepest(int step_count, bool my_turn);
 void shallowest(int step_count, bool my_turn);
+void init_best_score_of_upper();
 int before_evaluation_ver4(int priority_ver2[][2], int floor, int step_count, bool my_turn);
 long int line(bool state[], int vector[], int raw, int column, int step_count);
-void init_best_score_of_upper();
+long int evaluation_ver2(int step_count, bool my_turn, int raw, int column);

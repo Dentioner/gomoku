@@ -13,7 +13,7 @@ extern int b;//黑棋
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 extern unsigned long long hashing_value2[depth_of_hashing][3];
-extern long int best_score_of_upper[11];
+extern long int best_score_of_upper_ver2[11];
 extern bool not_in_the_same_branch[11];
 extern long int value_for_board;//新加
 extern long int best_score_of_upper_ver2[12];
@@ -91,7 +91,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 				if (floor == FLOOR)//这种情况是，如果刚开始搜就发现有连五点，那就只搜这一层就退出
 				{
 					shallowest(step_count, my_turn);
-					best_score = evaluation(step_count, my_turn, coordinate[0], coordinate[1]);
+					best_score = evaluation_ver2(step_count, my_turn, coordinate[0], coordinate[1]);
 					return best_score;
 				}
 				else//这种情况是，在某一层（不是最外层）搜到了连五点，那就当做最底层开始搜
@@ -491,8 +491,8 @@ void shallowest(int step_count, bool my_turn)//这个函数是用于只检索一层的情况
 			{
 				//temp_score = evaluation(board, step_count, my_turn, raw, column);
 
-				temp_score1 = evaluation(step_count, my_turn, raw, column);
-				temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);
+				temp_score1 = evaluation_ver2(step_count, my_turn, raw, column);
+				temp_score2 = evaluation_ver2(step_count + 1, !my_turn, raw, column);
 
 				temp_score1 = abs(temp_score1) * 1.1;
 				temp_score2 = abs(temp_score2) * 0.9;

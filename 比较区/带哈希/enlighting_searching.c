@@ -7,9 +7,7 @@
 extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
-extern int coordinate[2];
-extern bool show_me_the_array;//测试用
-extern bool ai_first;
+
 //启发式搜索，按照优先级顺序，对分支进行排序，提高剪枝速度
 //见https://github.com/lihongxun945/gobang/blob/master/src/ai/board.js
 
@@ -44,9 +42,9 @@ int before_evaluation_ver4(int priority_ver2[][2], int floor, int step_count, bo
 				}
 				*/
 
-				my_value = evaluation(step_count, my_turn, my_raw, my_column);
+				my_value = evaluation_ver2(step_count, my_turn, my_raw, my_column);
 				my_value = labs(my_value);
-				opponent_value = evaluation(step_count + 1, !my_turn, my_raw, my_column);
+				opponent_value = evaluation_ver2(step_count + 1, !my_turn, my_raw, my_column);
 				opponent_value = labs(opponent_value);
 				temp_value = my_value + opponent_value;
 				if (temp_value != 0)

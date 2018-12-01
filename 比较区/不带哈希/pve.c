@@ -17,9 +17,9 @@ extern unsigned long long hashing_value2[depth_of_hashing][3];
 
 long int best_score_of_upper[11] = { -infinity , infinity , -infinity, infinity , -infinity, infinity, -infinity , infinity , -infinity, infinity, -infinity };//给minimax里面的剪枝用的
 //注意上下这两个数组的编号问题。floor是从11往0递归的，因此要保持最后一个元素不变。
-bool not_in_the_same_branch[11] = { true, true, true, true, true, true, true, true, true, true, true };
-
 long int best_score_of_upper_ver2[12] = { infinity ,-infinity , infinity , -infinity, infinity , -infinity, infinity, -infinity , infinity , -infinity, infinity, -infinity };//给minimax里面的剪枝用的
+
+bool not_in_the_same_branch[11] = { true, true, true, true, true, true, true, true, true, true, true };
 long int value_for_board = 0;//新加
 bool ai_first = false;//默认电脑后走
 
@@ -28,7 +28,8 @@ void pve(long int value)
 	//PVE
 
 	int ai_choice = 0;
-	int floor = FLOOR;//搜索层数
+	//int floor = FLOOR;//搜索层数
+	int floor = FLOOR2;
 	int chess;
 	int opponent_chess;
 	int step_count = 0; //游戏下了几个子的计数
@@ -82,9 +83,14 @@ void pve(long int value)
 			double end_time, cost_time;
 			if (step_count > 2)
 			{
+				if (coordinate[0] == 6 && coordinate[1] == 11 && floor == FLOOR2)//测试
+				{
+					printf("\n");
+				}
+				//value = Minimax2(step_count, my_turn, ai_first, floor);
 				init_best_score_of_upper();
-				value = Minimax3(step_count, my_turn, floor);
-				if ((coordinate[0] == 0) && (coordinate[1] == 0))
+				value = Minimax3(step_count, my_turn,  floor);
+				if ((coordinate[0] == 0) && (coordinate[1] == 1))
 				{
 					auto_play(chess, opponent_chess);
 					chess_play_ver2(step_count);
@@ -136,7 +142,7 @@ void pve(long int value)
 			get_coordinate(step_count);
 			//把value和chessplay换过位置了，不知道会怎样
 			roaming = board[coordinate[0]][coordinate[1]];//记录上一步的状态
-			value = evaluation(step_count, my_turn, coordinate[0], coordinate[1]);
+			value = evaluation_ver2(step_count, my_turn, coordinate[0], coordinate[1]);
 			chess_play_ver2(step_count);
 			hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
 			DrawBoard(value, 2, step_count);
