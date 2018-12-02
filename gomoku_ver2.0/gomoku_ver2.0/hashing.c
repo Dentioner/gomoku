@@ -37,11 +37,13 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 		
 		if (hashing_value2[location][0] != 0)//如果这个哈希值不为0
 		{
+			/*
 			if (hashing_value2[location][0] != hashValue && hashing_value2[location][0] != 0)
 //如果这个哈希值与外面的哈希值不等，说明取模运算将两个不同的哈希值转换成了相同的位置
 			{
 				printf("dismatch!\n");
 			}	
+			*/
 			if (my_turn)
 			{//目前[1]记录的是我方的得分
 				if (hashing_value2[location][1] != 0)
@@ -69,13 +71,13 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 	}
 	else//读写模式
 	{
-
+		/*
 		if (hashing_value2[location][0] != hashValue && hashing_value2[location][0] != 0)
 			//如果这个哈希值与外面的哈希值不等，说明取模运算将两个不同的哈希值转换成了相同的位置
 		{
 			printf("dismatch!\n");
 		}
-
+		*/
 		if (my_turn)
 		{
 			if (temp_score != 0)//仅登记非0的得分

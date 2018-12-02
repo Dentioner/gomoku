@@ -21,7 +21,7 @@
 6. ¡ð_¡ñ¡ñ¡ñ_¡ð
 */
 #define Open_two 1000//Á¬¶þ
-#define depth_of_hashing 100000
+#define depth_of_hashing 80000000
 #define infinity 89999900
 
 void myprintf(int array[], int length);
