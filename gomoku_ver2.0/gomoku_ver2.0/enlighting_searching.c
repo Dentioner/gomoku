@@ -10,6 +10,11 @@ extern int b;//黑棋
 extern int coordinate[2];
 extern bool show_me_the_array;//测试用
 extern bool ai_first;
+extern long int empty_score_total[15][15];
+extern long int empty_score_horizon[15][15];
+extern long int empty_score_perpendicular[15][15];
+extern long int empty_score_up_right_down_left[15][15];
+extern long int empty_score_up_left_down_right[15][15];
 //启发式搜索，按照优先级顺序，对分支进行排序，提高剪枝速度
 //见https://github.com/lihongxun945/gobang/blob/master/src/ai/board.js
 

@@ -1,4 +1,4 @@
-#define FLOOR 6
+#define FLOOR 2
 #define FLOOR_VCX 3
 //每次更改FLOOR，需要将board.c中的priority, best_score_of_upper, not_in_the_same_branch这三个数组的大小改一下
 #define Consecutive_Five 10000000//连五
@@ -21,7 +21,7 @@
 6. ○_●●●_○
 */
 #define Open_two 1000//连二
-#define depth_of_hashing 80000000
+#define depth_of_hashing 80900023
 #define infinity 89999900
 
 void myprintf(int array[], int length);
