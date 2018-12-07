@@ -1,6 +1,21 @@
-﻿  minimax.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(476): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(519): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(570): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(571): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+﻿  Mersenne_Twister.c
+  enlighting_searching.c
+  evaluation.c
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\evaluation.c(96): warning C4013: “system”未定义；假设外部返回 int
+  hashing.c
+  main.c
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(131): warning C4013: “system”未定义；假设外部返回 int
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(213): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 参见“scanf”的声明
+  minimax.c
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(478): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(521): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(572): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(573): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+  pve.c
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pve.c(206): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 参见“scanf”的声明
+  pvp.c
+  正在生成代码...
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\mersenne_twister.c(172): warning C4715: “indexOf”: 不是所有的控件路径都返回值
   gomoku_ver2.0.vcxproj -> E:\coding\gomoku\gomoku_ver2.0\Debug\gomoku_ver2.0.exe

@@ -232,7 +232,9 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 								//复原
 							}
 							board[raw][column] = temp_blank;
-							
+							temp_point[0] = raw;
+							temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
+							refresh_score(step_count, my_turn);//再刷新一次
 							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
 							{
 								Searching_Hashing(step_count, my_turn, temp_score, true);
