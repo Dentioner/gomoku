@@ -40,7 +40,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 	//下面是在建立ai先手、回合数与“是否是我方回合”的关系
 
 	//下面这个条件语句是用来打断点进行单步调试用的，正常工作的时候要注释掉
-	if (coordinate[0] == 7 && coordinate[1] == 10 && floor == FLOOR)
+	if (coordinate[0] == 6 && coordinate[1] == 6 && floor == FLOOR)
 	{
 		printf("\n");
 		show_me_the_array = true;
@@ -439,8 +439,8 @@ long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
 				temp_score1 = evaluation(step_count, my_turn, raw, column);
 				temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);
 				/*
-				temp_score1 = abs(temp_score1) * 1.5;
-				temp_score2 = abs(temp_score2) * 0.75;
+				temp_score1 = labs(temp_score1) * 1.5;
+				temp_score2 = labs(temp_score2) * 0.75;
 				temp_score = temp_score1 + temp_score2;
 				*/
 				temp_score = temp_score1 * 1.1 + temp_score2 * 0.9;
@@ -495,8 +495,8 @@ void shallowest(int step_count, bool my_turn)//这个函数是用于只检索一层的情况
 				temp_score1 = evaluation(step_count, my_turn, raw, column);
 				temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);
 
-				temp_score1 = abs(temp_score1) * 1.1;
-				temp_score2 = abs(temp_score2) * 0.9;
+				temp_score1 = labs(temp_score1) * 1.1;
+				temp_score2 = labs(temp_score2) * 0.9;
 				temp_score = temp_score1 + temp_score2;
 
 				if (!initialized)

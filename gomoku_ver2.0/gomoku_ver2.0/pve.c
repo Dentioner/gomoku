@@ -21,11 +21,11 @@ bool not_in_the_same_branch[11] = { true, true, true, true, true, true, true, tr
 long int best_score_of_upper_ver2[12] = { infinity ,-infinity , infinity , -infinity, infinity , -infinity, infinity, -infinity , infinity , -infinity, infinity, -infinity };//给minimax里面的剪枝用的
 long int value_for_board = 0;//新加
 bool ai_first = false;//默认电脑后走
-long int empty_score_total[15][15] = { 0 };
-long int empty_score_horizon[15][15] = { 0 };
-long int empty_score_perpendicular[15][15] = { 0 };
-long int empty_score_up_right_down_left[15][15] = { 0 };
-long int empty_score_up_left_down_right[15][15] = { 0 };
+long int empty_score_total[15][15] = { 0 };//空位的总分
+long int empty_score_horizon[15][15] = { 0 };//空位水平方向分数
+long int empty_score_perpendicular[15][15] = { 0 };//空位垂直方向分数
+long int empty_score_up_right_down_left[15][15] = { 0 };//空位右上左下方向分数
+long int empty_score_up_left_down_right[15][15] = { 0 };//空位左上右下方向分数
 void pve(long int value)
 {
 	//PVE
