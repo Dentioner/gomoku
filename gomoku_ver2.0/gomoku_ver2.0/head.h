@@ -1,4 +1,4 @@
-#define FLOOR 2
+#define FLOOR 6
 #define FLOOR_VCX 3
 //每次更改FLOOR，需要将board.c中的priority, best_score_of_upper, not_in_the_same_branch这三个数组的大小改一下
 #define Consecutive_Five 10000000//连五
@@ -24,6 +24,17 @@
 #define depth_of_hashing 80900023
 #define infinity 89999900
 
+
+typedef struct temp_priority
+{
+	long int score;
+	int raw;
+	int column;
+	struct temp_priority* next;
+} Node;
+
+
+
 void myprintf(int array[], int length);
 void initial_board();
 void DrawBoard(long int value, int mode_choice, int step_count);
@@ -44,9 +55,12 @@ void pve(long int value);
 int offensive();
 void auto_play(int chess, int opponent_chess);
 long int Minimax3(int step_count, bool my_turn, int floor);
-void quick_sort(int temp_priority[][3], int l, int r);
 long int deepest(int step_count, bool my_turn);
 void shallowest(int step_count, bool my_turn);
-int before_evaluation_ver4(int priority_ver2[][2], int floor, int step_count, bool my_turn);
 long int line(bool state[], int vector[], int raw, int column, int step_count);
 void init_best_score_of_upper();
+int before_evaluation_ver4_5(int priority_ver2[][2], int step_count);
+void refresh_score(int step_count, bool my_turn);
+void re_calculate(int vector[], int step_count, bool my_turn);
+int before_evaluation_ver6(int priority_ver2[][2], int step_count);
+void quick_sort(long int temp_priority[][3], int l, int r);

@@ -20,6 +20,8 @@ extern long int best_score_of_upper_ver2[12];
 bool show_me_the_array = false;//测试用的布尔值
 extern bool ai_first;
 int temp_point[2] = { 0,0 };//临时落子坐标，在minimax的里面迭代的时候落子的时候用
+extern long int empty_score_total_black[15][15];
+extern long int empty_score_total_white[15][15];
 
 long int Minimax3(int step_count, bool my_turn, int floor)
 {
@@ -85,8 +87,8 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 			//旧的启发式搜索
 			//status = before_evaluation_ver2(board, priority, floor, step_count, my_turn);
 			//status = before_evaluation_ver4(priority_ver2, floor, step_count, my_turn);
-			status = before_evaluation_ver4(priority_ver2, floor, step_count, my_turn);
-			
+			//status = before_evaluation_ver4(priority_ver2, floor, step_count, my_turn);
+			status = before_evaluation_ver6(priority_ver2, step_count);
 			if (status != 0)
 			{
 				if (floor == FLOOR)//这种情况是，如果刚开始搜就发现有连五点，那就只搜这一层就退出
@@ -126,6 +128,9 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 							}
 							temp_blank = board[raw][column];
 							board[raw][column] = chess;
+							temp_point[0] = raw;
+							temp_point[1] = column;
+							refresh_score(step_count, my_turn);
 							//测试用，打印ZobristTable，看看是否正常
 							/*
 							for (int z1 = 0; z1 < 15; z1++)
@@ -178,7 +183,10 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 								{
 									if ((best_score > best_score_of_upper_ver2[floor]) && (not_in_the_same_branch[floor]))//剪枝
 									{
+										temp_point[0] = raw;
+										temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 										board[raw][column] = temp_blank;
+										refresh_score(step_count, my_turn);
 										return infinity;
 									}
 
@@ -209,7 +217,10 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 									{
 										if ((best_score > best_score_of_upper_ver2[floor]) && (not_in_the_same_branch[floor]))//剪枝
 										{
+											temp_point[0] = raw;
+											temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 											board[raw][column] = temp_blank;
+											refresh_score(step_count, my_turn);
 											return infinity;
 										}
 
@@ -259,8 +270,9 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 		else
 		{
 			//best_score_of_upper_ver2[floor] = 0;
-			status = before_evaluation_ver4(priority_ver2, floor, step_count, my_turn);
+			//status = before_evaluation_ver4(priority_ver2, floor, step_count, my_turn);
 			//final_hit = before_evaluation(board, priority, floor, step_count, my_turn);
+			status = before_evaluation_ver6(priority_ver2, step_count);
 
 			if (status != 0)//my_turn为假的时候不可能是最外层，因此少了一个if语句
 			{
@@ -296,7 +308,9 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 							temp_score = Searching_Hashing(step_count, my_turn, 0, false);
 							//上面这2行在启用哈希表搜索的时候要用到，千万不要删了
-
+							temp_point[0] = raw;
+							temp_point[1] = column;
+							refresh_score(step_count, my_turn);
 							//下面这个是在测试的时候输出的，正式使用的时候可以关掉
 							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
 							if (temp_score == 0)
@@ -329,7 +343,10 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 								{
 									if ((best_score < best_score_of_upper_ver2[floor]) && not_in_the_same_branch[floor])//剪枝
 									{
+										temp_point[0] = raw;
+										temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 										board[raw][column] = temp_blank;
+										refresh_score(step_count, my_turn);
 										return -infinity;
 									}
 								}
@@ -357,7 +374,10 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 									{
 										if ((best_score < best_score_of_upper_ver2[floor]) && not_in_the_same_branch[floor])//剪枝
 										{
+											temp_point[0] = raw;
+											temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 											board[raw][column] = temp_blank;
+											refresh_score(step_count, my_turn);
 											return -infinity;
 										}
 									}
@@ -365,7 +385,10 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 							}
 
 							board[raw][column] = temp_blank;
-							
+							temp_point[0] = raw;
+							temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
+							refresh_score(step_count, my_turn);//再刷新一次
+
 							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
 							{
 								Searching_Hashing(step_count, my_turn, temp_score, true);
@@ -420,55 +443,97 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
 {
 	long int temp_score;
-	long int temp_score1, temp_score2;
+
+	long int ai_score, p_score;
 	int raw, column;
-	long int board_score = 0;
 	//这里删了一堆注释，要恢复的去看别的地方存档的minimax文件
-
-
-			//这个for循环是一开始就有的，别把这个给删了
-	for (raw = 0; raw < 15; raw++)
-	{
-		for (column = 0; column < 15; column++)
+	long int board_score = 0;
+	if (ai_first)
+	{		//这个for循环是一开始就有的，别把这个给删了
+		for (raw = 0; raw < 15; raw++)
 		{
-			if ((board[raw][column] != b)
-				&& (board[raw][column] != w))
+			for (column = 0; column < 15; column++)
 			{
-				//temp_score = evaluation(board, step_count, my_turn, raw, column);
-
-				temp_score1 = evaluation(step_count, my_turn, raw, column);
-				temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);
-				/*
-				temp_score1 = labs(temp_score1) * 1.5;
-				temp_score2 = labs(temp_score2) * 0.75;
-				temp_score = temp_score1 + temp_score2;
-				*/
-				temp_score = temp_score1 * 1.1 + temp_score2 * 0.9;
-				board_score += temp_score;
-				/*
-				if (!initialized)
+				if ((board[raw][column] != b)
+					&& (board[raw][column] != w))
 				{
-					best_score = temp_score;
-					initialized = true;
-					best_raw = raw;
-					best_column = column;
+					//temp_score = evaluation(board, step_count, my_turn, raw, column);
 
-				}
-				else
-				{
-					if (temp_score > best_score)
+					ai_score = empty_score_total_black[raw][column];
+					p_score = empty_score_total_white[raw][column];
+					/*
+					temp_score1 = labs(temp_score1) * 1.5;
+					temp_score2 = labs(temp_score2) * 0.75;
+					temp_score = temp_score1 + temp_score2;
+					*/
+					temp_score = ai_score * 1.1 - p_score * 0.9;
+					board_score += temp_score;
+					/*
+					if (!initialized)
 					{
 						best_score = temp_score;
+						initialized = true;
+						best_raw = raw;
+						best_column = column;
 
 					}
-				}
-				*/
+					else
+					{
+						if (temp_score > best_score)
+						{
+							best_score = temp_score;
 
+						}
+					}
+					*/
+
+				}
 			}
 		}
 	}
+	else
+	{
+		for (raw = 0; raw < 15; raw++)
+		{
+			for (column = 0; column < 15; column++)
+			{
+				if ((board[raw][column] != b)
+					&& (board[raw][column] != w))
+				{
+					//temp_score = evaluation(board, step_count, my_turn, raw, column);
 
+					ai_score = empty_score_total_white[raw][column];
+					p_score = empty_score_total_black[raw][column];
+					/*
+					temp_score1 = labs(temp_score1) * 1.5;
+					temp_score2 = labs(temp_score2) * 0.75;
+					temp_score = temp_score1 + temp_score2;
+					*/
+					temp_score = ai_score * 1.1 - p_score * 0.9;
+					board_score += temp_score;
+					/*
+					if (!initialized)
+					{
+						best_score = temp_score;
+						initialized = true;
+						best_raw = raw;
+						best_column = column;
 
+					}
+					else
+					{
+						if (temp_score > best_score)
+						{
+							best_score = temp_score;
+
+						}
+					}
+					*/
+
+				}
+			}
+		}
+	}
 
 	return board_score;
 }
