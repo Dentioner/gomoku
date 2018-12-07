@@ -42,7 +42,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 	//下面是在建立ai先手、回合数与“是否是我方回合”的关系
 
 	//下面这个条件语句是用来打断点进行单步调试用的，正常工作的时候要注释掉
-	if (coordinate[0] == 6 && coordinate[1] == 6 && floor == FLOOR)
+	if (coordinate[0] == 6 && coordinate[1] == 4 && floor == FLOOR)
 	{
 		printf("\n");
 		show_me_the_array = true;
@@ -153,6 +153,9 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 
 							temp_score = Searching_Hashing(step_count, my_turn, 0, false);
 							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
+
+							if (floor >= 4 && show_me_the_array)//test
+								DrawBoard(0, 2, step_count);
 
 							if (temp_score == 0)
 							{
@@ -313,6 +316,10 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 							refresh_score(step_count, my_turn);
 							//下面这个是在测试的时候输出的，正式使用的时候可以关掉
 							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
+
+							if (floor >= 4 && show_me_the_array)//test
+								DrawBoard(0, 2, step_count);
+
 							if (temp_score == 0)
 							{
 								temp_score = Minimax3(step_count + 1, !my_turn, floor - 1);
