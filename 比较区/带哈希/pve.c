@@ -18,12 +18,10 @@ extern unsigned long long hashing_value2[depth_of_hashing][3];
 long int best_score_of_upper[11] = { -infinity , infinity , -infinity, infinity , -infinity, infinity, -infinity , infinity , -infinity, infinity, -infinity };//给minimax里面的剪枝用的
 //注意上下这两个数组的编号问题。floor是从11往0递归的，因此要保持最后一个元素不变。
 bool not_in_the_same_branch[11] = { true, true, true, true, true, true, true, true, true, true, true };
+
 long int best_score_of_upper_ver2[12] = { infinity ,-infinity , infinity , -infinity, infinity , -infinity, infinity, -infinity , infinity , -infinity, infinity, -infinity };//给minimax里面的剪枝用的
 long int value_for_board = 0;//新加
 bool ai_first = false;//默认电脑后走
-long int empty_score_total_black[15][15] = { 0 };//对于黑棋来说的空位的总分
-long int empty_score_total_white[15][15] = { 0 };//对于黑棋来说的空位的总分
-extern int temp_point[2];
 
 void pve(long int value)
 {
@@ -35,7 +33,7 @@ void pve(long int value)
 	int opponent_chess;
 	int step_count = 0; //游戏下了几个子的计数
 
-
+	bool ai_first = false;//默认电脑后走
 	bool my_turn = true; //这个东西是确认这一步是哪一方下子了
 	bool continue_playing = true; //确认游戏是否继续
 
@@ -84,9 +82,8 @@ void pve(long int value)
 			double end_time, cost_time;
 			if (step_count > 2)
 			{
-				init_best_score_of_upper();
-				value = Minimax3(step_count, my_turn, floor);
-				if ((coordinate[0] == 0) && (coordinate[1] == 0))
+				value = Minimax2(step_count, my_turn, ai_first, floor);
+				if ((coordinate[0] == 0) && (coordinate[1] == 1))
 				{
 					auto_play(chess, opponent_chess);
 					chess_play_ver2(step_count);
@@ -131,12 +128,7 @@ void pve(long int value)
 			end_time = clock();
 			cost_time = (end_time - start_time) / CLK_TCK;
 			printf("time=%fs.\n", cost_time);
-			//如果仅仅是将落子的部位无效化的话，不用在意我方是黑子还是白子，两个数组都将该点无效化即可
-			empty_score_total_black[coordinate[0]][coordinate[1]] = 0;
-			empty_score_total_white[coordinate[0]][coordinate[1]] = 0;
-			temp_point[0] = coordinate[0];
-			temp_point[1] = coordinate[1];
-			refresh_score(step_count, my_turn);
+
 		}
 		else
 		{
@@ -162,12 +154,7 @@ void pve(long int value)
 				DrawBoard(value, 2, step_count);
 				continue;
 			}
-			//如果仅仅是将落子的部位无效化的话，不用在意我方是黑子还是白子，两个数组都将该点无效化即可
-			empty_score_total_black[coordinate[0]][coordinate[1]] = 0;
-			empty_score_total_white[coordinate[0]][coordinate[1]] = 0;
-			temp_point[0] = coordinate[0];
-			temp_point[1] = coordinate[1];
-			refresh_score(step_count, my_turn);
+
 		}
 
 		continue_playing = judgement(step_count);
