@@ -8,10 +8,11 @@ bool judgement(int step_count)
 //步数用于判断是哪一方赢
 //返回值先设成布尔型
 {
-	int i, j, k;
+	int i, j;
 	bool continue_playing = true;
 	bool not_full = false;//这个布尔值用于判断，棋盘是否铺满了
-	char *chess;
+	//char *chess;
+	int chess;
 	if (step_count % 2)//如果step数不能整除2的话，就是白子
 	{
 		chess = w;
