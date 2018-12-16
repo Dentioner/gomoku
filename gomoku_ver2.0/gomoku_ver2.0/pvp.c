@@ -11,14 +11,15 @@ extern int coordinate[2];
 extern int roaming;
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
-extern unsigned long long hashing_value2[depth_of_hashing][3];
-
+//extern unsigned long long hashing_value2[depth_of_hashing][3];
+extern unsigned long long hashing_value3[depth_of_hashing][4];
 
 void pvp(long int value)
 {
 	int step_count = 0; //游戏下了几个子的计数
 	bool continue_playing = true; //确认游戏是否继续
 	bool my_turn = true; //这个东西是确认这一步是哪一方下子了
+	bool find_forbidden_step = false;
 	initTable();//初始化哈希表（键值表）
 		//下面这个是测试哈希表的
 		/*
@@ -50,12 +51,20 @@ void pvp(long int value)
 		//hashValue = computeHash(board, ZobristTable);//计算当前棋局的哈希值
 		//上面那个hashValue先挂起，可能需要优化，先用下面这个语句代替
 		hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
-
-		value = Searching_Hashing(step_count, my_turn, 0, false);
+		if (step_count % 2 == 0)//黑子才执行判断禁手
+		{
+			find_forbidden_step = detect_forbidden_step(coordinate[0], coordinate[1]);
+			if (find_forbidden_step)
+			{
+				printf("禁手\n");
+				system("pause");
+			}
+		}
+		value = Searching_Hashing(step_count, my_turn, 0, false, 0);
 		if (value == 0)
 		{
 			value = evaluation(step_count, my_turn, coordinate[0], coordinate[1]);
-			Searching_Hashing(step_count, my_turn, value, true);
+			Searching_Hashing(step_count, my_turn, value, true, 0);
 		}
 
 		//my_value = evaluation(board, step_count, my_turn, coordinate[0], coordinate[1]);

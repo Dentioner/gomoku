@@ -21,7 +21,7 @@
 6. ¡ð_¡ñ¡ñ¡ñ_¡ð
 */
 #define Open_two 1000//Á¬¶þ
-#define depth_of_hashing 80900023
+#define depth_of_hashing 50900023
 #define infinity 89999900
 
 
@@ -50,7 +50,7 @@ void init_by_array64(unsigned long long init_key[], unsigned long long key_lengt
 unsigned long long genrand64_int64(void);
 int indexOf(int chess);
 void initTable();
-long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool write);
+long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool write, int floor);
 void pve(long int value);
 int offensive();
 void auto_play(int chess, int opponent_chess);
@@ -64,3 +64,5 @@ void refresh_score(int step_count, bool my_turn);
 void re_calculate(int vector[], int step_count, bool my_turn);
 int before_evaluation_ver6(int priority_ver2[][2], int step_count);
 void quick_sort(long int temp_priority[][3], int l, int r);
+int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, int column);
+bool detect_forbidden_step(int raw, int column);

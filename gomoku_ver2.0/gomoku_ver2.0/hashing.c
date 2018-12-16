@@ -12,9 +12,9 @@ extern int coordinate[2];
 extern int roaming;
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
-unsigned long long hashing_value2[depth_of_hashing][3];
-
-long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool write)
+//extern unsigned long long hashing_value2[depth_of_hashing][3];
+extern unsigned long long hashing_value3[depth_of_hashing][4];
+long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool write, int floor)
 {
 	int black = 0;
 	int white = 1;
@@ -35,10 +35,10 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 	if (!write)//只读模式
 	{
 		
-		if (hashing_value2[location][0] != 0)//如果这个哈希值不为0
+		if (hashing_value3[location][0] != 0)//如果这个哈希值不为0
 		{
 			
-			if (hashing_value2[location][0] != hashValue && hashing_value2[location][0] != 0)
+			if (hashing_value3[location][0] != hashValue && hashing_value3[location][0] != 0)
 //如果这个哈希值与外面的哈希值不等，说明取模运算将两个不同的哈希值转换成了相同的位置
 			{
 				printf("dismatch!\n");
@@ -46,16 +46,16 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 			
 			if (my_turn)
 			{//目前[1]记录的是我方的得分
-				if (hashing_value2[location][1] != 0)
+				if (hashing_value3[location][1] != 0 && hashing_value3[location][3] >= floor)
 				{
-					return (long)hashing_value2[location][1];
+					return (long)hashing_value3[location][1];
 				}
 			}
 			else//[2]记录的是对方的得分
 			{
-				if (hashing_value2[location][2] != 0)
+				if (hashing_value3[location][2] != 0 && hashing_value3[location][3] >= floor)
 				{
-					return (long)hashing_value2[location][2];
+					return (long)hashing_value3[location][2];
 				}
 
 			}
@@ -72,7 +72,7 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 	else//读写模式
 	{
 		
-		if (hashing_value2[location][0] != hashValue && hashing_value2[location][0] != 0)
+		if (hashing_value3[location][0] != hashValue && hashing_value3[location][0] != 0)
 			//如果这个哈希值与外面的哈希值不等，说明取模运算将两个不同的哈希值转换成了相同的位置
 		{
 			printf("dismatch!\n");
@@ -82,8 +82,9 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 		{
 			if (temp_score != 0)//仅登记非0的得分
 			{
-				hashing_value2[location][0] = hashValue;
-				hashing_value2[location][1] = (unsigned long long)temp_score;
+				hashing_value3[location][0] = hashValue;
+				hashing_value3[location][1] = (unsigned long long)temp_score;
+				hashing_value3[location][3] = floor;
 			}
 		}
 		else
@@ -91,8 +92,9 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 			if (temp_score != 0)
 
 			{
-				hashing_value2[location][0] = hashValue;
-				hashing_value2[location][2] = (unsigned long long)temp_score;
+				hashing_value3[location][0] = hashValue;
+				hashing_value3[location][2] = (unsigned long long)temp_score;
+				hashing_value3[location][3] = floor;
 			}
 		}
 

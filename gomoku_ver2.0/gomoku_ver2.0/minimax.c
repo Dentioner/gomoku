@@ -12,7 +12,8 @@ extern int w;//白棋
 extern int b;//黑棋
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
-extern unsigned long long hashing_value2[depth_of_hashing][3];
+//extern unsigned long long hashing_value2[depth_of_hashing][3];
+extern unsigned long long hashing_value3[depth_of_hashing][4];
 extern long int best_score_of_upper[11];
 extern bool not_in_the_same_branch[11];
 extern long int value_for_board;//新加
@@ -151,7 +152,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
 
 
-							temp_score = Searching_Hashing(step_count, my_turn, 0, false);
+							temp_score = Searching_Hashing(step_count, my_turn, 0, false, floor);
 							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
 
 							if (floor >= 4 && show_me_the_array)//test
@@ -237,7 +238,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 							refresh_score(step_count, my_turn);//再刷新一次
 							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
 							{
-								Searching_Hashing(step_count, my_turn, temp_score, true);
+								Searching_Hashing(step_count, my_turn, temp_score, true, floor);
 
 
 
@@ -311,7 +312,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 							temp_blank = board[raw][column];
 							board[raw][column] = chess;
 							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-							temp_score = Searching_Hashing(step_count, my_turn, 0, false);
+							temp_score = Searching_Hashing(step_count, my_turn, 0, false, floor);
 							//上面这2行在启用哈希表搜索的时候要用到，千万不要删了
 							temp_point[0] = raw;
 							temp_point[1] = column;
@@ -400,7 +401,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 
 							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
 							{
-								Searching_Hashing(step_count, my_turn, temp_score, true);
+								Searching_Hashing(step_count, my_turn, temp_score, true, floor);
 
 
 							}
