@@ -8,6 +8,8 @@
 extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
+
+
 long int evaluation(int step_count, bool my_turn, int raw, int column)
 //step_count的作用是，确认这盘是黑子还是白子
 //my_turn 的作用是，确认这盘是我方还是敌方
@@ -17,6 +19,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	long int value = 0;
 	//int state = 0;//状态计数器，用于查找双活三双冲四之类的
 	bool state[4] = { false, false, false, false };//状态记录，分为4个方向，分别是水平，竖直，右上左下，左上右下
+
 	int horizon[2] = { 0,1 };//水平方向单位矢量
 	int perpendicular[2] = { 1,0 };//垂直方向单位矢量
 	int up_right_down_left[2] = { -1,1 };//右上左下方向单位矢量
@@ -49,6 +52,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 	int dx = vector[0];
 	int dy = vector[1];
 	int direct_now, other_direct1, other_direct2, other_direct3;//用于帮助确定state的
+	//bool special_state_for_four = false;//这个状态是用于判断同一直线上的双四棋型的，双三没有这种情况
 	if (step_count % 2)//如果step数不能整除2的话，就是白子 
 	{
 		chess = w;
@@ -249,7 +253,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		value += Gapped_Four;
+		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
+		{
+			value -= Gapped_Four;
+			value += Double_Chess;
+		}
 		state[direct_now] = true;
+
 	}
 
 	//●?●_●
@@ -265,6 +275,11 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
 		value += Gapped_Four;
+		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
+		{
+			value -= Gapped_Four;
+			value += Double_Chess;
+		}
 		state[direct_now] = true;
 	}
 
@@ -281,6 +296,11 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 	{
 		value += Gapped_Four;
+		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
+		{
+			value -= Gapped_Four;
+			value += Double_Chess;
+		}
 		state[direct_now] = true;
 	}
 
@@ -295,6 +315,11 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		value += Gapped_Four;
+		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
+		{
+			value -= Gapped_Four;
+			value += Double_Chess;
+		}
 		state[direct_now] = true;
 	}
 
@@ -320,12 +345,8 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		{
 			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	//●_●?●
@@ -340,18 +361,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
-
 		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 
@@ -372,12 +388,8 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		{
 			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	//?_●●●
@@ -395,12 +407,8 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		{
 			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	//活三
@@ -646,17 +654,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
-		value += Gapped_Two_Two;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Gapped_Two_Two;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	//●?_●●
@@ -671,17 +675,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
-		value += Gapped_Two_Two;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Gapped_Two_Two;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	//●●_?●
@@ -696,17 +696,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
-		value += Gapped_Two_Two;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Gapped_Two_Two;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	//●●_●?
@@ -719,17 +715,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
-		value += Gapped_Two_Two;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Gapped_Two_Two;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 
@@ -746,17 +738,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
-		value += Capped_Four;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Capped_Four;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	// ○●?●●_
@@ -772,17 +760,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
-		value += Capped_Four;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Capped_Four;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 	// ○●●?●_
 	if ((board[raw - 1 * dx][column - 1 * dy] == chess)
@@ -797,17 +781,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 	{
-		value += Capped_Four;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Capped_Four;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 	// ○●●●?_
 	if ((board[raw - 1 * dx][column - 1 * dy] == chess)
@@ -822,17 +802,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
-		value += Capped_Four;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Capped_Four;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 
@@ -849,17 +825,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
-		value += Capped_Four;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Capped_Four;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 	// _●●?●○
 	if ((board[raw + 1 * dx][column + 1 * dy] == chess)
@@ -874,17 +846,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
-		value += Capped_Four;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Capped_Four;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	// _●?●●○
@@ -900,17 +868,13 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 	{
-		value += Capped_Four;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Capped_Four;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
 	// _?●●●○
@@ -926,19 +890,150 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
-		value += Capped_Four;
+		value += Gapped_Four;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
-			value -= Capped_Four;
+			value -= Gapped_Four;
 			value += Double_Chess;
-			state[direct_now] = true;
 		}
-		else
-		{
-			state[direct_now] = true;
-		}
+		state[direct_now] = true;
 	}
 
+
+	//检查扁担四：
+	//X●●_●●_●●X & X●●●_●_●●●X & X●_●●●_●X
+	//注意打X的位点不能是自己的子，否则那几个夹在中间的空位会产生长连禁手而不能落子
+	//注意搜索位点只在中间部分，边上的那几个子不要搜
+	//先检查X●●_●●_●●X
+	//X●●_?●_●●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] == chess)
+		&& (board[raw + 4 * dx][column + 4 * dy] == chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] == chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] == chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] != chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] != opponent_chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != opponent_chess)
+		&& ((board[raw + 5 * dx][column + 5 * dy] != chess) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
+		&& ((board[raw - 4 * dx][column - 4 * dy] != chess) || (raw - 4 * dx < 0) || (raw - 4 * dx > 14) || (column - 4 * dx < 0) || (column - 4 * dx > 14))
+
+		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
+		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
+		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
+	{
+		value -= Gapped_Two_Two;
+		value += Double_Chess;
+	}
+	//X●●_●?_●●X
+	if ((board[raw + 2 * dx][column + 2 * dy] == chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] == chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] == chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] == chess)
+		&& (board[raw - 4 * dx][column - 4 * dy] == chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] != chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] != opponent_chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] != chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] != opponent_chess)
+		&& ((board[raw + 4 * dx][column + 4 * dy] != chess) || (raw + 4 * dx < 0) || (raw + 4 * dx > 14) || (column + 4 * dx < 0) || (column + 4 * dx > 14))
+		&& ((board[raw - 5 * dx][column - 5 * dy] != chess) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
+
+		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
+		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
+		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
+	{
+		value -= Gapped_Two_Two;
+		value += Double_Chess;
+	}
+	//检查X●●●_●_●●●X
+	//X●●●_?_●●●X
+	if ((board[raw + 2 * dx][column + 2 * dy] == chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] == chess)
+		&& (board[raw + 4 * dx][column + 4 * dy] == chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] == chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] == chess)
+		&& (board[raw - 4 * dx][column - 4 * dy] == chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] != chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] != opponent_chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != opponent_chess)
+		&& ((board[raw + 5 * dx][column + 5 * dy] != chess) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
+		&& ((board[raw - 5 * dx][column - 5 * dy] != chess) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
+
+		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
+		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
+	{
+		value -= Gapped_Four;
+		value += Double_Chess;
+	}
+
+	//检查X●_●●●_●X
+	//X●_?●●_●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] == chess)
+		&& (board[raw + 4 * dx][column + 4 * dy] == chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] == chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] != chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] != opponent_chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != opponent_chess)
+		&& ((board[raw + 5 * dx][column + 5 * dy] != chess) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
+		&& ((board[raw - 3 * dx][column - 3 * dy] != chess) || (raw - 3 * dx < 0) || (raw - 3 * dx > 14) || (column - 3 * dx < 0) || (column - 3 * dx > 14))
+
+		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
+		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
+		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
+	{
+		value -= Gapped_Four;
+		value += Double_Chess;
+	}
+
+	//X●_●?●_●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] == chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] == chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] == chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] != chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] != opponent_chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] != chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] != opponent_chess)
+		&& ((board[raw + 4 * dx][column + 4 * dy] != chess) || (raw + 4 * dx < 0) || (raw + 4 * dx > 14) || (column + 4 * dx < 0) || (column + 4 * dx > 14))
+		&& ((board[raw - 4 * dx][column - 4 * dy] != chess) || (raw - 4 * dx < 0) || (raw - 4 * dx > 14) || (column - 4 * dx < 0) || (column - 4 * dx > 14))
+
+		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
+		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
+		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
+		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
+	{
+		value -= Gapped_Four;
+		value += Double_Chess;
+	}
+
+	//X●_●●?_●X
+	if ((board[raw - 1 * dx][column - 1 * dy] == chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] == chess)
+		&& (board[raw - 4 * dx][column - 4 * dy] == chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] == chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] != chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] != opponent_chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] != chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] != opponent_chess)
+		&& ((board[raw + 3 * dx][column + 3 * dy] != chess) || (raw + 3 * dx < 0) || (raw + 3 * dx > 14) || (column + 3 * dx < 0) || (column + 3 * dx > 14))
+		&& ((board[raw - 5 * dx][column - 5 * dy] != chess) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
+
+		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
+		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
+		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
+	{
+		value -= Gapped_Four;
+		value += Double_Chess;
+	}
 	//检查跳活三Gapped_Three  _●_●●_与_●●_●_
 		//要排除_●_●●_●_这种情况
 		//水平方向
@@ -1595,6 +1690,11 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (board[raw + 1 * dx][column + 1 * dy] != opponent_chess)
 		&& (board[raw + 3 * dx][column + 3 * dy] != chess)
 		&& (board[raw + 3 * dx][column + 3 * dy] != opponent_chess)
+		//下面这两行保证最外面两侧不是自己的子，否则像●●_●_●●的棋型，就会被这里检测到
+		&& ((board[raw - 1 * dx][column - 1 * dy] != chess)||(raw - 1 * dx > 14) || (raw - 1 * dx < 0) || (column - 1 * dy > 14) || (column - 1 * dy < 0))
+		&& ((board[raw + 5 * dx][column + 5 * dy] != chess) || (raw + 5 * dx > 14) || (raw + 5 * dx < 0) || (column + 5 * dy > 14) || (column + 5 * dy < 0))
+		
+
 
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
@@ -1608,6 +1708,10 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (board[raw + 1 * dx][column + 1 * dy] != opponent_chess)
 		&& (board[raw - 1 * dx][column - 1 * dy] != chess)
 		&& (board[raw - 1 * dx][column - 1 * dy] != opponent_chess)
+		
+		&& ((board[raw - 3 * dx][column - 3 * dy] != chess) || (raw - 3 * dx > 14) || (raw - 3 * dx < 0) || (column - 3 * dy > 14) || (column - 3 * dy < 0))
+		&& ((board[raw + 3 * dx][column + 3 * dy] != chess) || (raw + 3 * dx > 14) || (raw + 3 * dx < 0) || (column + 3 * dy > 14) || (column + 3 * dy < 0))
+
 
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
@@ -1624,6 +1728,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (board[raw - 1 * dx][column - 1 * dy] != opponent_chess)
 		&& (board[raw - 3 * dx][column - 3 * dy] != chess)
 		&& (board[raw - 3 * dx][column - 3 * dy] != opponent_chess)
+
+		&& ((board[raw - 5 * dx][column - 5 * dy] != chess) || (raw - 5 * dx > 14) || (raw - 5 * dx < 0) || (column - 5 * dy > 14) || (column - 5 * dy < 0))
+		&& ((board[raw + 1 * dx][column + 1 * dy] != chess) || (raw + 1 * dx > 14) || (raw + 1 * dx < 0) || (column + 1 * dy > 14) || (column + 1 * dy < 0))
 
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
@@ -1763,17 +1870,17 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 	}
 
 	//__?●___
-	if ((board[raw + 1 * dx][column + 1 * dx] == chess)
-		&& (board[raw - 1 * dx][column - 1 * dx] != chess)
-		&& (board[raw - 1 * dx][column - 1 * dx] != opponent_chess)
-		&& (board[raw - 2 * dx][column - 2 * dx] != chess)
-		&& (board[raw - 2 * dx][column - 2 * dx] != opponent_chess)
-		&& (board[raw + 2 * dx][column + 2 * dx] != chess)
-		&& (board[raw + 2 * dx][column + 2 * dx] != opponent_chess)
-		&& (board[raw + 3 * dx][column + 3 * dx] != chess)
-		&& (board[raw + 3 * dx][column + 3 * dx] != opponent_chess)
-		&& (board[raw + 4 * dx][column + 4 * dx] != chess)
-		&& (board[raw + 4 * dx][column + 4 * dx] != opponent_chess)
+	if ((board[raw + 1 * dx][column + 1 * dy] == chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != opponent_chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] != chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] != opponent_chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] != chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] != opponent_chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] != chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] != opponent_chess)
+		&& (board[raw + 4 * dx][column + 4 * dy] != chess)
+		&& (board[raw + 4 * dx][column + 4 * dy] != opponent_chess)
 
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
@@ -1789,6 +1896,170 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			value -= Open_two;
 		}
 	}
+
+
+	//以下是收录的特殊棋型，没法用上述规律计分，是由于禁手导致的计分漏洞，需要单独修正
+	//1. X●●●_●●●X型，中间的空位是禁手，实际上这里是两个眠三
+	//X●●●_?●●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] == chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] == chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] == chess)
+		&& (board[raw - 4 * dx][column - 4 * dy] == chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] != opponent_chess)
+		&& ((board[raw + 3 * dx][column + 3 * dy] != chess) || (raw + 3 * dx > 14) || (raw + 3 * dx < 0) || (column + 3 * dy > 14) || (column + 3 * dy < 0))
+		&& ((board[raw - 5 * dx][column - 5 * dy] != chess) || (raw - 5 * dx > 14) || (raw - 5 * dx < 0) || (column - 5 * dy > 14) || (column - 5 * dy < 0))
+		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
+		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
+		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
+	{
+		value = value - 2 * Gapped_Four - Gapped_Two_Two;
+		if ((board[raw + 3 * dx][column + 3 * dy] != chess)
+			&& (board[raw + 3 * dx][column + 3 * dy] != opponent_chess)
+			&& (board[raw + 4 * dx][column + 4 * dy] != chess)
+			&& (board[raw + 4 * dx][column + 4 * dy] != opponent_chess)
+			&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+			&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))//●●●_?●●__时，还会多计入一个活三的分数，
+		{
+			value -= Open_Three;
+		}
+		value += 2 * Capped_Three;
+	}
+
+	//X●●?_●●●X
+	if ((board[raw - 1 * dx][column - 1 * dy] == chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] == chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] == chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] == chess)
+		&& (board[raw + 4 * dx][column + 4 * dy] == chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] != chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] != opponent_chess)
+		&& ((board[raw - 3 * dx][column - 3 * dy] != chess) || (raw - 3 * dx > 14) || (raw - 3 * dx < 0) || (column - 3 * dy > 14) || (column - 3 * dy < 0))
+		&& ((board[raw + 5 * dx][column + 5 * dy] != chess) || (raw + 5 * dx > 14) || (raw + 5 * dx < 0) || (column + 5 * dy > 14) || (column + 5 * dy < 0))
+		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14)
+		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
+		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14))
+	{
+		value = value - 2 * Gapped_Four - Gapped_Two_Two;
+		if ((board[raw - 3 * dx][column - 3 * dy] != chess)
+			&& (board[raw - 3 * dx][column - 3 * dy] != opponent_chess)
+			&& (board[raw - 4 * dx][column - 4 * dy] != chess)
+			&& (board[raw - 4 * dx][column - 4 * dy] != opponent_chess)
+			&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+			&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))//__●●?_●●●时，还会多计入一个活三的分数，
+		{
+			value -= Open_Three;
+		}
+		value += 2 * Capped_Three;
+	}
+	//X●●●_●?●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == chess)
+		&& (board[raw - 1 * dx][column - 1 * dy] == chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] == chess)
+		&& (board[raw - 4 * dx][column - 4 * dy] == chess)
+		&& (board[raw - 5 * dx][column - 5 * dy] == chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] != chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] != opponent_chess)
+		&& ((board[raw + 2 * dx][column + 2 * dy] != chess) || (raw + 2 * dx > 14) || (raw + 2 * dx < 0) || (column + 2 * dy > 14) || (column + 2 * dy < 0))
+		&& ((board[raw - 6 * dx][column - 6 * dy] != chess) || (raw - 6 * dx > 14) || (raw - 6 * dx < 0) || (column - 6 * dy > 14) || (column - 6 * dy < 0))
+		&& (raw - 5 * dx >= 0) && (raw - 5 * dx <= 14)
+		&& (column - 5 * dy >= 0) && (column - 5 * dy <= 14)
+		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
+		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
+	{
+		value = value - Gapped_Four - Gapped_Two_Two;
+		if ((board[raw + 2 * dx][column + 2 * dy] != chess)
+			&& (board[raw + 2 * dx][column + 2 * dy] != opponent_chess)
+			&& (board[raw + 3 * dx][column + 3 * dy] != chess)
+			&& (board[raw + 3 * dx][column + 3 * dy] != opponent_chess)
+			&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
+			&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))//●●●_●?●__时，还会多计入一个活三的分数，
+		{
+			value -= Open_Three;
+		}
+		value += 2 * Capped_Three;
+	}
+	//X●?●_●●●X
+	if ((board[raw - 1 * dx][column - 1 * dy] == chess)
+		&& (board[raw + 1 * dx][column + 1 * dy] == chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] == chess)
+		&& (board[raw + 4 * dx][column + 4 * dy] == chess)
+		&& (board[raw + 5 * dx][column + 5 * dy] == chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] != chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] != opponent_chess)
+		&& ((board[raw - 2 * dx][column - 2 * dy] != chess) || (raw - 2 * dx > 14) || (raw - 2 * dx < 0) || (column - 2 * dy > 14) || (column - 2 * dy < 0))
+		&& ((board[raw + 6 * dx][column + 6 * dy] != chess) || (raw + 6 * dx > 14) || (raw + 6 * dx < 0) || (column + 6 * dy > 14) || (column + 6 * dy < 0))
+		&& (raw + 5 * dx >= 0) && (raw + 5 * dx <= 14)
+		&& (column + 5 * dy >= 0) && (column + 5 * dy <= 14)
+		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
+		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14))
+	{
+		value = value - Gapped_Four - Gapped_Two_Two;
+		if ((board[raw - 2 * dx][column - 2 * dy] != chess)
+			&& (board[raw - 2 * dx][column - 2 * dy] != opponent_chess)
+			&& (board[raw - 3 * dx][column - 3 * dy] != chess)
+			&& (board[raw - 3 * dx][column - 3 * dy] != opponent_chess)
+			&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
+			&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14))//__●?●_●●●时，还会多计入一个活三的分数，
+		{
+			value -= Open_Three;
+		}
+		value += 2 * Capped_Three;
+	}
+	//X●●●_●●?X
+	if ((board[raw - 1 * dx][column - 1 * dy] == chess)
+		&& (board[raw - 2 * dx][column - 2 * dy] == chess)
+		&& (board[raw - 4 * dx][column - 4 * dy] == chess)
+		&& (board[raw - 5 * dx][column - 5 * dy] == chess)
+		&& (board[raw - 6 * dx][column - 6 * dy] == chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] != chess)
+		&& (board[raw - 3 * dx][column - 3 * dy] != opponent_chess)
+		&& ((board[raw + 1 * dx][column + 1 * dy] != chess) || (raw + 1 * dx > 14) || (raw + 1 * dx < 0) || (column + 1 * dy > 14) || (column + 1 * dy < 0))
+		&& ((board[raw - 7 * dx][column - 7 * dy] != chess) || (raw - 7 * dx > 14) || (raw - 7 * dx < 0) || (column - 7 * dy > 14) || (column - 7 * dy < 0))
+		&& (raw - 6 * dx >= 0) && (raw - 6 * dx <= 14)
+		&& (column - 6 * dy >= 0) && (column - 6 * dy <= 14))
+	{
+		value -= Gapped_Four;
+		if ((board[raw + 1 * dx][column + 1 * dy] != chess)
+			&& (board[raw + 1 * dx][column + 1 * dy] != opponent_chess)
+			&& (board[raw + 2 * dx][column + 2 * dy] != chess)
+			&& (board[raw + 2 * dx][column + 2 * dy] != opponent_chess)
+			&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
+			&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))//●●●_●●?__时，还会多计入一个活三的分数，
+		{
+			value -= Open_Three;
+		}
+		value += 2 * Capped_Three;
+	}
+	//X?●●_●●●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == chess)
+		&& (board[raw + 2 * dx][column + 2 * dy] == chess)
+		&& (board[raw + 4 * dx][column + 4 * dy] == chess)
+		&& (board[raw + 5 * dx][column + 5 * dy] == chess)
+		&& (board[raw + 6 * dx][column + 6 * dy] == chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] != chess)
+		&& (board[raw + 3 * dx][column + 3 * dy] != opponent_chess)
+		&& ((board[raw - 1 * dx][column - 1 * dy] != chess) || (raw - 1 * dx > 14) || (raw - 1 * dx < 0) || (column - 1 * dy > 14) || (column - 1 * dy < 0))
+		&& ((board[raw + 7 * dx][column + 7 * dy] != chess) || (raw + 7 * dx > 14) || (raw + 7 * dx < 0) || (column + 7 * dy > 14) || (column + 7 * dy < 0))
+		&& (raw + 6 * dx >= 0) && (raw + 6 * dx <= 14)
+		&& (column + 6 * dy >= 0) && (column + 6 * dy <= 14))
+	{
+		value -= Gapped_Four;
+		if ((board[raw - 1 * dx][column - 1 * dy] != chess)
+			&& (board[raw - 1 * dx][column - 1 * dy] != opponent_chess)
+			&& (board[raw - 2 * dx][column - 2 * dy] != chess)
+			&& (board[raw - 2 * dx][column - 2 * dy] != opponent_chess)
+			&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
+			&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14))//__?●●_●●●时，还会多计入一个活三的分数，
+		{
+			value -= Open_Three;
+		}
+		value += 2 * Capped_Three;
+	}
+
 
 	return value;
 }

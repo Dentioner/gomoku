@@ -881,6 +881,135 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		}
 	}
 
+	//检查扁担四：
+	//X●●_●●_●●X & X●●●_●_●●●X & X●_●●●_●X
+	//注意打X的位点不能是自己的子，否则那几个夹在中间的空位会产生长连禁手而不能落子
+	//注意搜索位点只在中间部分，边上的那几个子不要搜
+	//先检查X●●_●●_●●X
+	//X●●_?●_●●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == b)
+		&& (board[raw + 3 * dx][column + 3 * dy] == b)
+		&& (board[raw + 4 * dx][column + 4 * dy] == b)
+		&& (board[raw - 2 * dx][column - 2 * dy] == b)
+		&& (board[raw - 3 * dx][column - 3 * dy] == b)
+		&& (board[raw + 2 * dx][column + 2 * dy] != b)
+		&& (board[raw + 2 * dx][column + 2 * dy] != w)
+		&& (board[raw - 1 * dx][column - 1 * dy] != b)
+		&& (board[raw - 1 * dx][column - 1 * dy] != w)
+		&& ((board[raw + 5 * dx][column + 5 * dy] != b) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
+		&& ((board[raw - 4 * dx][column - 4 * dy] != b) || (raw - 4 * dx < 0) || (raw - 4 * dx > 14) || (column - 4 * dx < 0) || (column - 4 * dx > 14))
+
+		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
+		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
+		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
+	{
+		return 2;
+	}
+	//X●●_●?_●●X
+	if ((board[raw + 2 * dx][column + 2 * dy] == b)
+		&& (board[raw + 3 * dx][column + 3 * dy] == b)
+		&& (board[raw - 1 * dx][column - 1 * dy] == b)
+		&& (board[raw - 3 * dx][column - 3 * dy] == b)
+		&& (board[raw - 4 * dx][column - 4 * dy] == b)
+		&& (board[raw + 1 * dx][column + 1 * dy] != b)
+		&& (board[raw + 1 * dx][column + 1 * dy] != w)
+		&& (board[raw - 2 * dx][column - 2 * dy] != b)
+		&& (board[raw - 2 * dx][column - 2 * dy] != w)
+		&& ((board[raw + 4 * dx][column + 4 * dy] != b) || (raw + 4 * dx < 0) || (raw + 4 * dx > 14) || (column + 4 * dx < 0) || (column + 4 * dx > 14))
+		&& ((board[raw - 5 * dx][column - 5 * dy] != b) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
+
+		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
+		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
+		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
+	{
+		return 2;
+	}
+	//检查X●●●_●_●●●X
+	//X●●●_?_●●●X
+	if ((board[raw + 2 * dx][column + 2 * dy] == b)
+		&& (board[raw + 3 * dx][column + 3 * dy] == b)
+		&& (board[raw + 4 * dx][column + 4 * dy] == b)
+		&& (board[raw - 2 * dx][column - 2 * dy] == b)
+		&& (board[raw - 3 * dx][column - 3 * dy] == b)
+		&& (board[raw - 4 * dx][column - 4 * dy] == b)
+		&& (board[raw + 1 * dx][column + 1 * dy] != b)
+		&& (board[raw + 1 * dx][column + 1 * dy] != w)
+		&& (board[raw - 1 * dx][column - 1 * dy] != b)
+		&& (board[raw - 1 * dx][column - 1 * dy] != w)
+		&& ((board[raw + 5 * dx][column + 5 * dy] != b) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
+		&& ((board[raw - 5 * dx][column - 5 * dy] != b) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
+
+		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
+		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
+	{
+		return 2;
+	}
+
+	//检查X●_●●●_●X
+	//X●_?●●_●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == b)
+		&& (board[raw + 2 * dx][column + 2 * dy] == b)
+		&& (board[raw + 4 * dx][column + 4 * dy] == b)
+		&& (board[raw - 2 * dx][column - 2 * dy] == b)
+		&& (board[raw + 3 * dx][column + 3 * dy] != b)
+		&& (board[raw + 3 * dx][column + 3 * dy] != w)
+		&& (board[raw - 1 * dx][column - 1 * dy] != b)
+		&& (board[raw - 1 * dx][column - 1 * dy] != w)
+		&& ((board[raw + 5 * dx][column + 5 * dy] != b) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
+		&& ((board[raw - 3 * dx][column - 3 * dy] != b) || (raw - 3 * dx < 0) || (raw - 3 * dx > 14) || (column - 3 * dx < 0) || (column - 3 * dx > 14))
+
+		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
+		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
+		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
+	{
+		return 2;
+	}
+
+	//X●_●?●_●X
+	if ((board[raw + 1 * dx][column + 1 * dy] == b)
+		&& (board[raw + 3 * dx][column + 3 * dy] == b)
+		&& (board[raw - 1 * dx][column - 1 * dy] == b)
+		&& (board[raw - 3 * dx][column - 3 * dy] == b)
+		&& (board[raw + 2 * dx][column + 2 * dy] != b)
+		&& (board[raw + 2 * dx][column + 2 * dy] != w)
+		&& (board[raw - 2 * dx][column - 2 * dy] != b)
+		&& (board[raw - 2 * dx][column - 2 * dy] != w)
+		&& ((board[raw + 4 * dx][column + 4 * dy] != b) || (raw + 4 * dx < 0) || (raw + 4 * dx > 14) || (column + 4 * dx < 0) || (column + 4 * dx > 14))
+		&& ((board[raw - 4 * dx][column - 4 * dy] != b) || (raw - 4 * dx < 0) || (raw - 4 * dx > 14) || (column - 4 * dx < 0) || (column - 4 * dx > 14))
+
+		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
+		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
+		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
+		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
+	{
+		return 2;
+	}
+
+	//X●_●●?_●X
+	if ((board[raw - 1 * dx][column - 1 * dy] == b)
+		&& (board[raw - 2 * dx][column - 2 * dy] == b)
+		&& (board[raw - 4 * dx][column - 4 * dy] == b)
+		&& (board[raw + 2 * dx][column + 2 * dy] == b)
+		&& (board[raw + 1 * dx][column + 1 * dy] != b)
+		&& (board[raw + 1 * dx][column + 1 * dy] != w)
+		&& (board[raw - 3 * dx][column - 3 * dy] != b)
+		&& (board[raw - 3 * dx][column - 3 * dy] != w)
+		&& ((board[raw + 3 * dx][column + 3 * dy] != b) || (raw + 3 * dx < 0) || (raw + 3 * dx > 14) || (column + 3 * dx < 0) || (column + 3 * dx > 14))
+		&& ((board[raw - 5 * dx][column - 5 * dy] != b) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
+
+		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
+		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
+		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
+	{
+		return 2;
+	}
+
 	//检查跳活三Gapped_Three  _●_●●_与_●●_●_
 		//要排除_●_●●_●_这种情况
 		//水平方向
