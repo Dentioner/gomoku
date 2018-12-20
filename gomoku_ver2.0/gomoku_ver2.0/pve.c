@@ -38,7 +38,7 @@ void pve(long int value)
 
 	bool my_turn = true; //这个东西是确认这一步是哪一方下子了
 	bool continue_playing = true; //确认游戏是否继续
-
+	bool find_forbidden_step = false;//禁手指标
 
 	initTable();
 	
@@ -73,7 +73,7 @@ void pve(long int value)
 	//initialize_hashing_sheet(key);
 	while (continue_playing)
 	{
-
+		find_forbidden_step = false;//重置
 		//注意这里无需将my_turn求反了，在αβ剪枝函数中已经做了
 		//注意，这里删除了priority数组，要看的话去1.0版本
 		//还删除了杀棋用的那几个数组
@@ -143,6 +143,15 @@ void pve(long int value)
 			get_coordinate(step_count);
 			//把value和chessplay换过位置了，不知道会怎样
 			roaming = board[coordinate[0]][coordinate[1]];//记录上一步的状态
+			if (step_count % 2 == 0)//黑子才执行判断禁手
+			{
+				find_forbidden_step = detect_forbidden_step(coordinate[0], coordinate[1]);
+				if (find_forbidden_step)
+				{
+					printf("禁手\n");
+					system("pause");
+				}
+			}
 			value = evaluation(step_count, my_turn, coordinate[0], coordinate[1]);
 			chess_play_ver2(step_count);
 			hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];

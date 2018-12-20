@@ -250,7 +250,8 @@ int before_evaluation_ver6(int priority_ver2[][2], int step_count)
 			for (my_column = 0; my_column < 15; my_column++)
 			{
 				if ((board[my_raw][my_column] != b)
-					&& (board[my_raw][my_column] != w))
+					&& (board[my_raw][my_column] != w)
+					&& (!detect_forbidden_step(my_raw, my_column)))
 				{
 					my_value = empty_score_total_black[my_raw][my_column];
 					opponent_value = empty_score_total_white[my_raw][my_column];

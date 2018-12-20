@@ -410,6 +410,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 5 * dy >= 0) && (column + 5 * dy <= 14))
 			{
 				state[direct_now] = false;
+				value += Capped_Three;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -454,6 +455,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 			{
 				state[direct_now] = false;
+				value += Capped_Three;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -498,6 +500,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 			{
 				state[direct_now] = false;
+				value += Capped_Three;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -533,6 +536,29 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			value += Double_Chess;
 		}
 		state[direct_now] = true;
+		if (chess == b)//黑子涉及禁手需要特殊修正
+		{
+			if ((board[raw - 5 * dx][column - 5 * dy] == chess)//●●●●_?
+				&& (raw - 5 * dx >= 0) && (raw - 5 * dx <= 14)
+				&& (column - 5 * dy >= 0) && (column - 5 * dy <= 14))
+			{
+				state[direct_now] = false;
+				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
+					value -= Double_Chess;
+				else
+					value -= Gapped_Four;
+			}
+			else if ((board[raw + 1 * dx][column + 1 * dy] == chess)//●●●_?●
+				&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
+				&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
+			{
+				state[direct_now] = false;
+				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
+					value -= Double_Chess;
+				else
+					value -= Gapped_Four;
+			}
+		}
 	}
 
 
@@ -566,6 +592,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 5 * dy >= 0) && (column - 5 * dy <= 14))
 			{
 				state[direct_now] = false;
+				value += Capped_Three;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -610,6 +637,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 			{
 				state[direct_now] = false;
+				value += Capped_Three;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -655,6 +683,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14))
 			{
 				state[direct_now] = false;
+				value += Capped_Three;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -690,6 +719,29 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			value += Double_Chess;
 		}
 		state[direct_now] = true;
+		if (chess == b)//黑子涉及禁手需要特殊修正
+		{
+			if ((board[raw + 5 * dx][column + 5 * dy] == chess)//?_●●●●
+				&& (raw + 5 * dx >= 0) && (raw + 5 * dx <= 14)
+				&& (column + 5 * dy >= 0) && (column + 5 * dy <= 14))
+			{
+				state[direct_now] = false;
+				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
+					value -= Double_Chess;
+				else
+					value -= Gapped_Four;
+			}
+			else if ((board[raw - 1 * dx][column - 1 * dy] == chess)//●?_●●●
+				&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
+				&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14))
+			{
+				state[direct_now] = false;
+				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
+					value -= Double_Chess;
+				else
+					value -= Gapped_Four;
+			}
+		}
 	}
 
 	//活三

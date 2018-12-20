@@ -566,33 +566,63 @@ void shallowest(int step_count, bool my_turn)//这个函数是用于只检索一层的情况
 				&& (board[raw][column] != b))
 			{
 				//temp_score = evaluation(board, step_count, my_turn, raw, column);
-
-				temp_score1 = evaluation(step_count, my_turn, raw, column);
-				temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);
-
-				temp_score1 = labs(temp_score1) * 1.1;
-				temp_score2 = labs(temp_score2) * 0.9;
-				temp_score = temp_score1 + temp_score2;
-
-				if (!initialized)
+				if (ai_first && (!detect_forbidden_step(raw, column)))//由于此函数只会在AI下子的时候用到，因此ai_first就代表了ai拿黑子，有禁手
 				{
-					best_score = temp_score;
-					initialized = true;
-					best_coordinate[0] = raw;
-					best_coordinate[1] = column;
+					temp_score1 = evaluation(step_count, my_turn, raw, column);
+					temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);
 
-				}
-				else
-				{
-					if (temp_score > best_score)
-						//之所以不取等，是因为如果所有分支的分值都为0的话，就拿最开始出现的那个落点来下，因为最开始的落点是本层评分最高的
+					temp_score1 = labs(temp_score1) * 1.1;
+					temp_score2 = labs(temp_score2) * 0.9;
+					temp_score = temp_score1 + temp_score2;
+
+					if (!initialized)
 					{
 						best_score = temp_score;
+						initialized = true;
 						best_coordinate[0] = raw;
 						best_coordinate[1] = column;
 
+					}
+					else
+					{
+						if (temp_score > best_score)
+							//之所以不取等，是因为如果所有分支的分值都为0的话，就拿最开始出现的那个落点来下，因为最开始的落点是本层评分最高的
+						{
+							best_score = temp_score;
+							best_coordinate[0] = raw;
+							best_coordinate[1] = column;
+						}
+					}
+				}
+				else if (!ai_first)
+				{
+					temp_score1 = evaluation(step_count, my_turn, raw, column);
+					temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);
+
+					temp_score1 = labs(temp_score1) * 1.1;
+					temp_score2 = labs(temp_score2) * 0.9;
+					temp_score = temp_score1 + temp_score2;
+
+					if (!initialized)
+					{
+						best_score = temp_score;
+						initialized = true;
+						best_coordinate[0] = raw;
+						best_coordinate[1] = column;
+
+					}
+					else
+					{
+						if (temp_score > best_score)
+							//之所以不取等，是因为如果所有分支的分值都为0的话，就拿最开始出现的那个落点来下，因为最开始的落点是本层评分最高的
+						{
+							best_score = temp_score;
+							best_coordinate[0] = raw;
+							best_coordinate[1] = column;
 
 
+
+						}
 					}
 				}
 			}

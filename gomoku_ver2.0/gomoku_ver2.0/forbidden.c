@@ -630,7 +630,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
 		&& (board[raw - 2 * dx][column - 2 * dy] != b)
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
-		&& (board[raw + 4 * dx][column + 4 * dy] != w)//排除__●●●_●这个情况
+		&& (board[raw + 4 * dx][column + 4 * dy] != b)//排除__●●●_●这个情况
 
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
