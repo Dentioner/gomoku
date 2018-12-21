@@ -66,3 +66,4 @@ int before_evaluation_ver6(int priority_ver2[][2], int step_count);
 void quick_sort(long int temp_priority[][3], int l, int r);
 int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, int column);
 bool detect_forbidden_step(int raw, int column);
+void open_base();

@@ -122,7 +122,8 @@ void pve(long int value)
 			}
 			else
 			{
-				auto_play(chess, opponent_chess);
+				//auto_play(chess, opponent_chess);
+				open_base();
 				chess_play_ver2(step_count);
 				hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
 				DrawBoard(value, 2, step_count);
