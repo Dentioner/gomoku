@@ -13,7 +13,8 @@ extern int b;//黑棋
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 //extern unsigned long long hashing_value2[depth_of_hashing][3];
-extern unsigned long long hashing_value3[depth_of_hashing][4];
+//extern unsigned long long hashing_value3[depth_of_hashing][4];
+extern HE hashing_value4[depth_of_hashing];
 extern long int best_score_of_upper[11];
 extern bool not_in_the_same_branch[11];
 extern long int value_for_board;//新加

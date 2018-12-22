@@ -33,7 +33,13 @@ typedef struct temp_priority
 	struct temp_priority* next;
 } Node;
 
-
+typedef struct HashElement//新的哈希表的每个单元
+{
+	unsigned long long hash_value_of_board;
+	long int my_value;
+	long int opponent_value;
+	int floor;
+} HE;
 
 void myprintf(int array[], int length);
 void initial_board();

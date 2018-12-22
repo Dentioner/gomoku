@@ -13,8 +13,10 @@ extern int roaming;
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 //extern unsigned long long hashing_value2[depth_of_hashing][3];
-extern unsigned long long hashing_value3[depth_of_hashing][4];
-extern int times_of_finding_out_in_ZobTable;
+//extern unsigned long long hashing_value3[depth_of_hashing][4];
+extern HE hashing_value4[depth_of_hashing];
+
+extern int times_of_finding_out_in_ZobTable;//test
 
 long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool write, int floor)
 {
@@ -37,7 +39,7 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 	if (!write)//只读模式
 	{
 		
-		if (hashing_value3[location][0] != 0)//如果这个哈希值不为0
+		if (hashing_value4[location].hash_value_of_board != 0)//如果这个哈希值不为0
 		{
 			/*
 			if (hashing_value3[location][0] != hashValue && hashing_value3[location][0] != 0)
@@ -48,18 +50,18 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 			*/
 			if (my_turn)
 			{//目前[1]记录的是我方的得分
-				if (hashing_value3[location][1] != 0 && hashing_value3[location][3] >= floor)
+				if (hashing_value4[location].my_value != 0 && hashing_value4[location].floor >= floor)
 				{
 					times_of_finding_out_in_ZobTable++;
-					return (long)hashing_value3[location][1];
+					return hashing_value4[location].my_value;
 				}
 			}
 			else//[2]记录的是对方的得分
 			{
-				if (hashing_value3[location][2] != 0 && hashing_value3[location][3] >= floor)
+				if (hashing_value4[location].opponent_value != 0 && hashing_value4[location].floor >= floor)
 				{
 					times_of_finding_out_in_ZobTable++;
-					return (long)hashing_value3[location][2];
+					return hashing_value4[location].opponent_value;
 				}
 
 			}
@@ -86,9 +88,9 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 		{
 			if (temp_score != 0)//仅登记非0的得分
 			{
-				hashing_value3[location][0] = hashValue;
-				hashing_value3[location][1] = (unsigned long long)temp_score;
-				hashing_value3[location][3] = floor;
+				hashing_value4[location].hash_value_of_board = hashValue;
+				hashing_value4[location].my_value = temp_score;
+				hashing_value4[location].floor = floor;
 			}
 		}
 		else
@@ -96,9 +98,9 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 			if (temp_score != 0)
 
 			{
-				hashing_value3[location][0] = hashValue;
-				hashing_value3[location][2] = (unsigned long long)temp_score;
-				hashing_value3[location][3] = floor;
+				hashing_value4[location].hash_value_of_board = hashValue;
+				hashing_value4[location].opponent_value = temp_score;
+				hashing_value4[location].floor = floor;
 			}
 		}
 

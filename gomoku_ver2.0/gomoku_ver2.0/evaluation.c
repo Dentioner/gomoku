@@ -25,7 +25,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	int up_right_down_left[2] = { -1,1 };//右上左下方向单位矢量
 	int up_left_down_right[2] = { 1,1 };//左上右下方向单位矢量
 	//int all_vector[4][2] = { {0,1}, {1,0}, {-1,1}, {1,1} };
-	int i;
+	//int i;
 	/*这个循环还有问题，暂时不要用，这个配合all_vector一起使用，使用的时候将四个方位的注释掉
 	for (i = 0; i<4 && value > Consecutive_Five; i++)
 	{

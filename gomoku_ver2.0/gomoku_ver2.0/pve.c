@@ -14,7 +14,8 @@ extern int b;//黑棋
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 //extern unsigned long long hashing_value2[depth_of_hashing][3];
-extern unsigned long long hashing_value3[depth_of_hashing][4];
+//extern unsigned long long hashing_value3[depth_of_hashing][4];
+extern HE hashing_value4[depth_of_hashing];
 long int best_score_of_upper[11] = { -infinity , infinity , -infinity, infinity , -infinity, infinity, -infinity , infinity , -infinity, infinity, -infinity };//给minimax里面的剪枝用的
 //注意上下这两个数组的编号问题。floor是从11往0递归的，因此要保持最后一个元素不变。
 bool not_in_the_same_branch[11] = { true, true, true, true, true, true, true, true, true, true, true };

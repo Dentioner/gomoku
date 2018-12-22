@@ -12,7 +12,8 @@ extern int roaming;
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 //extern unsigned long long hashing_value2[depth_of_hashing][3];
-extern unsigned long long hashing_value3[depth_of_hashing][4];
+//extern unsigned long long hashing_value3[depth_of_hashing][4];
+extern HE hashing_value4[depth_of_hashing];
 
 void pvp(long int value)
 {
