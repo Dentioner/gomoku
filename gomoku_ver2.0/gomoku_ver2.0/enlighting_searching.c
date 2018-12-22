@@ -9,7 +9,7 @@ extern int board[15][15];
 extern int w;//∞◊∆Â
 extern int b;//∫⁄∆Â
 extern int coordinate[2];
-extern bool show_me_the_array;//≤‚ ‘”√
+//extern bool show_me_the_array;//≤‚ ‘”√
 extern bool ai_first;
 extern long int empty_score_total_black[15][15];
 extern long int empty_score_total_white[15][15];
@@ -128,7 +128,7 @@ int before_evaluation_ver4_5(int priority_ver2[][2], int step_count)
 		*/
 	}
 
-
+	/*
 	if (show_me_the_array)
 	{
 
@@ -138,7 +138,7 @@ int before_evaluation_ver4_5(int priority_ver2[][2], int step_count)
 		}
 		//system("pause");
 	}
-
+	*/
 	return status;
 }
 

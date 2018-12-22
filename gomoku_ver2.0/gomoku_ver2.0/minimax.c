@@ -18,7 +18,7 @@ extern long int best_score_of_upper[11];
 extern bool not_in_the_same_branch[11];
 extern long int value_for_board;//新加
 extern long int best_score_of_upper_ver2[12];
-bool show_me_the_array = false;//测试用的布尔值
+//bool show_me_the_array = false;//测试用的布尔值
 extern bool ai_first;
 int temp_point[2] = { 0,0 };//临时落子坐标，在minimax的里面迭代的时候落子的时候用
 extern long int empty_score_total_black[15][15];
@@ -46,7 +46,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 	if (coordinate[0] == 6 && coordinate[1] == 4 && floor == FLOOR)
 	{
 		printf("\n");
-		show_me_the_array = true;
+		//show_me_the_array = true;
 	}
 
 
@@ -154,10 +154,10 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 
 							temp_score = Searching_Hashing(step_count, my_turn, 0, false, floor);
 							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
-
+							/*
 							if (floor >= 4 && show_me_the_array)//test
 								DrawBoard(0, 2, step_count);
-
+							*/
 							if (temp_score == 0)
 							{
 								temp_score = Minimax3(step_count + 1, !my_turn, floor - 1);
@@ -191,6 +191,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 										temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 										board[raw][column] = temp_blank;
 										refresh_score(step_count, my_turn);
+										hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 										return infinity;
 									}
 
@@ -225,6 +226,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 											temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 											board[raw][column] = temp_blank;
 											refresh_score(step_count, my_turn);
+											hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 											return infinity;
 										}
 
@@ -319,10 +321,10 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 							refresh_score(step_count, my_turn);
 							//下面这个是在测试的时候输出的，正式使用的时候可以关掉
 							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
-
+							/*
 							if (floor >= 4 && show_me_the_array)//test
 								DrawBoard(0, 2, step_count);
-
+							*/
 							if (temp_score == 0)
 							{
 								temp_score = Minimax3(step_count + 1, !my_turn, floor - 1);
@@ -357,6 +359,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 										temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 										board[raw][column] = temp_blank;
 										refresh_score(step_count, my_turn);
+										hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 										return -infinity;
 									}
 								}
@@ -388,6 +391,7 @@ long int Minimax3(int step_count, bool my_turn, int floor)
 											temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 											board[raw][column] = temp_blank;
 											refresh_score(step_count, my_turn);
+											hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 											return -infinity;
 										}
 									}

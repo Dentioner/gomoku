@@ -14,6 +14,8 @@ extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 //extern unsigned long long hashing_value2[depth_of_hashing][3];
 extern unsigned long long hashing_value3[depth_of_hashing][4];
+extern int times_of_finding_out_in_ZobTable;
+
 long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool write, int floor)
 {
 	int black = 0;
@@ -37,17 +39,18 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 		
 		if (hashing_value3[location][0] != 0)//如果这个哈希值不为0
 		{
-			
+			/*
 			if (hashing_value3[location][0] != hashValue && hashing_value3[location][0] != 0)
-//如果这个哈希值与外面的哈希值不等，说明取模运算将两个不同的哈希值转换成了相同的位置
+			//如果这个哈希值与外面的哈希值不等，说明取模运算将两个不同的哈希值转换成了相同的位置
 			{
 				printf("dismatch!\n");
 			}	
-			
+			*/
 			if (my_turn)
 			{//目前[1]记录的是我方的得分
 				if (hashing_value3[location][1] != 0 && hashing_value3[location][3] >= floor)
 				{
+					times_of_finding_out_in_ZobTable++;
 					return (long)hashing_value3[location][1];
 				}
 			}
@@ -55,6 +58,7 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 			{
 				if (hashing_value3[location][2] != 0 && hashing_value3[location][3] >= floor)
 				{
+					times_of_finding_out_in_ZobTable++;
 					return (long)hashing_value3[location][2];
 				}
 
@@ -71,13 +75,13 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 	}
 	else//读写模式
 	{
-		
+		/*
 		if (hashing_value3[location][0] != hashValue && hashing_value3[location][0] != 0)
 			//如果这个哈希值与外面的哈希值不等，说明取模运算将两个不同的哈希值转换成了相同的位置
 		{
 			printf("dismatch!\n");
 		}
-		
+		*/
 		if (my_turn)
 		{
 			if (temp_score != 0)//仅登记非0的得分

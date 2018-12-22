@@ -24,6 +24,8 @@ bool ai_first = false;//默认电脑后走
 long int empty_score_total_black[15][15] = { 0 };//对于黑棋来说的空位的总分
 long int empty_score_total_white[15][15] = { 0 };//对于黑棋来说的空位的总分
 extern int temp_point[2];
+int times_of_finding_out_in_ZobTable = 0;//测试用，提交时删除，用于计数，看看查表查到了多少次
+
 
 void pve(long int value)
 {
@@ -86,6 +88,11 @@ void pve(long int value)
 			{
 				init_best_score_of_upper();
 				value = Minimax3(step_count, my_turn, floor);
+				//下面几行为测试，提交时删除
+				printf("\nsearching %d times.\n", times_of_finding_out_in_ZobTable);
+				system("pause");
+				times_of_finding_out_in_ZobTable = 0;
+				//上面几行为测试，提交时删除
 				if ((coordinate[0] == 0) && (coordinate[1] == 0))
 				{
 					auto_play(chess, opponent_chess);

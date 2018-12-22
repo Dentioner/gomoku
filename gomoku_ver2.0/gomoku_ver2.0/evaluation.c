@@ -24,20 +24,27 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	int perpendicular[2] = { 1,0 };//垂直方向单位矢量
 	int up_right_down_left[2] = { -1,1 };//右上左下方向单位矢量
 	int up_left_down_right[2] = { 1,1 };//左上右下方向单位矢量
-
+	//int all_vector[4][2] = { {0,1}, {1,0}, {-1,1}, {1,1} };
+	int i;
+	/*这个循环还有问题，暂时不要用，这个配合all_vector一起使用，使用的时候将四个方位的注释掉
+	for (i = 0; i<4 && value > Consecutive_Five; i++)
+	{
+		value += line(state, all_vector[i], raw, column, step_count);
+	}
+	*/
 	value += line(state, horizon, raw, column, step_count);//水平计分
 	value += line(state, perpendicular, raw, column, step_count);//垂直计分
 	value += line(state, up_right_down_left, raw, column, step_count);//右上左下计分
 	value += line(state, up_left_down_right, raw, column, step_count);//左上右下计分
+	
 	//如果这个是在评估对方的分数，就输出为负
 	//现在的问题是，这个函数是己方对方各用一次，还是一个函数里面将双方都考虑一次？
 	//目前的处理是，将这个函数己方对方各用一次，用布尔型my_turn区分
 
-
+	if (value > Consecutive_Five)//再次修正得分，以排除不同方位叠加导致的分数超过连五
+		value = Consecutive_Five;
 	if (!my_turn)
-	{
 		value *= -1;
-	}
 	return value;
 
 }
