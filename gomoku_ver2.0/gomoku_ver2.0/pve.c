@@ -89,7 +89,8 @@ void pve(long int value)
 			if (step_count > 2)
 			{
 				init_best_score_of_upper();
-				value = Minimax3(step_count, my_turn, floor);
+				//value = Minimax3(step_count, my_turn, floor);
+				value = iteration_search(step_count, my_turn);
 				//下面几行为测试，提交时删除
 				printf("\nsearching %d times.\n", times_of_finding_out_in_ZobTable);
 				//system("pause");

@@ -144,6 +144,7 @@
     <ClCompile Include="forbidden.c" />
     <ClCompile Include="get_coordinate.c" />
     <ClCompile Include="hashing.c" />
+    <ClCompile Include="iteration.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Mersenne_Twister.c" />
     <ClCompile Include="minimax.c" />

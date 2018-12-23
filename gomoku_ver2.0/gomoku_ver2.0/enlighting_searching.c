@@ -16,133 +16,10 @@ extern long int empty_score_total_white[15][15];
 extern int  temp_point[2];
 //启发式搜索，按照优先级顺序，对分支进行排序，提高剪枝速度
 //见https://github.com/lihongxun945/gobang/blob/master/src/ai/board.js
+extern rp RootBoard[15][15];
+extern rp* be_searched_point;
 
-int before_evaluation_ver4_5(int priority_ver2[][2], int step_count)
-{
-	long int temp_priority[255][3] = { 0 };//先将255个点的评分全部存下来
-	int my_raw = 0;
-	int my_column = 0;
-
-	int index = 0;
-	int i = 0;
-	long int my_value = 0;
-	long int opponent_value = 0;
-	long int temp_value = 0;
-	int status = 0;
-	//0表示当前棋局正常
-	//1表示当前棋局发现我方连五，不包括对方连五
-	int array_size = 1;
-
-
-
-	if (step_count % 2)//说明是白棋方访问此函数
-	{
-		for (my_raw = 0; my_raw < 15; my_raw++)
-		{
-			for (my_column = 0; my_column < 15; my_column++)
-			{
-				if ((board[my_raw][my_column] != b)
-					&& (board[my_raw][my_column] != w))
-				{
-					//temp_value = empty_score_total[my_raw][my_column];
-					my_value = empty_score_total_white[my_raw][my_column];
-					//my_value = labs(my_value);
-					opponent_value = empty_score_total_black[my_raw][my_column];
-					//opponent_value = labs(opponent_value);
-					temp_value = my_value + opponent_value;
-
-					if (temp_value != 0)
-					{
-						if (my_value >= Consecutive_Five)//发现我方连五，返回
-						{
-							status = 1;
-							return status;
-						}
-
-						else//否则继续录入数据
-						{//这里写排序的算法
-							temp_priority[index][0] = temp_value;
-							temp_priority[index][1] = my_raw;
-							temp_priority[index][2] = my_column;
-							index++;
-
-
-						}
-					}
-				}
-			}
-		}
-	}
-
-	else//说明是黑棋方访问的此函数
-	{
-		for (my_raw = 0; my_raw < 15; my_raw++)
-		{
-			for (my_column = 0; my_column < 15; my_column++)
-			{
-				if ((board[my_raw][my_column] != b)
-					&& (board[my_raw][my_column] != w))
-				{
-					//test
-					//if (my_raw == 5 && my_column == 10)
-						//printf("\n");
-
-					//temp_value = empty_score_total[my_raw][my_column];
-					my_value = empty_score_total_black[my_raw][my_column];
-					//my_value = labs(my_value);
-					opponent_value = empty_score_total_white[my_raw][my_column];
-					//opponent_value = labs(opponent_value);
-					temp_value = my_value + opponent_value;
-
-					if (temp_value != 0)
-					{
-						if (my_value >= Consecutive_Five)//发现我方连五，返回
-						{
-							status = 1;
-							return status;
-						}
-
-						else//否则继续录入数据
-						{//这里写排序的算法
-							temp_priority[index][0] = temp_value;
-							temp_priority[index][1] = my_raw;
-							temp_priority[index][2] = my_column;
-							index++;
-						}
-					}
-				}
-			}
-		}
-	}
-	quick_sort(temp_priority, 0, index - 1);//index的值是第一个0元素的位置
-
-	for (i = 0; (i < index) && (i < 10); i++)//将temp的前十大的坐标赋值给外面的prioriy_ver2
-	{
-		priority_ver2[i][0] = temp_priority[i][1];
-		priority_ver2[i][1] = temp_priority[i][2];
-		/*
-		if (temp != *chess_pointer)
-		{
-			printf(" ");
-		}
-		*/
-	}
-
-	/*
-	if (show_me_the_array)
-	{
-
-		for (int ceshi = 0; ceshi < 10; ceshi++)
-		{
-			printf("评分：%d，坐标：(%d, %d)\n", temp_priority[ceshi][0], temp_priority[ceshi][1], temp_priority[ceshi][2]);
-		}
-		//system("pause");
-	}
-	*/
-	return status;
-}
-
-int before_evaluation_ver6(int priority_ver2[][2], int step_count)
+int before_evaluation_ver6(int step_count)
 {
 	int my_raw, my_column;
 	long int my_value, opponent_value;
@@ -330,11 +207,10 @@ int before_evaluation_ver6(int priority_ver2[][2], int step_count)
 	}
 
 	current = head;
-	for (index = 0; (current != NULL) && (index < 10); index++)//将temp的前十大的坐标赋值给外面的prioriy_ver2
+	for (index = 0; (current != NULL) && (index < Range); index++)//将temp的前十大的坐标赋值给外面的prioriy_ver2
 	{
-
-		priority_ver2[index][0] = current->raw;
-		priority_ver2[index][1] = current->column;
+		be_searched_point->LeafPoint[index][0] = current->raw;
+		be_searched_point->LeafPoint[index][1] = current->column;
 		current = current->next;
 	}
 

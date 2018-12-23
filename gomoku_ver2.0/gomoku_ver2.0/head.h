@@ -1,5 +1,5 @@
-#define FLOOR 6
-#define FLOOR_VCX 3
+#define FLOOR 4
+#define Range 6
 //每次更改FLOOR，需要将board.c中的priority, best_score_of_upper, not_in_the_same_branch这三个数组的大小改一下
 #define Consecutive_Five 10000000//连五
 #define Open_Four 1000000//活四
@@ -41,6 +41,14 @@ typedef struct HashElement//新的哈希表的每个单元
 	int floor;
 } HE;
 
+typedef struct RootPoint//根节点
+{
+	int raw;//自己的横坐标
+	int column;//自己的纵坐标
+	int LeafPoint[Range][2];//所属的10个叶节点的坐标
+	int best_leaf[2];//最佳叶节点坐标
+}rp;
+
 void myprintf(int array[], int length);
 void initial_board();
 void DrawBoard(long int value, int mode_choice, int step_count);
@@ -60,17 +68,18 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 void pve(long int value);
 int offensive();
 void auto_play(int chess, int opponent_chess);
-long int Minimax3(int step_count, bool my_turn, int floor);
 long int deepest(int step_count, bool my_turn);
 void shallowest(int step_count, bool my_turn);
 long int line(bool state[], int vector[], int raw, int column, int step_count);
 void init_best_score_of_upper();
-int before_evaluation_ver4_5(int priority_ver2[][2], int step_count);
 void refresh_score(int step_count, bool my_turn);
 void re_calculate(int vector[], int step_count, bool my_turn);
-int before_evaluation_ver6(int priority_ver2[][2], int step_count);
+int before_evaluation_ver6(int step_count);
 void quick_sort(long int temp_priority[][3], int l, int r);
 int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, int column);
 bool detect_forbidden_step(int raw, int column);
 void open_base();
 void randomly_choose_a_point(int raw, int column);
+void shallowest2(int step_count, bool my_turn);
+long int Minimax4(int step_count, bool my_turn, int floor, int top_floor);
+long int iteration_search(int step_count, bool my_turn);
