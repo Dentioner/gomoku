@@ -62,6 +62,7 @@ void pve(long int value)
 		chess = b;
 		opponent_chess = w;
 		board[7][7] = chess;
+		hashValue ^= ZobristTable[7][7][0];
 		my_turn = false;
 		step_count++;
 	}
@@ -91,7 +92,7 @@ void pve(long int value)
 				value = Minimax3(step_count, my_turn, floor);
 				//下面几行为测试，提交时删除
 				printf("\nsearching %d times.\n", times_of_finding_out_in_ZobTable);
-				system("pause");
+				//system("pause");
 				times_of_finding_out_in_ZobTable = 0;
 				//上面几行为测试，提交时删除
 				if ((coordinate[0] == 0) && (coordinate[1] == 0))
