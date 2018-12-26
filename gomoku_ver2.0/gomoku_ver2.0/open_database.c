@@ -59,6 +59,10 @@ void open_base()
 	{
 		randomly_choose_a_point(coordinate[0], coordinate[1]);
 	}
+	/*
+	//下面两行仅为测试用
+	coordinate[0] = 6;
+	coordinate[1] = 8;*/
 }
 
 void randomly_choose_a_point(int raw, int column)

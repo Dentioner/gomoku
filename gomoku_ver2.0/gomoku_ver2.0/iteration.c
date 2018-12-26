@@ -30,7 +30,8 @@ rp * be_searched_point;//目前正在被搜索的根节点的指针
 
 long int iteration_search(int step_count, bool my_turn)
 {
-	int MaxFloor = (step_count <= 4) ? 4 : FLOOR;//一开始少一点，后面再渐渐增加
+	//int MaxFloor = (step_count <= 4) ? 4 : FLOOR;//一开始少一点，后面再渐渐增加
+	int MaxFloor = (step_count <= 4) ? 4 : ((step_count <= 8) ? 6 : FLOOR);//一开始少一点，后面再渐渐增加
 	stop_searching = false;//每次开始整个AI思考过程时，对这个参数初始化
 	long int best_score;
 	int floor;
@@ -73,7 +74,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 	//下面是在建立ai先手、回合数与“是否是我方回合”的关系
 
 	//下面这个条件语句是用来打断点进行单步调试用的，正常工作的时候要注释掉
-	if (coordinate[0] == 7 && coordinate[1] == 6 && floor == top_floor)
+	if (coordinate[0] == 9 && coordinate[1] == 9 && floor == top_floor)
 	{
 		printf("\n");
 		//show_me_the_array = true;
@@ -113,7 +114,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 	{
 		if (my_turn)
 		{
-			if (floor <= 2)//如果是最深的两层，则搜索一下优先度
+			//if (floor <= 2)//如果是最深的两层，则搜索一下优先度
 				status = before_evaluation_ver6(step_count);
 			//这里要注意的是，每一次迭代加深，上一次迭代加深得到的priority_ver2数组还能接着用，
 			//因此只需要计算新产生的两层对应的该数组即可		
@@ -136,6 +137,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 
 			else//这种情况是，一般的情况
 			{
+				
 				for (int a = 0; a < Range; a++)
 				{
 					if (RootPoint_of_this_floor->LeafPoint[a][0] == RootPoint_of_this_floor->best_leaf[0] && RootPoint_of_this_floor->LeafPoint[a][1] == RootPoint_of_this_floor->best_leaf[1])
@@ -147,8 +149,10 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 						RootPoint_of_this_floor->LeafPoint[0][1] = RootPoint_of_this_floor->LeafPoint[a][1];
 						RootPoint_of_this_floor->LeafPoint[a][0] = temp_exchange[0];
 						RootPoint_of_this_floor->LeafPoint[a][1] = temp_exchange[1];
+						break;
 					}
 				}
+				
 
 				bool initialized = false;//false表示best_score还没有被赋值过
 
@@ -312,17 +316,19 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 			//best_score_of_upper_ver2[floor] = 0;
 			//status = before_evaluation_ver4(priority_ver2, floor, step_count, my_turn);
 			//final_hit = before_evaluation(board, priority, floor, step_count, my_turn);
-			if (floor <= 2)
+			//if (floor <= 2)
 				status = before_evaluation_ver6(step_count);
 
 			if (status != 0)//my_turn为假的时候不可能是最外层，因此少了一个if语句
 			{
 				//best_score = deepest(step_count, my_turn);
+				stop_searching = true;
 				return -infinity;
 			}
 
 			else
 			{
+				
 				for (int a = 0; a < Range; a++)
 				{
 					if (RootPoint_of_this_floor->LeafPoint[a][0] == RootPoint_of_this_floor->best_leaf[0] && RootPoint_of_this_floor->LeafPoint[a][1] == RootPoint_of_this_floor->best_leaf[1])
@@ -334,9 +340,10 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 						RootPoint_of_this_floor->LeafPoint[0][1] = RootPoint_of_this_floor->LeafPoint[a][1];
 						RootPoint_of_this_floor->LeafPoint[a][0] = temp_exchange[0];
 						RootPoint_of_this_floor->LeafPoint[a][1] = temp_exchange[1];
+						break;
 					}
 				}
-
+				
 				bool initialized = false;//false表示best_score还没有被赋值过
 
 				for (int a = 0; a < Range; a++)
@@ -579,7 +586,7 @@ void shallowest2(int step_count, bool my_turn)//这个函数是用于只检索一层的情况
 			}
 		}
 	}
-	*coordinate = *best_coordinate;
-	*(coordinate + 1) = *(best_coordinate + 1);
+	be_searched_point->best_leaf[0] = best_coordinate[0];
+	be_searched_point->best_leaf[1] = best_coordinate[1];
 }
 

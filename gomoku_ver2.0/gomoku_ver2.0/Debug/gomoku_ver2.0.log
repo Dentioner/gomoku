@@ -6,10 +6,10 @@ e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\evaluation.c(107): warning C4013: �
 e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\forbidden.c(81): warning C4013: “system”未定义；假设外部返回 int
   hashing.c
   iteration.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(525): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(526): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(553): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(554): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(532): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(533): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(560): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(561): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
   main.c
 e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(135): warning C4013: “system”未定义；假设外部返回 int
 e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(217): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.

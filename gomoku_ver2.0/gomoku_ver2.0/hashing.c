@@ -39,7 +39,7 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 	if (!write)//只读模式
 	{
 		
-		if (hashing_value4[location].hash_value_of_board != 0)//如果这个哈希值不为0
+		if (hashing_value4[location].hash_value_of_board == hashValue)//如果这个哈希值等于棋盘现在的哈希值
 		{
 			/*
 			if (hashing_value3[location][0] != hashValue && hashing_value3[location][0] != 0)
@@ -96,7 +96,6 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 		else
 		{
 			if (temp_score != 0)
-
 			{
 				hashing_value4[location].hash_value_of_board = hashValue;
 				hashing_value4[location].opponent_value = temp_score;
