@@ -19,6 +19,8 @@ extern int  temp_point[2];
 extern rp RootBoard[15][15];
 extern rp* be_searched_point;
 
+static bool this_point_is_banned = false;//用于跳过黑子禁手点的黑子评分，但是这个点还是得进行白子的评分
+
 int before_evaluation_ver6(int step_count)
 {
 	int my_raw, my_column;
@@ -32,7 +34,7 @@ int before_evaluation_ver6(int step_count)
 	Node * head = NULL;
 	Node * prev, *current, *post;
 	Node * insert_node;
-
+	
 
 	if (step_count % 2)//说明是白棋方访问此函数
 	{
@@ -44,7 +46,10 @@ int before_evaluation_ver6(int step_count)
 					&& (board[my_raw][my_column] != w))
 				{
 					my_value = empty_score_total_white[my_raw][my_column];
-					opponent_value = empty_score_total_black[my_raw][my_column];
+					if (detect_forbidden_step(my_raw, my_column))
+						opponent_value = 0;
+					else
+						opponent_value = empty_score_total_black[my_raw][my_column];
 					temp_value = my_value + opponent_value;
 					if (temp_value != 0)
 					{
@@ -244,7 +249,7 @@ void refresh_score(int step_count, bool my_turn)//重新刷新刚落下的子的四个方向上
 	*/
 	//if (temp_point[0] == 8 && temp_point[1] == 6)
 		//DrawBoard(0, 2, step_count);
-
+	this_point_is_banned = false;//初始化
 	re_calculate(horizon, step_count, my_turn);//刷新水平方向的空格的分数
 	re_calculate(perpendicular, step_count, my_turn);//刷新竖直方向的空格的分数
 	re_calculate(up_right_down_left, step_count, my_turn);//刷新右上左下方向的空格的分数
@@ -274,9 +279,23 @@ void re_calculate(int vector[], int step_count, bool my_turn)
 			if (point != w && point != b && (raw != temp_point[0] || column != temp_point[1]))
 			{//判断条件为：不是棋子，且不是刚刚下落的那个点
 //之所以添加后面那个条件是因为在撤回棋子并重新让分数变回去的时候，刚刚下落的那个位置也会被重新算一遍，但是实际上那个位置不用算
-				black_value = evaluation(2, true, raw, column);//将step_count强行令为偶数2，保证是黑子得分，并将my_turn强行置为true，保证输出得分为正数
+				if (this_point_is_banned)//如果在前面的方向打分上面已经检测到了禁手
+					empty_score_total_black[raw][column] = 0;
+				else
+				{
+					if (detect_forbidden_step(raw, column))//否则，如果在本方向上检测到了禁手
+					{
+						this_point_is_banned = true;
+						empty_score_total_black[raw][column] = 0;
+					}
+					else
+					{
+						black_value = evaluation(2, true, raw, column);//将step_count强行令为偶数2，保证是黑子得分，并将my_turn强行置为true，保证输出得分为正数
+						empty_score_total_black[raw][column] = black_value;
+					}
+					
+				}
 				white_value = evaluation(3, true, raw, column);//将step_count强行令为奇数3，保证是白子得分，并将my_turn强行置为true，保证输出得分为正数
-				empty_score_total_black[raw][column] = black_value;
 				empty_score_total_white[raw][column] = white_value;
 				//if (empty_score_total_white[4][12] == 10000)
 					//printf("test\n");

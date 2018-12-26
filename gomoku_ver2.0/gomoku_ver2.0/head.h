@@ -4,12 +4,13 @@
 #define Consecutive_Five 10000000//连五
 #define Open_Four 1000000//活四
 #define Double_Chess 800000//双活三、双冲四、冲四活三等
-#define Open_Three 100000//活三
-#define Gapped_Two_Two 100050//下面三种都是冲四，这种是两个2子之间缺了一个子  ●●？●●
-#define Capped_Four 100050//这种冲四是一头被堵住的冲四   ○●●●●和●●●●○。○●●_●●不算，这个是GappedTwoTwo，○●_●●●
-#define Gapped_Four 100050//这种冲四是一个活三与一个单独的子之间空了一格  ●?●●●，还有这种情况○●●●_●和●_●●●○
+#define Open_Three 100050//活三
+#define Gapped_Two_Two 100000//下面三种都是冲四，这种是两个2子之间缺了一个子  ●●？●●
+#define Capped_Four 100000//这种冲四是一头被堵住的冲四   ○●●●●和●●●●○。○●●_●●不算，这个是GappedTwoTwo，○●_●●●
+#define Gapped_Four 100000//这种冲四是一个活三与一个单独的子之间空了一格  ●?●●●，还有这种情况○●●●_●和●_●●●○
 #define Gapped_Three 99950//这种是跳活三，是即将形成活四的三  ●？●●
-#define Double_Gapped_Three 100020//这种是双跳活三_●_●●_●_，分值应该比活三高一点，比冲四低一点
+#define Double_Gapped_Three 100020//这种是双跳活三_●_●●_●_，分值应该比冲四高一点，比活三低一点
+#define Bad_Six 10000//有禁手的双跳活三，六腐
 #define Capped_Three 50//眠三, 最多只能形成冲四  ○●●●
 //需要连二的打分吗？ 大概1000分
 /*眠三一共有这几种形态：

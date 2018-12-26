@@ -1,34 +1,5 @@
-﻿  Mersenne_Twister.c
-  enlighting_searching.c
-  evaluation.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\evaluation.c(107): warning C4013: “system”未定义；假设外部返回 int
-  forbidden.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\forbidden.c(81): warning C4013: “system”未定义；假设外部返回 int
-  hashing.c
-  iteration.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(532): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(533): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(560): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(561): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-  main.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(135): warning C4013: “system”未定义；假设外部返回 int
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(217): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 参见“scanf”的声明
-  minimax.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(55): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(98): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(150): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(151): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(178): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\minimax.c(179): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-  open_database.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\open_database.c(24): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-  pve.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pve.c(163): warning C4013: “system”未定义；假设外部返回 int
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pve.c(226): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 参见“scanf”的声明
+﻿  enlighting_searching.c
   pvp.c
 e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pvp.c(61): warning C4013: “system”未定义；假设外部返回 int
   正在生成代码...
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\mersenne_twister.c(172): warning C4715: “indexOf”: 不是所有的控件路径都返回值
   gomoku_ver2.0.vcxproj -> E:\coding\gomoku\gomoku_ver2.0\Debug\gomoku_ver2.0.exe

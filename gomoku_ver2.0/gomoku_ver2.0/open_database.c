@@ -19,6 +19,7 @@ extern bool ai_first;
 
 void open_base()
 {
+	/*
 	int vector;
 	//int empty_point[8][2] = { {6,6},{6,7},{6,8},{7,6},{7,8},{8,6},{8,7},{8,8} };
 	srand(time(0));
@@ -59,10 +60,11 @@ void open_base()
 	{
 		randomly_choose_a_point(coordinate[0], coordinate[1]);
 	}
-	/*
+	*/
+	
 	//下面两行仅为测试用
 	coordinate[0] = 6;
-	coordinate[1] = 8;*/
+	coordinate[1] = 8;
 }
 
 void randomly_choose_a_point(int raw, int column)

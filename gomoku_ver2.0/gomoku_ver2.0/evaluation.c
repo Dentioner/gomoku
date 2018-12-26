@@ -1617,7 +1617,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			if (chess == w)//对于白子来说这个棋型是双跳活三
 				value += Double_Gapped_Three;
 			else//但是对于黑子来讲这个棋型有禁手限制，是双眠三，或叫做六腐
-				value += 2 * Capped_Three;
+				value += Bad_Six;
 			if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 			{
 				value += Gapped_Three;
@@ -1716,7 +1716,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			if (chess == w)//对于白子来说这个棋型是双跳活三
 				value += Double_Gapped_Three;
 			else//但是对于黑子来讲这个棋型有禁手限制，是双眠三，或叫做六腐
-				value += 2 * Capped_Three;
+				value += Bad_Six;
 			if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 			{
 				value += Gapped_Three;
@@ -1764,7 +1764,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			if (chess == w)//对于白子来说这个棋型是双跳活三
 				value += Double_Gapped_Three;
 			else//但是对于黑子来讲这个棋型有禁手限制，是双眠三，或叫做六腐
-				value += 2 * Capped_Three;
+				value += Bad_Six;
 			if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 			{
 				value += Gapped_Three;
@@ -1813,7 +1813,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			if (chess == w)//对于白子来说这个棋型是双跳活三
 				value += Double_Gapped_Three;
 			else//但是对于黑子来讲这个棋型有禁手限制，是双眠三，或叫做六腐
-				value += 2 * Capped_Three;
+				value += Bad_Six;
 			if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 			{
 				value += Gapped_Three;

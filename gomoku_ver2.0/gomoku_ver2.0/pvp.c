@@ -61,6 +61,15 @@ void pvp(long int value)
 				system("pause");
 			}
 		}
+		else
+		{
+			find_forbidden_step = detect_forbidden_step(coordinate[0], coordinate[1]);
+			if (find_forbidden_step)
+			{
+				printf("对方的禁手\n");
+				system("pause");
+			}
+		}
 		value = Searching_Hashing(step_count, my_turn, 0, false, 0);
 		if (value == 0)
 		{
