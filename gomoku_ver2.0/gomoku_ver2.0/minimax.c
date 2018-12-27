@@ -44,35 +44,37 @@ long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
 					&& (board[raw][column] != w))
 				{
 					//temp_score = evaluation(board, step_count, my_turn, raw, column);
-
-					ai_score = empty_score_total_black[raw][column];
-					p_score = empty_score_total_white[raw][column];
-					/*
-					temp_score1 = labs(temp_score1) * 1.5;
-					temp_score2 = labs(temp_score2) * 0.75;
-					temp_score = temp_score1 + temp_score2;
-					*/
-					temp_score = ai_score * 1.1 - p_score * 0.9;
-					board_score += temp_score;
-					/*
-					if (!initialized)
+					if (!detect_forbidden_step(raw, column))
 					{
-						best_score = temp_score;
-						initialized = true;
-						best_raw = raw;
-						best_column = column;
+						ai_score = empty_score_total_black[raw][column];
+						p_score = empty_score_total_white[raw][column];
 
-					}
-					else
-					{
-						if (temp_score > best_score)
+						/*
+						temp_score1 = labs(temp_score1) * 1.5;
+						temp_score2 = labs(temp_score2) * 0.75;
+						temp_score = temp_score1 + temp_score2;
+						*/
+						temp_score = ai_score * 1.1 - p_score * 0.9;
+						board_score += temp_score;
+						/*
+						if (!initialized)
 						{
 							best_score = temp_score;
+							initialized = true;
+							best_raw = raw;
+							best_column = column;
 
 						}
-					}
-					*/
+						else
+						{
+							if (temp_score > best_score)
+							{
+								best_score = temp_score;
 
+							}
+						}
+						*/
+					}
 				}
 			}
 		}

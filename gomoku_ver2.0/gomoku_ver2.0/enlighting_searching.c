@@ -19,7 +19,6 @@ extern int  temp_point[2];
 extern rp RootBoard[15][15];
 extern rp* be_searched_point;
 
-static bool this_point_is_banned = false;//用于跳过黑子禁手点的黑子评分，但是这个点还是得进行白子的评分
 
 int before_evaluation_ver6(int step_count)
 {
@@ -249,14 +248,15 @@ void refresh_score(int step_count, bool my_turn)//重新刷新刚落下的子的四个方向上
 	*/
 	//if (temp_point[0] == 8 && temp_point[1] == 6)
 		//DrawBoard(0, 2, step_count);
-	this_point_is_banned = false;//初始化
-	re_calculate(horizon, step_count, my_turn);//刷新水平方向的空格的分数
-	re_calculate(perpendicular, step_count, my_turn);//刷新竖直方向的空格的分数
-	re_calculate(up_right_down_left, step_count, my_turn);//刷新右上左下方向的空格的分数
-	re_calculate(up_left_down_right, step_count, my_turn);//刷新左上右下方向的空格的分数
+	int this_point_is_banned[15][15] = { 0 };//用于跳过黑子禁手点的黑子评分，但是这个点还是得进行白子的评分
+
+	re_calculate(horizon, step_count, my_turn, this_point_is_banned);//刷新水平方向的空格的分数
+	re_calculate(perpendicular, step_count, my_turn, this_point_is_banned);//刷新竖直方向的空格的分数
+	re_calculate(up_right_down_left, step_count, my_turn, this_point_is_banned);//刷新右上左下方向的空格的分数
+	re_calculate(up_left_down_right, step_count, my_turn, this_point_is_banned);//刷新左上右下方向的空格的分数
 }
 
-void re_calculate(int vector[], int step_count, bool my_turn)
+void re_calculate(int vector[], int step_count, bool my_turn, int this_point_is_banned[][15])
 {
 	/*
 	int raw, column;
@@ -279,13 +279,13 @@ void re_calculate(int vector[], int step_count, bool my_turn)
 			if (point != w && point != b && (raw != temp_point[0] || column != temp_point[1]))
 			{//判断条件为：不是棋子，且不是刚刚下落的那个点
 //之所以添加后面那个条件是因为在撤回棋子并重新让分数变回去的时候，刚刚下落的那个位置也会被重新算一遍，但是实际上那个位置不用算
-				if (this_point_is_banned)//如果在前面的方向打分上面已经检测到了禁手
+				if (this_point_is_banned[raw][column])//如果在前面的方向打分上面已经检测到了禁手
 					empty_score_total_black[raw][column] = 0;
 				else
 				{
 					if (detect_forbidden_step(raw, column))//否则，如果在本方向上检测到了禁手
 					{
-						this_point_is_banned = true;
+						this_point_is_banned[raw][column] = 1;
 						empty_score_total_black[raw][column] = 0;
 					}
 					else

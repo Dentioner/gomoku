@@ -1029,11 +1029,19 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
-		
-		forbid_three[direct_now] = true;
-		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+		//ÅÅ³ý_?_¡ñ¡ñ_¡ñ_
+		if ((board[raw + 5 * dx][column + 5 * dy] == b)
+			&& (board[raw + 6 * dx][column + 6 * dy] != b)
+			&& (board[raw + 6 * dx][column + 6 * dy] != w)
+			&& (raw + 6 * dx >= 0) && (raw + 6 * dx <= 14)
+			&& (column + 6 * dy >= 0) && (column + 6 * dy <= 14));
+		else
 		{
-			return 2;
+			forbid_three[direct_now] = true;
+			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+			{
+				return 2;
+			}
 		}
 	}
 
@@ -1052,10 +1060,20 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 	{
-		forbid_three[direct_now] = true;
-		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+		//ÅÅ³ý_¡ñ_?¡ñ_¡ñ_
+		if ((board[raw + 3 * dx][column + 3 * dy] == b)
+			&& (board[raw + 4 * dx][column + 4 * dy] != b)
+			&& (board[raw + 4 * dx][column + 4 * dy] != w)
+
+			&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
+			&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14));
+		else
 		{
-			return 2;
+			forbid_three[direct_now] = true;
+			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+			{
+				return 2;
+			}
 		}
 	}
 
@@ -1074,10 +1092,20 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
-		forbid_three[direct_now] = true;
-		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+		//ÅÅ³ý_¡ñ_¡ñ?_¡ñ_
+		if ((board[raw + 2 * dx][column + 2 * dy] == b)
+			&& (board[raw + 3 * dx][column + 3 * dy] != b)
+			&& (board[raw + 3 * dx][column + 3 * dy] != w)
+
+			&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
+			&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14));
+		else
 		{
-			return 2;
+			forbid_three[direct_now] = true;
+			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+			{
+				return 2;
+			}
 		}
 	}
 
@@ -1097,10 +1125,20 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
-		forbid_three[direct_now] = true;
-		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+		//ÅÅ³ý_¡ñ_¡ñ¡ñ_?_
+		if ((board[raw - 5 * dx][column - 5 * dy] == b)
+			&& (board[raw - 6 * dx][column - 6 * dy] != b)
+			&& (board[raw - 6 * dx][column - 6 * dy] != w)
+
+			&& (raw - 6 * dx >= 0) && (raw - 6 * dx <= 14)
+			&& (column - 6 * dy >= 0) && (column - 6 * dy <= 14));
+		else
 		{
-			return 2;
+			forbid_three[direct_now] = true;
+			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+			{
+				return 2;
+			}
 		}
 	}
 
@@ -1119,10 +1157,20 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
-		forbid_three[direct_now] = true;
-		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+		//ÅÅ³ý_¡ñ_¡ñ?_¡ñ_
+		if ((board[raw - 3 * dx][column - 3 * dy] == b)
+			&& (board[raw - 4 * dx][column - 4 * dy] != b)
+			&& (board[raw - 4 * dx][column - 4 * dy] != w)
+
+			&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
+			&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14));
+		else
 		{
-			return 2;
+			forbid_three[direct_now] = true;
+			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+			{
+				return 2;
+			}
 		}
 	}
 
@@ -1141,10 +1189,20 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
-		forbid_three[direct_now] = true;
-		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+		//ÅÅ³ý_¡ñ_?¡ñ_¡ñ_
+		if ((board[raw - 2 * dx][column - 2 * dy] == b)
+			&& (board[raw - 3 * dx][column - 3 * dy] != b)
+			&& (board[raw - 3 * dx][column - 3 * dy] != w)
+
+			&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
+			&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14));
+		else 
 		{
-			return 2;
+			forbid_three[direct_now] = true;
+			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
+			{
+				return 2;
+			}
 		}
 	}
 

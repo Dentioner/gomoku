@@ -31,7 +31,8 @@ rp * be_searched_point;//目前正在被搜索的根节点的指针
 long int iteration_search(int step_count, bool my_turn)
 {
 	//int MaxFloor = (step_count <= 4) ? 4 : FLOOR;//一开始少一点，后面再渐渐增加
-	int MaxFloor = (step_count <= 4) ? 4 : ((step_count <= 8) ? 6 : FLOOR);//一开始少一点，后面再渐渐增加
+	//int MaxFloor = (step_count <= 4) ? 4 : ((step_count <= 8) ? 6 : FLOOR);//一开始少一点，后面再渐渐增加
+	int MaxFloor = FLOOR;//test
 	stop_searching = false;//每次开始整个AI思考过程时，对这个参数初始化
 	long int best_score;
 	int floor;
@@ -74,12 +75,11 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 	//下面是在建立ai先手、回合数与“是否是我方回合”的关系
 
 	//下面这个条件语句是用来打断点进行单步调试用的，正常工作的时候要注释掉
-	if (coordinate[0] == 9 && coordinate[1] == 9 && floor == top_floor)
+	if (coordinate[0] == 9 && coordinate[1] == 8 && floor == top_floor)
 	{
 		printf("\n");
 		//show_me_the_array = true;
 	}
-
 
 	if ((step_count % 2) == 0)
 	{
@@ -125,7 +125,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 					shallowest2(step_count, my_turn);
 					best_score = evaluation(step_count, my_turn, coordinate[0], coordinate[1]);
 					stop_searching = true;
-					return best_score;
+					return best_score; 
 				}
 				else//这种情况是，在某一层（不是最外层）搜到了连五点，那就当做最底层开始搜
 				{
@@ -370,6 +370,12 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							//上面这2行在启用哈希表搜索的时候要用到，千万不要删了
 							temp_point[0] = raw;
 							temp_point[1] = column;
+							
+							
+							if (raw == 7 && column == 9 && floor == 3)
+								DrawBoard(0, 2, step_count);//test
+
+
 							refresh_score(step_count, my_turn);
 							//下面这个是在测试的时候输出的，正式使用的时候可以关掉
 							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
