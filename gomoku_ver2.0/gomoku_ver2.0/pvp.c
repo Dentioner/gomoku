@@ -9,11 +9,14 @@
 extern int board[15][15];
 extern int coordinate[2];
 extern int roaming;
+extern bool BoardFull;
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 //extern unsigned long long hashing_value2[depth_of_hashing][3];
 //extern unsigned long long hashing_value3[depth_of_hashing][4];
 extern HE hashing_value4[depth_of_hashing];
+extern bool banned_point_sheet[15][15];
+extern int temp_point[2];
 
 void pvp(long int value)
 {
@@ -41,35 +44,21 @@ void pvp(long int value)
 		get_coordinate(step_count);
 		roaming = board[coordinate[0]][coordinate[1]];
 		chess_play_ver2(step_count);
-
+		temp_point[0] = coordinate[0];
+		temp_point[1] = coordinate[1];
 		//测试用
 		if (coordinate[0] == 6 && coordinate[1] == 9)
 		{
 			printf("\n");
 		}
 		
+		
+
 		//下面在PVP里面试用哈希函数，由于PVP不会搜索，因此思路是，先悔棋，然后再看看有没有将哈希值存进表里面
 		//hashValue = computeHash(board, ZobristTable);//计算当前棋局的哈希值
 		//上面那个hashValue先挂起，可能需要优化，先用下面这个语句代替
 		hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
-		if (step_count % 2 == 0)//黑子才执行判断禁手
-		{
-			find_forbidden_step = detect_forbidden_step(coordinate[0], coordinate[1]);
-			if (find_forbidden_step)
-			{
-				printf("禁手\n");
-				system("pause");
-			}
-		}
-		else
-		{
-			find_forbidden_step = detect_forbidden_step(coordinate[0], coordinate[1]);
-			if (find_forbidden_step)
-			{
-				printf("对方的禁手\n");
-				system("pause");
-			}
-		}
+		
 		value = Searching_Hashing(step_count, my_turn, 0, false, 0);
 		if (value == 0)
 		{
@@ -83,7 +72,25 @@ void pvp(long int value)
 		//上面这个分开打分的可能有问题
 		DrawBoard(value, 1, step_count);
 		return_to_normal_chess(step_count);
-
+		refresh_banned_point_whole();
+		if (step_count % 2 == 0)//黑子才执行判断禁手
+		{
+			find_forbidden_step = banned_point_sheet[coordinate[0]][coordinate[1]];
+			if (find_forbidden_step)
+			{
+				printf("禁手\n");
+				system("pause");
+			}
+		}
+		else
+		{
+			find_forbidden_step = banned_point_sheet[coordinate[0]][coordinate[1]];
+			if (find_forbidden_step)
+			{
+				printf("对方的禁手\n");
+				system("pause");
+			}
+		}
 
 
 		printf("是否想要悔棋？按y悔棋，按别的任意键正常继续游戏.\n");
@@ -105,13 +112,21 @@ void pvp(long int value)
 		step_count++;
 	}
 	DrawBoard(value, 1, step_count);
-	if (step_count % 2)
-	{
-		printf("黑子获胜");
-	}
+	if (BoardFull)
+		printf("平局\n");
 	else
 	{
-		printf("白子获胜");
+
+
+		if (step_count % 2)
+		{
+			printf("黑子获胜");
+		}
+		else
+		{
+			printf("白子获胜");
+		}
+
 	}
 
 	return;

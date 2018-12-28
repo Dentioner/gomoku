@@ -24,7 +24,7 @@ extern bool ai_first;
 extern int temp_point[2];//临时落子坐标，在minimax的里面迭代的时候落子的时候用
 extern long int empty_score_total_black[15][15];
 extern long int empty_score_total_white[15][15];
-
+extern bool banned_point_sheet[15][15];
 
 long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
 {
@@ -44,7 +44,7 @@ long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
 					&& (board[raw][column] != w))
 				{
 					//temp_score = evaluation(board, step_count, my_turn, raw, column);
-					if (!detect_forbidden_step(raw, column))
+					if (!banned_point_sheet[raw][column])
 					{
 						ai_score = empty_score_total_black[raw][column];
 						p_score = empty_score_total_white[raw][column];
@@ -144,7 +144,7 @@ void shallowest(int step_count, bool my_turn)//这个函数是用于只检索一层的情况
 				&& (board[raw][column] != b))
 			{
 				//temp_score = evaluation(board, step_count, my_turn, raw, column);
-				if (ai_first && (!detect_forbidden_step(raw, column)))//由于此函数只会在AI下子的时候用到，因此ai_first就代表了ai拿黑子，有禁手
+				if (ai_first && (!banned_point_sheet[raw][column]))//由于此函数只会在AI下子的时候用到，因此ai_first就代表了ai拿黑子，有禁手
 				{
 					temp_score1 = evaluation(step_count, my_turn, raw, column);
 					temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);

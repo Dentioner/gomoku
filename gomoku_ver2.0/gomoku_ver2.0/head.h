@@ -1,6 +1,5 @@
-#define FLOOR 4
-#define Range 6 
-//每次更改FLOOR，需要将board.c中的priority, best_score_of_upper, not_in_the_same_branch这三个数组的大小改一下
+#define FLOOR 8//每次更改FLOOR，需要将board.c中的priority, best_score_of_upper, not_in_the_same_branch这三个数组的大小改一下
+#define Range 15 //搜索宽度
 #define Consecutive_Five 10000000//连五
 #define Open_Four 2000000//活四
 #define Double_Chess 1000000//双活三、双冲四、冲四活三等
@@ -12,7 +11,6 @@
 #define Double_Gapped_Three 100000//这种是双跳活三_●_●●_●_
 #define Bad_Six 10000//有禁手的双跳活三，六腐
 #define Capped_Three 1000//眠三, 最多只能形成冲四  ○●●●
-//需要连二的打分吗？ 大概1000分
 /*眠三一共有这几种形态：
 1. ○●●●__
 2. ○●●_●_
@@ -22,7 +20,7 @@
 6. ○_●●●_○
 */
 #define Open_two 1000//连二
-#define depth_of_hashing 50000023//80000023
+#define depth_of_hashing 80000023//80000023
 #define infinity 89999900
 
 
@@ -74,7 +72,7 @@ void shallowest(int step_count, bool my_turn);
 long int line(bool state[], int vector[], int raw, int column, int step_count);
 void init_best_score_of_upper();
 void refresh_score(int step_count, bool my_turn);
-void re_calculate(int vector[], int step_count, bool my_turn, int this_point_is_banned[][15]);
+void re_calculate(int vector[], int step_count, bool my_turn);
 int before_evaluation_ver6(int step_count);
 void quick_sort(long int temp_priority[][3], int l, int r);
 int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, int column);
@@ -84,3 +82,5 @@ void randomly_choose_a_point(int raw, int column);
 void shallowest2(int step_count, bool my_turn);
 long int Minimax4(int step_count, bool my_turn, int floor, int top_floor);
 long int iteration_search(int step_count, bool my_turn);
+void refresh_banned_point_whole();
+void refresh_banned_point_single_line(int vector[]);

@@ -3,6 +3,7 @@
 #include<string.h>
 #include"head.h"
 #include<math.h>
+#include<time.h>
 
 extern int board[15][15];
 extern int coordinate[2];
@@ -24,6 +25,7 @@ int temp_point[2] = { 0,0 };//ÁÙÊ±Âä×Ó×ø±ê£¬ÔÚminimaxµÄÀïÃæµü´úµÄÊ±ºòÂä×ÓµÄÊ±ºòÓ
 //int temp_bestpoint[FLOOR][2] = { 0 };//ÁÙÊ±×îÓÅ×ø±ê£¬ÓÃÓÚµü´ú¼ÓÉî
 extern long int empty_score_total_black[15][15];
 extern long int empty_score_total_white[15][15];
+extern bool banned_point_sheet[15][15];
 bool stop_searching = false;
 rp RootBoard[15][15];//¸ù½ÚµãÆåÅÌ
 rp * be_searched_point;//Ä¿Ç°ÕıÔÚ±»ËÑË÷µÄ¸ù½ÚµãµÄÖ¸Õë
@@ -37,13 +39,22 @@ long int iteration_search(int step_count, bool my_turn)
 	long int best_score;
 	int floor;
 	int raw, column;
+	double start_time, end_time, cost_time;
+
 	for (floor = 2; floor <= MaxFloor && (!stop_searching); floor += 2)
 	{
+		if (floor == 8)
+			printf("Finally I find you.\n");//test
 		be_searched_point = &RootBoard[coordinate[0]][coordinate[1]];//½«±»ËÑË÷µÄ¸ù½ÚµãÖ¸ÕëÖ¸Ïò ¶Ô·½¸Õ¸ÕÂä×ÓµÄÄÇ¸ö¿ÕÎ»  ¶ÔÓ¦ÔÚ¸ù½ÚµãÆåÅÌµÄÎ»ÖÃ
 		be_searched_point->raw = coordinate[0];
 		be_searched_point->column = coordinate[1];
 		//RootBoard[coordinate[0]][coordinate[1]] = be_searched_point;
+		start_time = clock();
 		best_score = Minimax4(step_count, true, floor, floor);
+		end_time = clock();
+		cost_time = (end_time - start_time) / CLK_TCK;
+		printf("floor = %d\ttime = %fs.\n", floor, cost_time);
+		system("pause");
 	}
 	raw = RootBoard[coordinate[0]][coordinate[1]].best_leaf[0];//½«×îÔ­Ê¼µÄÄÇ¸ö¸ù½Úµã£¬Ò²¾ÍÊÇ¶Ô·½ÉÏÒ»¾ÖÂä×ÓµÄ×ø±ê ¶ÔÓ¦µÄÄÇ¸ö¸ù½Úµã  µÄ×î¼Ñ×ø±ê¸³¸øcoordinate
 	column = RootBoard[coordinate[0]][coordinate[1]].best_leaf[1];
@@ -176,6 +187,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							board[raw][column] = chess;
 							temp_point[0] = raw;
 							temp_point[1] = column;
+							refresh_banned_point_whole();
 							refresh_score(step_count, my_turn);
 							//²âÊÔÓÃ£¬´òÓ¡ZobristTable£¬¿´¿´ÊÇ·ñÕı³£
 							/*
@@ -233,6 +245,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 										temp_point[0] = raw;
 										temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
 										board[raw][column] = temp_blank;
+										refresh_banned_point_whole();
 										refresh_score(step_count, my_turn);
 										hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 										return infinity;
@@ -259,6 +272,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 											temp_point[0] = raw;
 											temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
 											board[raw][column] = temp_blank;
+											refresh_banned_point_whole();
 											refresh_score(step_count, my_turn);
 											hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 											return infinity;
@@ -271,6 +285,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							board[raw][column] = temp_blank;
 							temp_point[0] = raw;
 							temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
+							refresh_banned_point_whole();
 							refresh_score(step_count, my_turn);//ÔÙË¢ĞÂÒ»´Î
 							if ((temp_score != -infinity) && (temp_score != infinity))//²»Òª°Ñ±»¼ôÖ¦µÄ·ÖÊı¸øÂ¼½øÈ¥
 							{
@@ -372,10 +387,10 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							temp_point[1] = column;
 							
 							
-							if (raw == 7 && column == 9 && floor == 3)
-								DrawBoard(0, 2, step_count);//test
+							//if (raw == 7 && column == 9 && floor == 3)
+								//DrawBoard(0, 2, step_count);//test
 
-
+							refresh_banned_point_whole();
 							refresh_score(step_count, my_turn);
 							//ÏÂÃæÕâ¸öÊÇÔÚ²âÊÔµÄÊ±ºòÊä³öµÄ£¬ÕıÊ½Ê¹ÓÃµÄÊ±ºò¿ÉÒÔ¹Øµô
 							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
@@ -416,6 +431,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 										temp_point[0] = raw;
 										temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
 										board[raw][column] = temp_blank;
+										refresh_banned_point_whole();
 										refresh_score(step_count, my_turn);
 										hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 										return -infinity;
@@ -445,6 +461,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 											temp_point[0] = raw;
 											temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
 											board[raw][column] = temp_blank;
+											refresh_banned_point_whole();
 											refresh_score(step_count, my_turn);
 											hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 											return -infinity;
@@ -456,6 +473,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							board[raw][column] = temp_blank;
 							temp_point[0] = raw;
 							temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
+							refresh_banned_point_whole();
 							refresh_score(step_count, my_turn);//ÔÙË¢ĞÂÒ»´Î
 
 							if ((temp_score != -infinity) && (temp_score != infinity))//²»Òª°Ñ±»¼ôÖ¦µÄ·ÖÊı¸øÂ¼½øÈ¥
@@ -530,7 +548,7 @@ void shallowest2(int step_count, bool my_turn)//Õâ¸öº¯ÊıÊÇÓÃÓÚÖ»¼ìË÷Ò»²ãµÄÇé¿ö
 				&& (board[raw][column] != b))
 			{
 				//temp_score = evaluation(board, step_count, my_turn, raw, column);
-				if (ai_first && (!detect_forbidden_step(raw, column)))//ÓÉÓÚ´Ëº¯ÊıÖ»»áÔÚAIÏÂ×ÓµÄÊ±ºòÓÃµ½£¬Òò´Ëai_first¾Í´ú±íÁËaiÄÃºÚ×Ó£¬ÓĞ½ûÊÖ
+				if (ai_first && (!banned_point_sheet[raw][column]))//ÓÉÓÚ´Ëº¯ÊıÖ»»áÔÚAIÏÂ×ÓµÄÊ±ºòÓÃµ½£¬Òò´Ëai_first¾Í´ú±íÁËaiÄÃºÚ×Ó£¬ÓĞ½ûÊÖ
 				{
 					temp_score1 = evaluation(step_count, my_turn, raw, column);
 					temp_score2 = evaluation(step_count + 1, !my_turn, raw, column);

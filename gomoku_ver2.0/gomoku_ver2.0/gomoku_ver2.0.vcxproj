@@ -151,6 +151,7 @@
     <ClCompile Include="open_database.c" />
     <ClCompile Include="pve.c" />
     <ClCompile Include="pvp.c" />
+    <ClCompile Include="refresh.c" />
     <ClCompile Include="winner.c" />
   </ItemGroup>
   <ItemGroup>

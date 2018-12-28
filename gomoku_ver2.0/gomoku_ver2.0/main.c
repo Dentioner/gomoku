@@ -11,10 +11,10 @@ int coordinate[2] = { 0, 0 };
 int w = 119;//白棋
 int b = 98;//黑棋
 int roaming = 0;//便于悔棋的，用来记录上一步的空格在哪个位置
+bool BoardFull = false;//棋盘满了
 unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 unsigned long long hashValue = 0;//梅森旋转算法下，棋盘的哈希值
 //unsigned long long hashing_value2[depth_of_hashing][3] = { {0,0,0} };
-
 //第二维度的[0]是整个棋盘的哈希值
 //[1]与[2]是此哈希值对应的棋盘评分，应该定义在函数外面
 //上面这个是新的棋盘哈希表，注意评分在输出的时候要进行类型转换

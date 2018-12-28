@@ -11,6 +11,7 @@ extern int coordinate[2];
 extern int roaming;
 extern int w;//白棋
 extern int b;//黑棋
+extern bool BoardFull;
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 //extern unsigned long long hashing_value2[depth_of_hashing][3];
@@ -24,6 +25,7 @@ long int value_for_board = 0;//新加
 bool ai_first = false;//默认电脑后走
 long int empty_score_total_black[15][15] = { 0 };//对于黑棋来说的空位的总分
 long int empty_score_total_white[15][15] = { 0 };//对于黑棋来说的空位的总分
+bool banned_point_sheet[15][15] = { false };//棋盘上禁手的空位 
 extern int temp_point[2];
 int times_of_finding_out_in_ZobTable = 0;//测试用，提交时删除，用于计数，看看查表查到了多少次
 
@@ -147,6 +149,7 @@ void pve(long int value)
 			empty_score_total_white[coordinate[0]][coordinate[1]] = 0;
 			temp_point[0] = coordinate[0];
 			temp_point[1] = coordinate[1];
+			refresh_banned_point_whole();
 			refresh_score(step_count, my_turn);
 		}
 		else
@@ -187,6 +190,7 @@ void pve(long int value)
 			empty_score_total_white[coordinate[0]][coordinate[1]] = 0;
 			temp_point[0] = coordinate[0];
 			temp_point[1] = coordinate[1];
+			refresh_banned_point_whole();
 			refresh_score(step_count, my_turn);
 		}
 
@@ -195,15 +199,22 @@ void pve(long int value)
 		step_count++;
 	}
 	DrawBoard(value, 2, step_count);
-	if (step_count % 2)
-	{
-		printf("黑子获胜");
-	}
+	if (BoardFull)
+		printf("平局\n");
 	else
 	{
-		printf("白子获胜");
-	}
 
+
+		if (step_count % 2)
+		{
+			printf("黑子获胜");
+		}
+		else
+		{
+			printf("白子获胜");
+		}
+
+	}
 	return;
 
 

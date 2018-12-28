@@ -8,7 +8,7 @@
 extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
-
+extern bool banned_point_sheet[15][15];
 
 long int evaluation(int step_count, bool my_turn, int raw, int column)
 //step_count的作用是，确认这盘是黑子还是白子
@@ -32,6 +32,10 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 		value += line(state, all_vector[i], raw, column, step_count);
 	}
 	*/
+	if (banned_point_sheet[raw][column] && !(step_count%2))//黑子禁手点直接返回0分，不评估
+	{
+		return 0;
+	}
 	value += line(state, horizon, raw, column, step_count);//水平计分
 	value += line(state, perpendicular, raw, column, step_count);//垂直计分
 	value += line(state, up_right_down_left, raw, column, step_count);//右上左下计分

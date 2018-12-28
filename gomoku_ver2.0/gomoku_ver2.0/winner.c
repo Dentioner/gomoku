@@ -4,6 +4,7 @@
 extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
+extern bool BoardFull;
 bool judgement(int step_count)
 //步数用于判断是哪一方赢
 //返回值先设成布尔型
@@ -90,8 +91,10 @@ bool judgement(int step_count)
 	}
 
 	if (not_full == false)
+	{
 		continue_playing = false;
-
+		BoardFull = true;
+	}
 	return continue_playing;
 
 }

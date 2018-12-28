@@ -7,7 +7,7 @@ extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
 //判断禁手的函数
-
+extern bool banned_point_sheet[15][15];
 //本函数自身没有区分是白子执行还是黑子执行，也就是说如果一个禁手空位里面准备放白棋，函数还是会检测出禁手
 //最好是在外面调用此函数的时候看看是白子走还是黑子走
 bool detect_forbidden_step(int raw, int column)
@@ -21,6 +21,8 @@ bool detect_forbidden_step(int raw, int column)
 	int find_it[4] = { 0 };
 	int index;
 	//0代表没有连五，也没有禁手；1代表有连五；2代表有禁手
+	//DrawBoard(0, 1, 2);//test
+
 
 	find_it[0] = line_forbid(forbid_three, forbid_four, horizon, raw, column);
 	find_it[1] = line_forbid(forbid_three, forbid_four, perpendicular, raw, column);
