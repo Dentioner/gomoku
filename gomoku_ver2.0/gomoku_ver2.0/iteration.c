@@ -49,12 +49,12 @@ long int iteration_search(int step_count, bool my_turn)
 		be_searched_point->raw = coordinate[0];
 		be_searched_point->column = coordinate[1];
 		//RootBoard[coordinate[0]][coordinate[1]] = be_searched_point;
-		start_time = clock();
+		//start_time = clock();
 		best_score = Minimax4(step_count, true, floor, floor);
-		end_time = clock();
-		cost_time = (end_time - start_time) / CLK_TCK;
-		printf("floor = %d\ttime = %fs.\n", floor, cost_time);
-		system("pause");
+		//end_time = clock();
+		//cost_time = (end_time - start_time) / CLK_TCK;
+		//printf("floor = %d\ttime = %fs.\n", floor, cost_time);
+		//system("pause");
 	}
 	raw = RootBoard[coordinate[0]][coordinate[1]].best_leaf[0];//将最原始的那个根节点，也就是对方上一局落子的坐标 对应的那个根节点  的最佳坐标赋给coordinate
 	column = RootBoard[coordinate[0]][coordinate[1]].best_leaf[1];
@@ -64,10 +64,8 @@ long int iteration_search(int step_count, bool my_turn)
 }
 
 
-
 long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 {
-
 	int temp_blank;//用这个来还原棋盘，相当于悔棋一样的
 	int chess;
 	int opponent_chess;
@@ -528,7 +526,105 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 	return best_score;
 }
 
+long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
+{
+	long int temp_score;
 
+	long int ai_score, p_score;
+	int raw, column;
+	//这里删了一堆注释，要恢复的去看别的地方存档的minimax文件
+	long int board_score = 0;
+	if (ai_first)
+	{		//这个for循环是一开始就有的，别把这个给删了
+		for (raw = 0; raw < 15; raw++)
+		{
+			for (column = 0; column < 15; column++)
+			{
+				if ((board[raw][column] != b)
+					&& (board[raw][column] != w))
+				{
+					//temp_score = evaluation(board, step_count, my_turn, raw, column);
+					if (!banned_point_sheet[raw][column])
+					{
+						ai_score = empty_score_total_black[raw][column];
+						p_score = empty_score_total_white[raw][column];
+
+						/*
+						temp_score1 = labs(temp_score1) * 1.5;
+						temp_score2 = labs(temp_score2) * 0.75;
+						temp_score = temp_score1 + temp_score2;
+						*/
+						temp_score = ai_score * 1.1 - p_score * 0.9;
+						board_score += temp_score;
+						/*
+						if (!initialized)
+						{
+							best_score = temp_score;
+							initialized = true;
+							best_raw = raw;
+							best_column = column;
+
+						}
+						else
+						{
+							if (temp_score > best_score)
+							{
+								best_score = temp_score;
+
+							}
+						}
+						*/
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		for (raw = 0; raw < 15; raw++)
+		{
+			for (column = 0; column < 15; column++)
+			{
+				if ((board[raw][column] != b)
+					&& (board[raw][column] != w))
+				{
+					//temp_score = evaluation(board, step_count, my_turn, raw, column);
+
+					ai_score = empty_score_total_white[raw][column];
+					p_score = empty_score_total_black[raw][column];
+					/*
+					temp_score1 = labs(temp_score1) * 1.5;
+					temp_score2 = labs(temp_score2) * 0.75;
+					temp_score = temp_score1 + temp_score2;
+					*/
+					temp_score = ai_score * 1.1 - p_score * 0.9;
+					board_score += temp_score;
+					/*
+					if (!initialized)
+					{
+						best_score = temp_score;
+						initialized = true;
+						best_raw = raw;
+						best_column = column;
+
+					}
+					else
+					{
+						if (temp_score > best_score)
+						{
+							best_score = temp_score;
+
+						}
+					}
+					*/
+
+				}
+			}
+		}
+	}
+
+	return board_score;
+}
 
 void shallowest2(int step_count, bool my_turn)//这个函数是用于只检索一层的情况
 {

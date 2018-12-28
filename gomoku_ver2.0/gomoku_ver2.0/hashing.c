@@ -12,8 +12,6 @@ extern int coordinate[2];
 extern int roaming;
 extern unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
-//extern unsigned long long hashing_value2[depth_of_hashing][3];
-//extern unsigned long long hashing_value3[depth_of_hashing][4];
 extern HE hashing_value4[depth_of_hashing];
 
 extern int times_of_finding_out_in_ZobTable;//test
@@ -25,20 +23,14 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 	int chess;
 	unsigned long long int location;
 	if ((step_count % 2) == 0)
-	{
 		chess = black;
-	}
 	else
-	{
 		chess = white;
-	}
-
 
 	location = hashValue % depth_of_hashing;//生成一个特定的数组内的位置
 
 	if (!write)//只读模式
 	{
-		
 		if (hashing_value4[location].hash_value_of_board == hashValue)//如果这个哈希值等于棋盘现在的哈希值
 		{
 			/*

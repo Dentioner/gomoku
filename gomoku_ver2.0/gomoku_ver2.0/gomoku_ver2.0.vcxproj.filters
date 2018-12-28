@@ -39,9 +39,6 @@
     <ClCompile Include="Mersenne_Twister.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="minimax.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="enlighting_searching.c">
       <Filter>源文件</Filter>
     </ClCompile>

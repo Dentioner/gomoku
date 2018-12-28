@@ -8,27 +8,18 @@ extern int w;//白棋
 extern int b;//黑棋
 //判断禁手的函数
 extern bool banned_point_sheet[15][15];
+extern int all_vector[4][2];
 //本函数自身没有区分是白子执行还是黑子执行，也就是说如果一个禁手空位里面准备放白棋，函数还是会检测出禁手
 //最好是在外面调用此函数的时候看看是白子走还是黑子走
 bool detect_forbidden_step(int raw, int column)
 {
-	int horizon[2] = { 0,1 };//水平方向单位矢量
-	int perpendicular[2] = { 1,0 };//垂直方向单位矢量
-	int up_right_down_left[2] = { -1,1 };//右上左下方向单位矢量
-	int up_left_down_right[2] = { 1,1 };//左上右下方向单位矢量
 	bool forbid_three[4] = { false, false, false, false };//状态记录，分为4个方向，分别是水平，竖直，右上左下，左上右下
 	bool forbid_four[4] = { false, false, false, false };//状态记录，分为4个方向，分别是水平，竖直，右上左下，左上右下
-	int find_it[4] = { 0 };
+	int find_it[4] = { 0 };//0代表没有连五，也没有禁手；1代表有连五；2代表有禁手
 	int index;
-	//0代表没有连五，也没有禁手；1代表有连五；2代表有禁手
-	//DrawBoard(0, 1, 2);//test
-
-
-	find_it[0] = line_forbid(forbid_three, forbid_four, horizon, raw, column);
-	find_it[1] = line_forbid(forbid_three, forbid_four, perpendicular, raw, column);
-	find_it[2] = line_forbid(forbid_three, forbid_four, up_right_down_left, raw, column);
-	find_it[3] = line_forbid(forbid_three, forbid_four, up_left_down_right, raw, column);
 	
+	for (index = 0; index < 4; index++)
+		find_it[index] = line_forbid(forbid_three, forbid_four, all_vector[index], raw, column);
 	for (index = 0; index < 4; index++)//先看看四个方向里面有没有连五
 	{
 		if (find_it[index] == 1)
@@ -49,12 +40,10 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	int direct_now, other_direct1, other_direct2, other_direct3;//用于帮助确定forbid方位数组的
 	if (dx == 0 && dy == 1)//{0,1}
 	{
-
 		direct_now = 0;
 		other_direct1 = 1;
 		other_direct2 = 2;
 		other_direct3 = 3;
-
 	}
 	else if (dx == 1 && dy == 0)//{1,0}
 	{

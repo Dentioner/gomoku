@@ -52,7 +52,7 @@
    http://www.math.hiroshima-u.ac.jp/~m-mat/MT/emt.html
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove spaces)
 */
-
+//以下有关随机数生成的算法来自网络
 
 #include <stdio.h>
 #include<string.h>
@@ -169,6 +169,9 @@ int indexOf(int chess)
 	{
 		return 0;
 	}
+	printf("error\n");
+	system("pause");
+	return -1;
 }
 
 void initTable()
@@ -176,20 +179,10 @@ void initTable()
 	unsigned long long init[4] = { 0x12345ULL, 0x23456ULL, 0x34567ULL, 0x45678ULL }, length = 4;
 	init_by_array64(init, length);
 	for (int i = 0; i < 15; i++)
-	{
 		for (int j = 0; j < 15; j++)
-		{
 			for (int k = 0; k < 2; k++)
-			{
 				ZobristTable[i][j][k] = genrand64_int64();
-				
-			}
-		}
-	}
-
 }
 
-
-//这里删除了unsigned long long computeHash()这个函数，想看的话看ver1.0的版本
 
 

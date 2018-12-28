@@ -6,22 +6,16 @@ extern int w;//白棋
 extern int b;//黑棋
 extern bool BoardFull;
 bool judgement(int step_count)
-//步数用于判断是哪一方赢
-//返回值先设成布尔型
-{
+{//step_count用于判断是哪一方赢
 	int i, j;
 	bool continue_playing = true;
 	bool not_full = false;//这个布尔值用于判断，棋盘是否铺满了
-	//char *chess;
 	int chess;
+
 	if (step_count % 2)//如果step数不能整除2的话，就是白子
-	{
 		chess = w;
-	}
 	else
-	{
 		chess = b;
-	}
 
 	for (i = 0; i < 15; i++)
 	{

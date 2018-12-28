@@ -17,7 +17,6 @@ extern unsigned long long hashValue;//梅森旋转算法下，棋盘的哈希值
 //extern unsigned long long hashing_value2[depth_of_hashing][3];
 //extern unsigned long long hashing_value3[depth_of_hashing][4];
 extern HE hashing_value4[depth_of_hashing];
-long int best_score_of_upper[11] = { -infinity , infinity , -infinity, infinity , -infinity, infinity, -infinity , infinity , -infinity, infinity, -infinity };//给minimax里面的剪枝用的
 //注意上下这两个数组的编号问题。floor是从11往0递归的，因此要保持最后一个元素不变。
 bool not_in_the_same_branch[11] = { true, true, true, true, true, true, true, true, true, true, true };
 long int best_score_of_upper_ver2[12] = { infinity ,-infinity , infinity , -infinity, infinity , -infinity, infinity, -infinity , infinity , -infinity, infinity, -infinity };//给minimax里面的剪枝用的
@@ -39,14 +38,11 @@ void pve(long int value)
 	int chess;
 	int opponent_chess;
 	int step_count = 0; //游戏下了几个子的计数
-
-
 	bool my_turn = true; //这个东西是确认这一步是哪一方下子了
 	bool continue_playing = true; //确认游戏是否继续
 	bool find_forbidden_step = false;//禁手指标
 
 	initTable();
-	
 	ai_choice = offensive();
 
 	if (ai_choice == 1)
@@ -91,12 +87,12 @@ void pve(long int value)
 			if (step_count > 2)
 			{
 				init_best_score_of_upper();
-				//value = Minimax3(step_count, my_turn, floor);
+				
 				value = iteration_search(step_count, my_turn);
 				//下面几行为测试，提交时删除
-				printf("\nsearching %d times.\n", times_of_finding_out_in_ZobTable);
+				//printf("\nsearching %d times.\n", times_of_finding_out_in_ZobTable);
 				//system("pause");
-				times_of_finding_out_in_ZobTable = 0;
+				//times_of_finding_out_in_ZobTable = 0;
 				//上面几行为测试，提交时删除
 				if ((coordinate[0] == 0) && (coordinate[1] == 0))
 				{
@@ -154,6 +150,8 @@ void pve(long int value)
 		}
 		else
 		{
+			char c_getback = ' ';
+			int i_getback;
 			get_coordinate(step_count);
 			//把value和chessplay换过位置了，不知道会怎样
 			roaming = board[coordinate[0]][coordinate[1]];//记录上一步的状态
@@ -173,11 +171,11 @@ void pve(long int value)
 			return_to_normal_chess(step_count);
 			//下面是悔棋代码，可能会有问题			
 			printf("是否想要悔棋？按y悔棋，按别的任意键正常继续游戏.\n");
-			char c_getback = ' ';
+			
 			c_getback = getchar();
 			while (getchar() != '\n')
 				continue;
-			int i_getback = c_getback;
+			i_getback = c_getback;
 			if (i_getback == 89 || i_getback == 121)
 			{
 				board[coordinate[0]][coordinate[1]] = roaming;

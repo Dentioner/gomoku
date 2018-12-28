@@ -9,61 +9,33 @@ extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
 extern bool banned_point_sheet[15][15];
+int all_vector[4][2] = { {0,1}, {1,0}, {-1,1}, {1,1} };
 
 long int evaluation(int step_count, bool my_turn, int raw, int column)
-//step_count的作用是，确认这盘是黑子还是白子
-//my_turn 的作用是，确认这盘是我方还是敌方
-//raw和column是传递坐标，看看到底是哪个位置需要评估
-{
-	//先确认这把是白子下还是黑子下
+{//step_count的作用是，确认这盘是黑子还是白子, my_turn 的作用是，确认这盘是我方还是敌方, raw和column是传递坐标，看看到底是哪个位置需要评估
 	long int value = 0;
-	//int state = 0;//状态计数器，用于查找双活三双冲四之类的
 	bool state[4] = { false, false, false, false };//状态记录，分为4个方向，分别是水平，竖直，右上左下，左上右下
+	int i;
 
-	int horizon[2] = { 0,1 };//水平方向单位矢量
-	int perpendicular[2] = { 1,0 };//垂直方向单位矢量
-	int up_right_down_left[2] = { -1,1 };//右上左下方向单位矢量
-	int up_left_down_right[2] = { 1,1 };//左上右下方向单位矢量
-	//int all_vector[4][2] = { {0,1}, {1,0}, {-1,1}, {1,1} };
-	//int i;
-	/*这个循环还有问题，暂时不要用，这个配合all_vector一起使用，使用的时候将四个方位的注释掉
-	for (i = 0; i<4 && value > Consecutive_Five; i++)
-	{
-		value += line(state, all_vector[i], raw, column, step_count);
-	}
-	*/
 	if (banned_point_sheet[raw][column] && !(step_count%2))//黑子禁手点直接返回0分，不评估
-	{
 		return 0;
-	}
-	value += line(state, horizon, raw, column, step_count);//水平计分
-	value += line(state, perpendicular, raw, column, step_count);//垂直计分
-	value += line(state, up_right_down_left, raw, column, step_count);//右上左下计分
-	value += line(state, up_left_down_right, raw, column, step_count);//左上右下计分
-	
-	//如果这个是在评估对方的分数，就输出为负
-	//现在的问题是，这个函数是己方对方各用一次，还是一个函数里面将双方都考虑一次？
-	//目前的处理是，将这个函数己方对方各用一次，用布尔型my_turn区分
-
+	for (i = 0; i < 4; i++)
+		value += line(state, all_vector[i], raw, column, step_count);
 	if (value > Consecutive_Five)//再次修正得分，以排除不同方位叠加导致的分数超过连五
 		value = Consecutive_Five;
 	if (!my_turn)
 		value *= -1;
 	return value;
-
 }
 
 long int line(bool state[], int vector[], int raw, int column, int step_count)//单一方向打分
-{
-	//vector是代表方向的单位矢量，分为{0,1}{1,0},{-1,1},{1,1}四种
-	//分别代表水平方向，竖直方向，右上左下方向，左上右下方向
+{//vector是代表方向的单位矢量，分为{0,1}{1,0},{-1,1},{1,1}四种, 分别代表水平方向，竖直方向，右上左下方向，左上右下方向
 	int chess;
 	int opponent_chess;
 	long int value = 0;
 	int dx = vector[0];
 	int dy = vector[1];
 	int direct_now, other_direct1, other_direct2, other_direct3;//用于帮助确定state的
-	//bool special_state_for_four = false;//这个状态是用于判断同一直线上的双四棋型的，双三没有这种情况
 	if (step_count % 2)//如果step数不能整除2的话，就是白子 
 	{
 		chess = w;
@@ -77,12 +49,10 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 
 	if (dx == 0 && dy == 1)//{0,1}
 	{
-
 		direct_now = 0;
 		other_direct1 = 1;
 		other_direct2 = 2;
 		other_direct3 = 3;
-
 	}
 	else if (dx == 1 && dy == 0)//{1,0}
 	{
