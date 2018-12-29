@@ -79,21 +79,17 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
 		&& (board[raw - 3 * dx][column - 3 * dy] == b)
 		&& (board[raw - 4 * dx][column - 4 * dy] == b)//连五
-
 		&& ((board[raw - 5 * dx][column - 5 * dy] != b) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dy < 0) || (column - 5 * dy > 14))
 		&& ((board[raw + 1 * dx][column + 1 * dy] != b) || (raw + 1 * dx < 0) || (raw + 1 * dx > 14) || (column + 1 * dy < 0) || (column + 1 * dy > 14))
 		//最边上的位置不是黑子
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
-	{
 		return 1;
-	}
 	// X●●●?●X型，X代表不是黑子
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
 		&& (board[raw - 3 * dx][column - 3 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)//连五
-
 		&& ((board[raw - 4 * dx][column - 4 * dy] != b) || (raw - 4 * dx < 0) || (raw - 4 * dx > 14) || (column - 4 * dy < 0) || (column - 4 * dy > 14))
 		&& ((board[raw + 2 * dx][column + 2 * dy] != b) || (raw + 2 * dx < 0) || (raw + 2 * dx > 14) || (column + 2 * dy < 0) || (column + 2 * dy > 14))
 		//最边上的位置不是黑子
@@ -101,63 +97,46 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
-	{
 		return 1;
-	}
 
 	// X●●?●●X型，X代表不是黑子
-
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
-
 		&& ((board[raw - 3 * dx][column - 3 * dy] != b) || (raw - 3 * dx < 0) || (raw - 3 * dx > 14) || (column - 3 * dy < 0) || (column - 3 * dy > 14))
 		&& ((board[raw + 3 * dx][column + 3 * dy] != b) || (raw + 3 * dx < 0) || (raw + 3 * dx > 14) || (column + 3 * dy < 0) || (column + 3 * dy > 14))
 		//最边上的位置不是黑子
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
-	{
 		return 1;
-	}
 	
 	// X●?●●●X型，X代表不是黑子
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
-
 		&& ((board[raw - 2 * dx][column - 2 * dy] != b) || (raw - 2 * dx < 0) || (raw - 2 * dx > 14) || (column - 2 * dy < 0) || (column - 2 * dy > 14))
 		&& ((board[raw + 4 * dx][column + 4 * dy] != b) || (raw + 4 * dx < 0) || (raw + 4 * dx > 14) || (column + 4 * dy < 0) || (column + 4 * dy > 14))
 		//最边上的位置不是黑子
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
-	{
 		return 1;
-	}
-
 	//X?●●●●X型
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
 		&& (board[raw + 4 * dx][column + 4 * dy] == b)
-
 		&& ((board[raw - 1 * dx][column - 1 * dy] != b) || (raw - 1 * dx < 0) || (raw - 1 * dx > 14) || (column - 1 * dy < 0) || (column - 1 * dy > 14))
 		&& ((board[raw + 5 * dx][column + 5 * dy] != b) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dy < 0) || (column + 5 * dy > 14))
 		//最边上的位置不是黑子
-
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
-	{
 		return 1;
-	}
-
 	//检查长连
 	//以水平方向为例
 			//●●●●●?型
@@ -168,79 +147,60 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 5 * dx][column - 5 * dy] == b)
 		&& (raw - 5 * dx >= 0) && (raw - 5 * dx <= 14)
 		&& (column - 5 * dy >= 0) && (column - 5 * dy <= 14))
-	{
 		return 2;
-	}
-			//●●●●?●型
+	//●●●●?●型
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
 		&& (board[raw - 3 * dx][column - 3 * dy] == b)
 		&& (board[raw - 4 * dx][column - 4 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
-	{
 		return 2;
-	}
 	//●●●?●●型
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
 		&& (board[raw - 3 * dx][column - 3 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
-	{
 		return 2;
-	}
-
 	//●●?●●●型
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
-	{
 		return 2;
-	}
-
 	//●?●●●●型
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
 		&& (board[raw + 4 * dx][column + 4 * dy] == b)
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
-	{
 		return 2;
-	}
 	//?●●●●●型
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
 		&& (board[raw + 4 * dx][column + 4 * dy] == b)
 		&& (board[raw + 5 * dx][column + 5 * dy] == b)
-
 		&& (raw + 5 * dx >= 0) && (raw + 5 * dx <= 14)
 		&& (column + 5 * dy >= 0) && (column + 5 * dy <= 14))
-	{
 		return 2;
-	}
 	//检查活四
 	//写到这里了
 		//水平方向
@@ -252,7 +212,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 4 * dx][column + 4 * dy] != w)
 		&& (board[raw - 1 * dx][column - 1 * dy] != b)
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
@@ -260,9 +219,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 	//_●?●●_型
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
@@ -272,7 +229,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 3 * dx][column + 3 * dy] != w)
 		&& (board[raw - 2 * dx][column - 2 * dy] != b)
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
@@ -280,9 +236,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 
 	//_●●?●_型
@@ -293,7 +247,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 2 * dx][column + 2 * dy] != w)
 		&& (board[raw - 3 * dx][column - 3 * dy] != b)
 		&& (board[raw - 3 * dx][column - 3 * dy] != w)
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
@@ -301,11 +254,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	//_●●●?_型
 	if ((board[raw - 3 * dx][column - 3 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
@@ -314,7 +264,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 1 * dx][column + 1 * dy] != w)
 		&& (board[raw - 4 * dx][column - 4 * dy] != b)
 		&& (board[raw - 4 * dx][column - 4 * dy] != w)
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
@@ -322,11 +271,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	//一种冲四
 	//形如 ●●●_●的
 	//倒过来又是一种：和 ●_●●●
@@ -338,24 +284,19 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 4 * dx][column + 4 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] != b)
 		&& (board[raw + 3 * dx][column + 3 * dy] != w)
-
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	//●?●_●
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] != b)
 		&& (board[raw + 2 * dx][column + 2 * dy] != w)
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
@@ -363,9 +304,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 
 	//●●?_●
@@ -374,7 +313,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] != b)
 		&& (board[raw + 1 * dx][column + 1 * dy] != w)
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
@@ -382,9 +320,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 
 	//●●●_?,这种情况只有冲四有
@@ -393,22 +329,18 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 4 * dx][column - 4 * dy] == b)
 		&& (board[raw - 1 * dx][column - 1 * dy] != b)
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 
 	//冲四
 	//●●●_●
 	//倒过来又是一种：●_●●●
 	//现在是下面那种
-
 		//水平方向
 			//和 ●_●●?
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
@@ -416,15 +348,12 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 4 * dx][column - 4 * dy] == b)
 		&& (board[raw - 3 * dx][column - 3 * dy] != b)
 		&& (board[raw - 3 * dx][column - 3 * dy] != w)
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 
 	//●_●?●
@@ -433,7 +362,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 3 * dx][column - 3 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] != b)
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
@@ -441,19 +369,14 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
-
 	//●_?●●
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
 		&& (board[raw - 1 * dx][column - 1 * dy] != b)
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
@@ -461,9 +384,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 
 	//?_●●●
@@ -472,17 +393,13 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 4 * dx][column + 4 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] != b)
 		&& (board[raw + 1 * dx][column + 1 * dy] != w)
-
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	//活三
 	//分别是形如_●●●__
 	//倒过来又是一种：__●●●_
@@ -497,8 +414,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
 		&& (board[raw + 4 * dx][column + 4 * dy] != b)
 		&& (board[raw + 4 * dx][column + 4 * dy] != w)
-
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
@@ -506,11 +421,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_three[direct_now] = true;
 		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	//_●?●__
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
@@ -520,7 +432,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
 		&& (board[raw + 3 * dx][column + 3 * dy] != b)
 		&& (board[raw + 3 * dx][column + 3 * dy] != w)
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
@@ -528,9 +439,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_three[direct_now] = true;
 		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-		{
 			return 2;
-		}
 	}
 
 	//_●●?__
@@ -542,7 +451,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 1 * dx][column + 1 * dy] != w)
 		&& (board[raw + 2 * dx][column + 2 * dy] != b)
 		&& (board[raw + 2 * dx][column + 2 * dy] != w)
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
@@ -550,11 +458,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_three[direct_now] = true;
 		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	//活三
 	//分别是形如_●●●__ 
 	//倒过来又是一种：__●●●_
@@ -571,7 +476,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 4 * dx][column - 4 * dy] != b)
 		&& (board[raw - 4 * dx][column - 4 * dy] != w)
 		&& (board[raw + 2 * dx][column + 2 * dy] != b)//排除__●●●_●这个情况
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
@@ -579,14 +483,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_three[direct_now] = true;
 		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-		{
-			return 2;
-		}
-	
-		//这里删掉了一堆判断__●●●__的代码
-
+			return 2;	
 	}
-
 	//__●?●_
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw - 1 * dx][column - 1 * dy] == b)
@@ -597,7 +495,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 3 * dx][column - 3 * dy] != b)
 		&& (board[raw - 3 * dx][column - 3 * dy] != w)
 		&& (board[raw + 3 * dx][column + 3 * dy] != b)//排除__●●●_●这个情况
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
@@ -605,13 +502,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_three[direct_now] = true;
 		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-		{
 			return 2;
-		}
-
-		//这里删掉了一堆判断__●●●__的代码
 	}
-
 	//__?●●_
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
@@ -622,7 +514,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 2 * dx][column - 2 * dy] != b)
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
 		&& (board[raw + 4 * dx][column + 4 * dy] != b)//排除__●●●_●这个情况
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
@@ -630,13 +521,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_three[direct_now] = true;
 		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-		{
 			return 2;
-		}
-
-		//这里删掉了一堆判断__●●●__的代码
 	}
-
 	//检查冲四●●_●●Gapped22
 		//水平方向
 			//?●_●●
@@ -645,25 +531,19 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 4 * dx][column + 4 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] != b)
 		&& (board[raw + 2 * dx][column + 2 * dy] != w)
-
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
-			return 2;
-		}
-		
+			return 2;		
 	}
-
 	//●?_●●
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] != b)
 		&& (board[raw + 1 * dx][column + 1 * dy] != w)
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
@@ -671,19 +551,14 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
-
 	}
-
 	//●●_?●
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
 		&& (board[raw - 3 * dx][column - 3 * dy] == b)
 		&& (board[raw - 1 * dx][column - 1 * dy] != b)
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
@@ -691,30 +566,21 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
-
 	}
-
 	//●●_●?
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw - 3 * dx][column - 3 * dy] == b)
 		&& (board[raw - 4 * dx][column - 4 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] != b)
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
-
 	}
-
 	//检查冲四Capped_Four ○●●●●_，还有一种反方向的在下面，这里先写一种方向
 		// 水平方向
 			// ○?●●●_
@@ -724,17 +590,13 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& ((board[raw - 1 * dx][column - 1 * dy] == w) || (raw - 1 * dx < 0) || (raw - 1 * dx > 14) || (column - 1 * dy < 0) || (column - 1 * dy > 14))
 		&& (board[raw + 4 * dx][column + 4 * dy] != b)
 		&& (board[raw + 4 * dx][column + 4 * dy] != w)
-
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	// ○●?●●_
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
@@ -742,7 +604,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& ((board[raw - 2 * dx][column - 2 * dy] == w) || (raw - 2 * dx < 0) || (raw - 2 * dx > 14) || (column - 2 * dy < 0) || (column - 2 * dy > 14))
 		&& (board[raw + 3 * dx][column + 3 * dy] != b)
 		&& (board[raw + 3 * dx][column + 3 * dy] != w)
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
@@ -750,9 +611,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 	// ○●●?●_
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
@@ -761,7 +620,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& ((board[raw - 3 * dx][column - 3 * dy] == w) || (raw - 3 * dx < 0) || (raw - 3 * dx > 14) || (column - 3 * dy < 0) || (column - 3 * dy > 14))
 		&& (board[raw + 2 * dx][column + 2 * dy] != b)
 		&& (board[raw + 2 * dx][column + 2 * dy] != w)
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
@@ -769,9 +627,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 	// ○●●●?_
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
@@ -780,7 +636,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& ((board[raw - 4 * dx][column - 4 * dy] == w) || (raw - 4 * dx < 0) || (raw - 4 * dx > 14) || (column - 4 * dy < 0) || (column - 4 * dy > 14))
 		&& (board[raw + 1 * dx][column + 1 * dy] != b)
 		&& (board[raw + 1 * dx][column + 1 * dy] != w)
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
@@ -788,11 +643,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	//冲四的另外一种方向_●●●●○
 		// 水平方向
 			// _●●●?○
@@ -802,15 +654,12 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& ((board[raw + 1 * dx][column + 1 * dy] == w) || (raw + 1 * dx < 0) || (raw + 1 * dx > 14) || (column + 1 * dy < 0) || (column + 1 * dy > 14))
 		&& (board[raw - 4 * dx][column - 4 * dy] != b)
 		&& (board[raw - 4 * dx][column - 4 * dy] != w)
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
 	// _●●?●○
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
@@ -819,7 +668,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& ((board[raw + 2 * dx][column + 2 * dy] == w) || (raw + 2 * dx < 0) || (raw + 2 * dx > 14) || (column + 2 * dy < 0) || (column + 2 * dy > 14))
 		&& (board[raw - 3 * dx][column - 3 * dy] != b)
 		&& (board[raw - 3 * dx][column - 3 * dy] != w)
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
@@ -827,11 +675,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	// _●?●●○
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
@@ -839,7 +684,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& ((board[raw + 3 * dx][column + 3 * dy] == w) || (raw + 3 * dx < 0) || (raw + 3 * dx > 14) || (column + 3 * dy < 0) || (column + 3 * dy > 14))
 		&& (board[raw - 2 * dx][column - 2 * dy] != b)
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
@@ -847,11 +691,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	// _?●●●○
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
@@ -859,7 +700,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& ((board[raw + 4 * dx][column + 4 * dy] == w) || (raw + 4 * dx < 0) || (raw + 4 * dx > 14) || (column + 4 * dy < 0) || (column + 4 * dy > 14))
 		&& (board[raw - 1 * dx][column - 1 * dy] != b)
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
@@ -867,11 +707,8 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-		{
 			return 2;
-		}
 	}
-
 	//检查扁担四：
 	//X●●_●●_●●X & X●●●_●_●●●X & X●_●●●_●X
 	//注意打X的位点不能是自己的子，否则那几个夹在中间的空位会产生长连禁手而不能落子
@@ -889,14 +726,11 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
 		&& ((board[raw + 5 * dx][column + 5 * dy] != b) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
 		&& ((board[raw - 4 * dx][column - 4 * dy] != b) || (raw - 4 * dx < 0) || (raw - 4 * dx > 14) || (column - 4 * dx < 0) || (column - 4 * dx > 14))
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
-	{
 		return 2;
-	}
 	//X●●_●?_●●X
 	if ((board[raw + 2 * dx][column + 2 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
@@ -909,14 +743,11 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
 		&& ((board[raw + 4 * dx][column + 4 * dy] != b) || (raw + 4 * dx < 0) || (raw + 4 * dx > 14) || (column + 4 * dx < 0) || (column + 4 * dx > 14))
 		&& ((board[raw - 5 * dx][column - 5 * dy] != b) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
-	{
 		return 2;
-	}
 	//检查X●●●_●_●●●X
 	//X●●●_?_●●●X
 	if ((board[raw + 2 * dx][column + 2 * dy] == b)
@@ -931,15 +762,11 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
 		&& ((board[raw + 5 * dx][column + 5 * dy] != b) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
 		&& ((board[raw - 5 * dx][column - 5 * dy] != b) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
-	{
 		return 2;
-	}
-
 	//检查X●_●●●_●X
 	//X●_?●●_●X
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
@@ -952,15 +779,11 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
 		&& ((board[raw + 5 * dx][column + 5 * dy] != b) || (raw + 5 * dx < 0) || (raw + 5 * dx > 14) || (column + 5 * dx < 0) || (column + 5 * dx > 14))
 		&& ((board[raw - 3 * dx][column - 3 * dy] != b) || (raw - 3 * dx < 0) || (raw - 3 * dx > 14) || (column - 3 * dx < 0) || (column - 3 * dx > 14))
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
-	{
 		return 2;
-	}
-
 	//X●_●?●_●X
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
@@ -972,15 +795,11 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
 		&& ((board[raw + 4 * dx][column + 4 * dy] != b) || (raw + 4 * dx < 0) || (raw + 4 * dx > 14) || (column + 4 * dx < 0) || (column + 4 * dx > 14))
 		&& ((board[raw - 4 * dx][column - 4 * dy] != b) || (raw - 4 * dx < 0) || (raw - 4 * dx > 14) || (column - 4 * dx < 0) || (column - 4 * dx > 14))
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
-	{
 		return 2;
-	}
-
 	//X●_●●?_●X
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
@@ -992,15 +811,11 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 3 * dx][column - 3 * dy] != w)
 		&& ((board[raw + 3 * dx][column + 3 * dy] != b) || (raw + 3 * dx < 0) || (raw + 3 * dx > 14) || (column + 3 * dx < 0) || (column + 3 * dx > 14))
 		&& ((board[raw - 5 * dx][column - 5 * dy] != b) || (raw - 5 * dx < 0) || (raw - 5 * dx > 14) || (column - 5 * dx < 0) || (column - 5 * dx > 14))
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
-	{
 		return 2;
-	}
-
 	//检查跳活三Gapped_Three  _●_●●_与_●●_●_
 		//要排除_●_●●_●_这种情况
 		//水平方向
@@ -1014,7 +829,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 1 * dx][column + 1 * dy] != w)
 		&& (board[raw + 4 * dx][column + 4 * dy] != b)
 		&& (board[raw + 4 * dx][column + 4 * dy] != w)
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
@@ -1030,12 +844,9 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		{
 			forbid_three[direct_now] = true;
 			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-			{
 				return 2;
-			}
 		}
 	}
-
 	//_●_?●_
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw - 2 * dx][column - 2 * dy] == b)
@@ -1045,7 +856,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 2 * dx][column + 2 * dy] != w)
 		&& (board[raw - 3 * dx][column - 3 * dy] != b)
 		&& (board[raw - 3 * dx][column - 3 * dy] != w)
-
 		&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 		&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14)
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
@@ -1062,12 +872,9 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		{
 			forbid_three[direct_now] = true;
 			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-			{
 				return 2;
-			}
 		}
 	}
-
 	//_●_●?_
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw - 3 * dx][column - 3 * dy] == b)
@@ -1077,7 +884,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw + 1 * dx][column + 1 * dy] != w)
 		&& (board[raw - 4 * dx][column - 4 * dy] != b)
 		&& (board[raw - 4 * dx][column - 4 * dy] != w)
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
@@ -1087,19 +893,15 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		if ((board[raw + 2 * dx][column + 2 * dy] == b)
 			&& (board[raw + 3 * dx][column + 3 * dy] != b)
 			&& (board[raw + 3 * dx][column + 3 * dy] != w)
-
 			&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 			&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14));
 		else
 		{
 			forbid_three[direct_now] = true;
 			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-			{
 				return 2;
-			}
 		}
 	}
-
 	//再检查_●●_●_
 		//_●●_?_
 	if ((board[raw - 2 * dx][column - 2 * dy] == b)
@@ -1110,7 +912,6 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
 		&& (board[raw - 4 * dx][column - 4 * dy] != b)
 		&& (board[raw - 4 * dx][column - 4 * dy] != w)
-
 		&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14)
 		&& (raw + 1 * dx >= 0) && (raw + 1 * dx <= 14)
@@ -1120,19 +921,15 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		if ((board[raw - 5 * dx][column - 5 * dy] == b)
 			&& (board[raw - 6 * dx][column - 6 * dy] != b)
 			&& (board[raw - 6 * dx][column - 6 * dy] != w)
-
 			&& (raw - 6 * dx >= 0) && (raw - 6 * dx <= 14)
 			&& (column - 6 * dy >= 0) && (column - 6 * dy <= 14));
 		else
 		{
 			forbid_three[direct_now] = true;
 			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-			{
 				return 2;
-			}
 		}
 	}
-
 	//_●?_●_
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw + 2 * dx][column + 2 * dy] == b)
@@ -1142,29 +939,23 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 2 * dx][column - 2 * dy] != w)
 		&& (board[raw + 3 * dx][column + 3 * dy] != b)
 		&& (board[raw + 3 * dx][column + 3 * dy] != w)
-
 		&& (raw - 2 * dx >= 0) && (raw - 2 * dx <= 14)
 		&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14)
 		&& (raw + 3 * dx >= 0) && (raw + 3 * dx <= 14)
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
-	{
-		//排除_●_●?_●_
+	{		//排除_●_●?_●_
 		if ((board[raw - 3 * dx][column - 3 * dy] == b)
 			&& (board[raw - 4 * dx][column - 4 * dy] != b)
 			&& (board[raw - 4 * dx][column - 4 * dy] != w)
-
 			&& (raw - 4 * dx >= 0) && (raw - 4 * dx <= 14)
 			&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14));
 		else
 		{
 			forbid_three[direct_now] = true;
 			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-			{
 				return 2;
-			}
 		}
 	}
-
 	//_?●_●_
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
 		&& (board[raw + 3 * dx][column + 3 * dy] == b)
@@ -1174,29 +965,22 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (board[raw - 1 * dx][column - 1 * dy] != w)
 		&& (board[raw + 4 * dx][column + 4 * dy] != b)
 		&& (board[raw + 4 * dx][column + 4 * dy] != w)
-
 		&& (raw - 1 * dx >= 0) && (raw - 1 * dx <= 14)
 		&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14)
 		&& (raw + 4 * dx >= 0) && (raw + 4 * dx <= 14)
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
-	{
-		//排除_●_?●_●_
+	{		//排除_●_?●_●_
 		if ((board[raw - 2 * dx][column - 2 * dy] == b)
 			&& (board[raw - 3 * dx][column - 3 * dy] != b)
 			&& (board[raw - 3 * dx][column - 3 * dy] != w)
-
 			&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 			&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14));
 		else 
 		{
 			forbid_three[direct_now] = true;
 			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-			{
 				return 2;
-			}
 		}
 	}
-
-
 	return 0;
 }

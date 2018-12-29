@@ -78,9 +78,6 @@ static unsigned long long mt[NN];
 /* mti==NN+1 means mt[NN] is not initialized  */
 
 static int mti = NN + 1;
-
-//unsigned long long ZobristTable[15][15][2];
-
 /* initializes mt[NN] with a seed */
 void init_genrand64(unsigned long long seed)
 {
@@ -150,25 +147,19 @@ unsigned long long genrand64_int64(void)
 		mti = 0;
 	}
 	x = mt[mti++];
-
 	x ^= (x >> 29) & 0x5555555555555555ULL;
 	x ^= (x << 17) & 0x71D67FFFEDA60000ULL;
 	x ^= (x << 37) & 0xFFF7EEE000000000ULL;
 	x ^= (x >> 43);
-
 	return x;
 }
 
 int indexOf(int chess)
 {
 	if (chess == w)
-	{
 		return 1;
-	}
 	else if (chess == b)
-	{
 		return 0;
-	}
 	printf("error\n");
 	system("pause");
 	return -1;

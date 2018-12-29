@@ -77,10 +77,8 @@ bool judgement(int step_count)
 				|| (board[i][j] == 9)
 				|| (board[i][j] == 5)
 				|| (board[i][j] == 11)
-				|| (board[i][j] == 8))
-			{
+				|| (board[i][j] == 8))		
 				not_full = true;
-			}
 		}
 	}
 
@@ -90,5 +88,4 @@ bool judgement(int step_count)
 		BoardFull = true;
 	}
 	return continue_playing;
-
 }

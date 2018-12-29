@@ -38,11 +38,6 @@ void pvp(long int value)
 		chess_play_ver2(step_count);
 		temp_point[0] = coordinate[0];
 		temp_point[1] = coordinate[1];
-		//测试用
-		if (coordinate[0] == 6 && coordinate[1] == 9)
-		{
-			printf("\n");
-		}
 		hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
 		value = Searching_Hashing(step_count, my_turn, 0, false, 0);
 		if (value == 0)
@@ -96,14 +91,9 @@ void pvp(long int value)
 	else
 	{
 		if (step_count % 2)
-		{
 			printf("黑子获胜");
-		}
 		else
-		{
 			printf("白子获胜");
-		}
-
 	}
 	return;
 }
@@ -133,5 +123,3 @@ void return_to_normal_chess(int step_count)
 	else
 		board[raw][column] = white;
 }
-
-

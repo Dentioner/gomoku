@@ -17,8 +17,7 @@ void get_coordinate(int step_count)
 	bool invalid_raw = true;//判断输入的raw是否合法
 
 	while (invalid_coordinate)
-	{
-		//下面是用户输入的坐标，还需处理
+	{//下面是用户输入的坐标，还需处理
 		printf("请选择下一步，先输入一个行数，例如：2\n");
 		while (invalid_raw)
 		{
@@ -30,13 +29,11 @@ void get_coordinate(int step_count)
 				printf("无效输入，请重试\n");
 				continue;
 			}
-
 			if (1 > raw || 15 < raw)
 			{
 				printf("无效输入，请重试\n");
 				continue;
 			}
-
 			invalid_raw = false;
 		}
 
@@ -51,11 +48,9 @@ void get_coordinate(int step_count)
 			while (getchar() != '\n')
 				continue;
 		}//下面是将用户输入的坐标转换为数组能识别的坐标
-
 		column_c = toupper(column_c);
 		column = column_c - 'A';
-		raw = 15 - raw;
-		
+		raw = 15 - raw;		
 		if ((board[raw][column] == b)||(board[raw][column] == w))//判断是否该坐标已经有棋子了
 		{
 			printf("该位置已经有棋子了，请重新选择一个坐标\n");

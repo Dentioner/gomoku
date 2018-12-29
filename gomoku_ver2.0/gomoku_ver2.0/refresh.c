@@ -9,7 +9,6 @@ extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
 extern int coordinate[2];
-//extern bool show_me_the_array;//测试用
 extern bool ai_first;
 extern long int empty_score_total_black[15][15];
 extern long int empty_score_total_white[15][15];
@@ -48,11 +47,8 @@ void re_calculate(int vector[], int step_count, bool my_turn)
 				}
 				white_value = evaluation(3, true, raw, column);//将step_count强行令为奇数3，保证是白子得分，并将my_turn强行置为true，保证输出得分为正数
 				empty_score_total_white[raw][column] = white_value;
-				//if (empty_score_total_white[4][12] == 10000)
-					//printf("test\n");
 			}
 		}
-
 	}
 }
 
