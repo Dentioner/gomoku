@@ -1,18 +1,9 @@
 ﻿  iteration.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(42): warning C4101: “start_time”: 未引用的局部变量
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(42): warning C4101: “end_time”: 未引用的局部变量
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(42): warning C4101: “cost_time”: 未引用的局部变量
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(557): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(600): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(652): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(653): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(680): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(681): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-  pve.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pve.c(164): warning C4013: “system”未定义；假设外部返回 int
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pve.c(235): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 参见“scanf”的声明
-  pvp.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\pvp.c(59): warning C4013: “system”未定义；假设外部返回 int
-  正在生成代码...
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(57): warning C4013: “system”未定义；假设外部返回 int
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(515): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(558): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(610): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(611): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(638): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(639): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
   gomoku_ver2.0.vcxproj -> E:\coding\gomoku\gomoku_ver2.0\Debug\gomoku_ver2.0.exe

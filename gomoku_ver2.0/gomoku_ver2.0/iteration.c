@@ -48,20 +48,23 @@ long int iteration_search(int step_count, bool my_turn)
 		be_searched_point = &RootBoard[coordinate[0]][coordinate[1]];//将被搜索的根节点指针指向 对方刚刚落子的那个空位  对应在根节点棋盘的位置
 		be_searched_point->raw = coordinate[0];
 		be_searched_point->column = coordinate[1];
-		//RootBoard[coordinate[0]][coordinate[1]] = be_searched_point;
-		//start_time = clock();
+		 
+		start_time = clock();
 		best_score = Minimax4(step_count, true, floor, floor);
-		//end_time = clock();
-		//cost_time = (end_time - start_time) / CLK_TCK;
-		//printf("floor = %d\ttime = %fs.\n", floor, cost_time);
-		//system("pause");
+		end_time = clock();
+		cost_time = (end_time - start_time) / CLK_TCK;
+		printf("floor = %d\ttime = %fs.\n", floor, cost_time);
+		system("pause");
 	}
-	raw = RootBoard[coordinate[0]][coordinate[1]].best_leaf[0];//将最原始的那个根节点，也就是对方上一局落子的坐标 对应的那个根节点  的最佳坐标赋给coordinate
-	column = RootBoard[coordinate[0]][coordinate[1]].best_leaf[1];
-	coordinate[0] = raw;
-	coordinate[1] = column;
+	if (best_score != -infinity || floor == 2)
+	{
+		raw = RootBoard[coordinate[0]][coordinate[1]].best_leaf[0];//将最原始的那个根节点，也就是对方上一局落子的坐标 对应的那个根节点  的最佳坐标赋给coordinate
+		column = RootBoard[coordinate[0]][coordinate[1]].best_leaf[1];
+		coordinate[0] = raw;
+		coordinate[1] = column;
+	}
 	return best_score;
-}
+} 
 
 
 long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
@@ -76,6 +79,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 	//2表示当前棋局没有发现我方连五，但是发现对方连五
 	int abs_distance = top_floor - floor;//这个参数用于衡量本层离最上层的距离，因为迭代加深的缘故，每一次迭代加深对于相同的棋局来说，都处于不同的floor数，只有这个参数能够保持不变
 	long int best_score = 0;
+	long int worst_score = 0;
 	//po best_point;
 	int best_coordinate[2] = { 0,0 };
 	long int temp_score = 0;
@@ -139,7 +143,8 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 				else//这种情况是，在某一层（不是最外层）搜到了连五点，那就当做最底层开始搜
 				{
 					//best_score = deepest(step_count, my_turn);
-					stop_searching = true;
+					//stop_searching = true;
+				
 					return infinity;
 				}
 			}
@@ -187,32 +192,11 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							temp_point[1] = column;
 							refresh_banned_point_whole();
 							refresh_score(step_count, my_turn);
-							//测试用，打印ZobristTable，看看是否正常
-							/*
-							for (int z1 = 0; z1 < 15; z1++)
-							{
-								for (int z2 = 0; z2 < 15; z2++)
-								{
-									printf("%llu, %llu\n", ZobristTable[z1][z2][0], ZobristTable[z1][z2][1]);
-								}
-							}
-							*/
-
-
-							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
-
-							//下面这几行是在测试的时候使用的，正式使用的时候关掉
-
-							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
-
+							
+							hashValue ^= ZobristTable[raw][column][(step_count % 2)];				
 
 							temp_score = Searching_Hashing(step_count, my_turn, 0, false, floor);
-							//上面这一行在启用哈希表搜索的时候要用到，千万不要删了
-							/*
-							if (floor >= 4 && show_me_the_array)//test
-								DrawBoard(0, 2, step_count);
-							*/
+							
 							if (temp_score == 0)
 							{
 								be_searched_point = &RootBoard[raw][column];
@@ -221,16 +205,10 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 								temp_score = Minimax4(step_count + 1, !my_turn, floor - 1, top_floor);
 							}
 
-							//下面这行是在测试的时候使用的，正式使用的时候关掉
-							//DrawBoard(board, 15, 0, 2, coordinate, step_count);
-
-
-							//下面是从井字棋那里搬过来的
-
-
 							if (!initialized)
 							{
 								best_score = temp_score;
+								worst_score = temp_score;
 								initialized = true;
 								//之前是只有最外层记录坐标，现在不管是哪一层都得记录一次
 								RootPoint_of_this_floor->best_leaf[0] = raw;
@@ -278,21 +256,17 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 
 									}
 								}
-								//复原
-							}
+								if (temp_score < worst_score)
+									worst_score = temp_score;
+								
+							}//复原
 							board[raw][column] = temp_blank;
 							temp_point[0] = raw;
 							temp_point[1] = column;//需要重新赋值一遍，因为更下一层的递归修改过这个全局变量
 							refresh_banned_point_whole();
 							refresh_score(step_count, my_turn);//再刷新一次
 							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
-							{
-								Searching_Hashing(step_count, my_turn, temp_score, true, floor);
-
-
-
-
-							}
+								Searching_Hashing(step_count, my_turn, temp_score, true, floor);						
 							//上面这几行在启用哈希表搜索的时候要用到，千万不要删了
 
 							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
@@ -303,23 +277,20 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 								not_in_the_same_branch[floor - 1] = false;
 							}
 							if (best_score == infinity)
-							{
-								/*
-								if (abs_distance == 0)
-								{
-									coordinate[0] = temp_bestpoint[abs_distance][0];
-									coordinate[1] = temp_bestpoint[abs_distance][1];
-								}
-								*/
+							{	
 								return best_score;
-							}
-
+							}							 
 						}
 					}
+				}
 
-
-
-
+				//循环完了之后，检测是不是所有的路径都是必胜或必败
+				if ((abs_distance == 0) && (best_score == worst_score))
+				{
+					if (worst_score == infinity)//必胜
+						stop_searching = true;
+					else if (best_score == -infinity)//必败
+						stop_searching = true;
 				}
 
 			}
@@ -335,7 +306,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 			if (status != 0)//my_turn为假的时候不可能是最外层，因此少了一个if语句
 			{
 				//best_score = deepest(step_count, my_turn);
-				stop_searching = true;
+				
 				return -infinity;
 			}
 
@@ -503,24 +474,11 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 		}
 
 	}
-	//最底层↓
-	else
+	
+	else//最底层↓
 	{
 		best_score = deepest(step_count, my_turn);
 	}
-
-	//最外层，将要返回一个最终决定的最优坐标
-	/*
-	if (floor == top_floor)
-	{
-		*coordinate = *best_coordinate;
-		*(coordinate + 1) = *(best_coordinate + 1);
-		best_score = evaluation(step_count, my_turn, coordinate[0], coordinate[1]);
-	}
-	*/
-
-
-	//strncpy(board[best_coordinate[0]][best_coordinate[1]], temp_blank, 2);
 
 
 	return best_score;
