@@ -6,7 +6,7 @@
 #include"head.h"
 #include<time.h>
 
-int board[15][15] = {0};
+int board[15][15] = { 0 };
 int coordinate[2] = { 0, 0 };
 int w = 119;//白棋
 int b = 98;//黑棋
@@ -143,7 +143,7 @@ void DrawBoard(long int value, int mode_choice, int step_count)
 	}
 	printf("   A B C D E F G H I J K L M N O \n");
 
-	if (step_count != -1) 
+	if (step_count != -1)
 	{
 		if (step_count == 0 && coordinate[0] == 0 && coordinate[1] == 0)
 			printf("没有上一步落子的信息\n");

@@ -17,7 +17,7 @@ bool detect_forbidden_step(int raw, int column)
 	bool forbid_four[4] = { false, false, false, false };//状态记录，分为4个方向，分别是水平，竖直，右上左下，左上右下
 	int find_it[4] = { 0 };//0代表没有连五，也没有禁手；1代表有连五；2代表有禁手
 	int index;
-	
+
 	for (index = 0; index < 4; index++)
 		find_it[index] = line_forbid(forbid_three, forbid_four, all_vector[index], raw, column);
 	for (index = 0; index < 4; index++)//先看看四个方向里面有没有连五
@@ -112,7 +112,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 		&& (raw + 2 * dx >= 0) && (raw + 2 * dx <= 14)
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 		return 1;
-	
+
 	// X●?●●●X型，X代表不是黑子
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
 		&& (board[raw + 1 * dx][column + 1 * dy] == b)
@@ -483,7 +483,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_three[direct_now] = true;
 		if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])
-			return 2;	
+			return 2;
 	}
 	//__●?●_
 	if ((board[raw + 1 * dx][column + 1 * dy] == b)
@@ -536,7 +536,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 	{
 		forbid_four[direct_now] = true;
 		if (forbid_four[other_direct1] || forbid_four[other_direct2] || forbid_four[other_direct3])
-			return 2;		
+			return 2;
 	}
 	//●?_●●
 	if ((board[raw - 1 * dx][column - 1 * dy] == b)
@@ -975,7 +975,7 @@ int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, 
 			&& (board[raw - 3 * dx][column - 3 * dy] != w)
 			&& (raw - 3 * dx >= 0) && (raw - 3 * dx <= 14)
 			&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14));
-		else 
+		else
 		{
 			forbid_three[direct_now] = true;
 			if (forbid_three[other_direct1] || forbid_three[other_direct2] || forbid_three[other_direct3])

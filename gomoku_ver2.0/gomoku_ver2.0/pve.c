@@ -60,7 +60,7 @@ void pve(long int value)
 		chess = w;
 		opponent_chess = b;
 	}
-	DrawBoard(value, 2,  -1);
+	DrawBoard(value, 2, -1);
 	while (continue_playing)
 	{
 		find_forbidden_step = false;//重置		
@@ -70,8 +70,8 @@ void pve(long int value)
 			double end_time, cost_time;
 			if (step_count > 2)
 			{
-				init_best_score_of_upper();				
-				value = iteration_search(step_count, my_turn);				
+				init_best_score_of_upper();
+				value = iteration_search(step_count, my_turn);
 				if ((coordinate[0] == 0) && (coordinate[1] == 0))
 				{
 					auto_play(chess, opponent_chess);
@@ -86,7 +86,7 @@ void pve(long int value)
 					hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
 					DrawBoard(value, 2, step_count);
 					return_to_normal_chess(step_count);
-				}			
+				}
 			}
 			else
 			{
@@ -98,7 +98,7 @@ void pve(long int value)
 			}
 			end_time = clock();
 			cost_time = (end_time - start_time) / CLK_TCK;
-			printf("time=%fs.\n", cost_time);			
+			printf("time=%fs.\n", cost_time);
 			empty_score_total_black[coordinate[0]][coordinate[1]] = 0;//如果仅仅是将落子的部位无效化的话，不用在意我方是黑子还是白子，两个数组都将该点无效化即可
 			empty_score_total_white[coordinate[0]][coordinate[1]] = 0;
 			temp_point[0] = coordinate[0];
@@ -113,7 +113,7 @@ void pve(long int value)
 			int temp_cor[2];
 			temp_cor[0] = coordinate[0];
 			temp_cor[1] = coordinate[1];
- 			get_coordinate(step_count);			
+			get_coordinate(step_count);
 			roaming = board[coordinate[0]][coordinate[1]];//记录上一步的状态
 			if (step_count % 2 == 0)//黑子才执行判断禁手
 			{
@@ -129,8 +129,8 @@ void pve(long int value)
 			hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
 			DrawBoard(value, 2, step_count);
 			return_to_normal_chess(step_count);
-		
-			printf("是否想要悔棋？按y悔棋，按别的任意键正常继续游戏.\n");			
+
+			printf("是否想要悔棋？按y悔棋，按别的任意键正常继续游戏.\n");
 			c_getback = getchar();
 			while (getchar() != '\n')
 				continue;
@@ -143,7 +143,7 @@ void pve(long int value)
 				coordinate[1] = temp_cor[1];
 				DrawBoard(value, 2, step_count);
 				continue;
-			}			
+			}
 			empty_score_total_black[coordinate[0]][coordinate[1]] = 0;//如果仅仅是将落子的部位无效化的话，不用在意我方是黑子还是白子，两个数组都将该点无效化即可
 			empty_score_total_white[coordinate[0]][coordinate[1]] = 0;
 			temp_point[0] = coordinate[0];
@@ -210,20 +210,20 @@ void auto_play(int chess, int opponent_chess)
 				if ((board[p + 1][q] != opponent_chess) && (board[p + 1][q] != chess) && (p + 1 <= 14))
 				{
 					coordinate[0] = p + 1;
-					coordinate[1] = q;					
+					coordinate[1] = q;
 					return;
 				}
 
 				else if ((board[p][q + 1] != opponent_chess) && (board[p][q + 1] != chess) && (q + 1 <= 14))
 				{
 					coordinate[0] = p;
-					coordinate[1] = q + 1;					
+					coordinate[1] = q + 1;
 					return;
 				}
 				else if ((board[p - 1][q] != opponent_chess) && (board[p - 1][q] != chess) && (p - 1 >= 0))
 				{
 					coordinate[0] = p - 1;
-					coordinate[1] = q;					
+					coordinate[1] = q;
 					return;
 				}
 				else if ((board[p][q - 1] != opponent_chess) && (board[p][q - 1] != chess) && (q - 1 >= 0))
@@ -247,13 +247,13 @@ void auto_play(int chess, int opponent_chess)
 				else if ((board[p + 1][q + 1] != opponent_chess) && (board[p + 1][q + 1] != chess) && (p + 1 <= 14) && (q + 1 <= 14))
 				{
 					coordinate[0] = p + 1;
-					coordinate[1] = q + 1;					
+					coordinate[1] = q + 1;
 					return;
 				}
 				else if ((board[p + 1][q - 1] != opponent_chess) && (board[p + 1][q - 1] != chess) && (p + 1 <= 14) && (q - 1 >= 0))
 				{
 					coordinate[0] = p + 1;
-					coordinate[1] = q - 1;					
+					coordinate[1] = q - 1;
 					return;
 				}
 			}
@@ -261,8 +261,8 @@ void auto_play(int chess, int opponent_chess)
 	}
 }
 
-void init_best_score_of_upper(){	
-	int i = 0;
+void init_best_score_of_upper() {
+	int i  = 0;
 	for (i = 0; i < 12; i++)
 	{
 		if (i % 2 == 0)

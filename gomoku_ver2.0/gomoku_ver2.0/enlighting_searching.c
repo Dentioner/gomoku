@@ -129,7 +129,7 @@ int before_evaluation_ver6(int step_count)
 	while (head != NULL)//ÊÍ·ÅÄÚ´æ
 	{
 		current = head;
-		head = current->next;
+		head    = current->next;
 		free(current);
 	}
 	return status;

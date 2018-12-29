@@ -69,7 +69,7 @@ bool judgement(int step_count)
 	{
 		for (j = 0; j < 15; j++)
 		{
-			if ((board[i][j] == 4)
+			if ((board[i][j]    == 4)
 				|| (board[i][j] == 10)
 				|| (board[i][j] == 7)
 				|| (board[i][j] == 6)
@@ -77,8 +77,8 @@ bool judgement(int step_count)
 				|| (board[i][j] == 9)
 				|| (board[i][j] == 5)
 				|| (board[i][j] == 11)
-				|| (board[i][j] == 8))		
-				not_full = true;
+				|| (board[i][j] == 8))
+				not_full        = true;
 		}
 	}
 

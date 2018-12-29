@@ -29,15 +29,15 @@ long int Searching_Hashing(int step_count, bool my_turn, long temp_score, bool w
 	if (!write)//只读模式
 	{
 		if (hashing_value4[location].hash_value_of_board == hashValue)//如果这个哈希值等于棋盘现在的哈希值
-		{			
+		{
 			if (my_turn)
 			{//目前[1]记录的是我方的得分
-				if (hashing_value4[location].my_value != 0 && hashing_value4[location].floor >= floor)					
+				if (hashing_value4[location].my_value != 0 && hashing_value4[location].floor >= floor)
 					return hashing_value4[location].my_value;
 			}
 			else//[2]记录的是对方的得分
 			{
-				if (hashing_value4[location].opponent_value != 0 && hashing_value4[location].floor >= floor)					
+				if (hashing_value4[location].opponent_value != 0 && hashing_value4[location].floor >= floor)
 					return hashing_value4[location].opponent_value;
 			}
 		}

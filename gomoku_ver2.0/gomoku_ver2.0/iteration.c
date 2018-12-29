@@ -42,7 +42,7 @@ long int iteration_search(int step_count, bool my_turn)
 	{
 		be_searched_point = &RootBoard[coordinate[0]][coordinate[1]];//将被搜索的根节点指针指向 对方刚刚落子的那个空位  对应在根节点棋盘的位置
 		be_searched_point->raw = coordinate[0];
-		be_searched_point->column = coordinate[1];		
+		be_searched_point->column = coordinate[1];
 		best_score = Minimax4(step_count, true, floor, floor);
 		end_time = clock();
 		cost_time = (end_time - start_time) / CLK_TCK;
@@ -57,7 +57,7 @@ long int iteration_search(int step_count, bool my_turn)
 		coordinate[1] = column;
 	}
 	return best_score;
-} 
+}
 
 long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 {
@@ -95,7 +95,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 	{
 		if (my_turn)
 		{
-			status = before_evaluation_ver6(step_count);				
+			status = before_evaluation_ver6(step_count);
 			if (status != 0)
 			{
 				if (floor == top_floor)//这种情况是，如果刚开始搜就发现有连五点，那就只搜这一层就退出
@@ -103,7 +103,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 					shallowest2(step_count, my_turn);
 					best_score = evaluation(step_count, my_turn, coordinate[0], coordinate[1]);
 					stop_searching = true;
-					return best_score; 
+					return best_score;
 				}
 				else//这种情况是，在某一层（不是最外层）搜到了连五点，那就当做最底层开始搜				
 					return infinity;
@@ -143,10 +143,10 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							temp_point[0] = raw;
 							temp_point[1] = column;
 							refresh_banned_point_whole();
-							refresh_score(step_count, my_turn);							
+							refresh_score(step_count, my_turn);
 							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 							temp_score = Searching_Hashing(step_count, my_turn, 0, false, floor);
-							
+
 							if (temp_score == 0)
 							{
 								be_searched_point = &RootBoard[raw][column];
@@ -159,7 +159,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							{
 								best_score = temp_score;
 								worst_score = temp_score;
-								initialized = true;								
+								initialized = true;
 								RootPoint_of_this_floor->best_leaf[0] = raw;
 								RootPoint_of_this_floor->best_leaf[1] = column;
 								if (abs_distance != 0)
@@ -180,7 +180,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							{
 								if (temp_score > best_score)
 								{
-									best_score = temp_score;									
+									best_score = temp_score;
 									RootPoint_of_this_floor->best_leaf[0] = raw;
 									RootPoint_of_this_floor->best_leaf[1] = column;
 									if (abs_distance != 0)
@@ -198,7 +198,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 									}
 								}
 								if (temp_score < worst_score)
-									worst_score = temp_score;								
+									worst_score = temp_score;
 							}//复原
 							board[raw][column] = temp_blank;
 							temp_point[0] = raw;
@@ -206,19 +206,19 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							refresh_banned_point_whole();
 							refresh_score(step_count, my_turn);//再刷新一次
 							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
-								Searching_Hashing(step_count, my_turn, temp_score, true, floor);	
-							hashValue ^= ZobristTable[raw][column][(step_count % 2)];						
+								Searching_Hashing(step_count, my_turn, temp_score, true, floor);
+							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 							if (best_score > best_score_of_upper_ver2[floor - 1])
 							{
 								best_score_of_upper_ver2[floor - 1] = best_score;
 								not_in_the_same_branch[floor - 1] = false;
 							}
-							if (best_score == infinity)	
-								return best_score;							 
+							if (best_score == infinity)
+								return best_score;
 						}
 					}
 				}
-				
+
 				if ((abs_distance == 0) && (best_score == worst_score))//循环完了之后，检测是不是所有的路径都是必胜或必败
 				{
 					if (worst_score == infinity)//必胜
@@ -234,7 +234,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 			if (status != 0)//my_turn为假的时候不可能是最外层，因此少了一个if语句
 				return -infinity;
 			else
-			{	
+			{
 				bool initialized = false;//false表示best_score还没有被赋值过
 				for (int a = 0; a < Range; a++)
 				{
@@ -268,7 +268,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							temp_point[0] = raw;
 							temp_point[1] = column;
 							refresh_banned_point_whole();
-							refresh_score(step_count, my_turn);							
+							refresh_score(step_count, my_turn);
 							if (temp_score == 0)
 							{
 								be_searched_point = &RootBoard[raw][column];
@@ -276,11 +276,11 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 								be_searched_point->column = column;//在递归前，将待搜索的根节点指针指向那个要进行递归的空位
 								temp_score = Minimax4(step_count + 1, !my_turn, floor - 1, top_floor);
 							}
-							
+
 							if (!initialized)
 							{
 								best_score = temp_score;
-								initialized = true;								
+								initialized = true;
 								RootPoint_of_this_floor->best_leaf[0] = raw;
 								RootPoint_of_this_floor->best_leaf[1] = column;
 								if (abs_distance != 0)
@@ -325,7 +325,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 							refresh_banned_point_whole();
 							refresh_score(step_count, my_turn);//再刷新一次
 							if ((temp_score != -infinity) && (temp_score != infinity))//不要把被剪枝的分数给录进去
-								Searching_Hashing(step_count, my_turn, temp_score, true, floor);					
+								Searching_Hashing(step_count, my_turn, temp_score, true, floor);
 							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
 							if (best_score > best_score_of_upper_ver2[floor - 1])
 							{
@@ -340,7 +340,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 			}
 		}
 	}
-	
+
 	else//最底层↓
 		best_score = deepest(step_count, my_turn);
 
@@ -367,7 +367,7 @@ long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
 						ai_score = empty_score_total_black[raw][column];
 						p_score = empty_score_total_white[raw][column];
 						temp_score = ai_score * 1.1 - p_score * 0.9;
-						board_score += temp_score;					
+						board_score += temp_score;
 					}
 				}
 			}
@@ -383,7 +383,7 @@ long int deepest(int step_count, bool my_turn)//最底层搜索单独提取出来了
 					&& (board[raw][column] != w))
 				{
 					ai_score = empty_score_total_white[raw][column];
-					p_score = empty_score_total_black[raw][column];					
+					p_score = empty_score_total_black[raw][column];
 					temp_score = ai_score * 1.1 - p_score * 0.9;
 					board_score += temp_score;
 				}
@@ -408,7 +408,7 @@ void shallowest2(int step_count, bool my_turn)//这个函数是用于只检索一层的情况
 		{
 			if ((board[raw][column] != w)
 				&& (board[raw][column] != b))
-			{				
+			{
 				if (ai_first && (!banned_point_sheet[raw][column]))//由于此函数只会在AI下子的时候用到，因此ai_first就代表了ai拿黑子，有禁手
 				{
 					temp_score1 = evaluation(step_count, my_turn, raw, column);
@@ -426,7 +426,7 @@ void shallowest2(int step_count, bool my_turn)//这个函数是用于只检索一层的情况
 					}
 					else
 					{
-						if (temp_score > best_score)							
+						if (temp_score > best_score)
 						{//之所以不取等，是因为如果所有分支的分值都为0的话，就拿最开始出现的那个落点来下，因为最开始的落点是本层评分最高的
 							best_score = temp_score;
 							best_coordinate[0] = raw;

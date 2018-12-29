@@ -50,8 +50,8 @@ void get_coordinate(int step_count)
 		}//下面是将用户输入的坐标转换为数组能识别的坐标
 		column_c = toupper(column_c);
 		column = column_c - 'A';
-		raw = 15 - raw;		
-		if ((board[raw][column] == b)||(board[raw][column] == w))//判断是否该坐标已经有棋子了
+		raw = 15 - raw;
+		if ((board[raw][column] == b) || (board[raw][column] == w))//判断是否该坐标已经有棋子了
 		{
 			printf("该位置已经有棋子了，请重新选择一个坐标\n");
 			invalid_raw = true;//这个项用于把之前raw的循环的判断值初始化，否则不会走输入raw的循环
