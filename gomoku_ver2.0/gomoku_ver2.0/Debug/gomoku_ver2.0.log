@@ -1,9 +1,5 @@
-﻿  iteration.c
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(57): warning C4013: “system”未定义；假设外部返回 int
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(515): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(558): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(610): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(611): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(638): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
-e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\iteration.c(639): warning C4244: “=”: 从“double”转换到“long”，可能丢失数据
+﻿  main.c
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(87): warning C4013: “system”未定义；假设外部返回 int
+e:\coding\gomoku\gomoku_ver2.0\gomoku_ver2.0\main.c(168): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 参见“scanf”的声明
   gomoku_ver2.0.vcxproj -> E:\coding\gomoku\gomoku_ver2.0\Debug\gomoku_ver2.0.exe

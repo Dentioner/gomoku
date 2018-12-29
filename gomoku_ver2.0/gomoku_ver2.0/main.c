@@ -143,8 +143,15 @@ void DrawBoard(long int value, int mode_choice, int step_count)
 	}
 	printf("   A B C D E F G H I J K L M N O \n");
 
-	if (step_count != -1)
-		printf("最后落子(%d, %c), value = %ld\n", i_raw, c_column, value);
+	if (step_count != -1) 
+	{
+		if (step_count == 0 && coordinate[0] == 0 && coordinate[1] == 0)
+			printf("没有上一步落子的信息\n");
+		else if (step_count == 1 && coordinate[0] == 0 && coordinate[1] == 0 && mode_choice == 2)
+			printf("没有上一步落子的信息\n");
+		else
+			printf("最后落子(%d, %c), value = %ld\n", i_raw, c_column, value);
+	}
 }
 
 int mode_choose(int mode_choice)

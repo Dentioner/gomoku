@@ -1,5 +1,5 @@
 #define FLOOR 8//每次更改FLOOR，需要将board.c中的priority, best_score_of_upper, not_in_the_same_branch这三个数组的大小改一下
-#define Range 15 //搜索宽度
+#define Range 6 //搜索宽度
 #define Consecutive_Five 10000000//连五
 #define Open_Four 2000000//活四
 #define Double_Chess 1000000//双活三、双冲四、冲四活三等
@@ -20,9 +20,9 @@
 6. ○_●●●_○
 */
 #define Open_two 1000//连二
-#define depth_of_hashing 80000023//80000023
+#define depth_of_hashing 50331653//最大是6层，80000023，但是在8层的时候malloc会失败
 #define infinity 89999900
-
+//哈希表的容量参考：https://planetmath.org/goodhashtableprimes
 
 typedef struct temp_priority
 {

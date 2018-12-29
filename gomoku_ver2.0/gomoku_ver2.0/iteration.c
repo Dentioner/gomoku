@@ -40,21 +40,20 @@ long int iteration_search(int step_count, bool my_turn)
 	int floor;
 	int raw, column;
 	double start_time, end_time, cost_time;
-
+	const double time_limit = 6;
+	start_time = clock();
 	for (floor = 2; floor <= MaxFloor && (!stop_searching); floor += 2)
 	{
-		if (floor == 8)
-			printf("Finally I find you.\n");//test
 		be_searched_point = &RootBoard[coordinate[0]][coordinate[1]];//将被搜索的根节点指针指向 对方刚刚落子的那个空位  对应在根节点棋盘的位置
 		be_searched_point->raw = coordinate[0];
 		be_searched_point->column = coordinate[1];
 		 
-		start_time = clock();
+		
 		best_score = Minimax4(step_count, true, floor, floor);
 		end_time = clock();
 		cost_time = (end_time - start_time) / CLK_TCK;
-		printf("floor = %d\ttime = %fs.\n", floor, cost_time);
-		system("pause");
+		if (cost_time > time_limit)
+			stop_searching = true;//超过限定时间就停止思考
 	}
 	if (best_score != -infinity || floor == 2)
 	{

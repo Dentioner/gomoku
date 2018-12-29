@@ -30,6 +30,9 @@ void pvp(long int value)
 	{
 		char c_getback = ' ';
 		int i_getback;
+		int temp_cor[2];
+		temp_cor[0] = coordinate[0];
+		temp_cor[1] = coordinate[1];
 		get_coordinate(step_count);
 		roaming = board[coordinate[0]][coordinate[1]];
 		chess_play_ver2(step_count);
@@ -77,6 +80,8 @@ void pvp(long int value)
 		if (i_getback == 89 || i_getback == 121)
 		{
 			board[coordinate[0]][coordinate[1]] = roaming;
+			coordinate[0] = temp_cor[0];
+			coordinate[1] = temp_cor[1];
 			DrawBoard(value, 1, step_count);
 			hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];//再一次异或回来
 			continue;

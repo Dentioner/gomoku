@@ -152,7 +152,10 @@ void pve(long int value)
 		{
 			char c_getback = ' ';
 			int i_getback;
-			get_coordinate(step_count);
+			int temp_cor[2];
+			temp_cor[0] = coordinate[0];
+			temp_cor[1] = coordinate[1];
+ 			get_coordinate(step_count);
 			//把value和chessplay换过位置了，不知道会怎样
 			roaming = board[coordinate[0]][coordinate[1]];//记录上一步的状态
 			if (step_count % 2 == 0)//黑子才执行判断禁手
@@ -180,6 +183,8 @@ void pve(long int value)
 			{
 				board[coordinate[0]][coordinate[1]] = roaming;
 				hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
+				coordinate[0] = temp_cor[0];
+				coordinate[1] = temp_cor[1];
 				DrawBoard(value, 2, step_count);
 				continue;
 			}
