@@ -20,6 +20,7 @@ extern int  temp_point[2];
 extern rp RootBoard[15][15];
 extern rp* be_searched_point;
 
+
 int before_evaluation_ver6(int step_count)
 {
 	int my_raw, my_column;

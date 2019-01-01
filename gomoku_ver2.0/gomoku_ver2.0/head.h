@@ -22,7 +22,7 @@
 #define Open_two 1000             //连二
 #define depth_of_hashing 50331653 //最大是6层，80000023，但是在8层的时候malloc会失败
 #define infinity 89999900
-                                  //哈希表的容量参考：https://planetmath.org/goodhashtableprimes
+//哈希表的容量参考：https://planetmath.org/goodhashtableprimes
 
 typedef struct temp_priority
 {
@@ -47,6 +47,13 @@ typedef struct RootPoint//根节点
 	int LeafPoint[Range][2];//所属的10个叶节点的坐标
 	int best_leaf[2];//最佳叶节点坐标
 }rp;
+
+typedef struct Capped_Four_Point
+{
+	bool this_is_Capped_Four;//是否是冲四
+	int defend_raw;//堵住冲四的那个横坐标
+	int defend_column;//堵住冲四的纵坐标
+}CFPoint;
 
 void initial_board();
 void DrawBoard(long int value, int mode_choice, int step_count);

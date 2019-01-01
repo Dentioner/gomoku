@@ -22,6 +22,9 @@ int temp_point[2] = { 0,0 };//ÁÙÊ±Âä×Ó×ø±ê£¬ÔÚminimaxµÄÀïÃæµü´úµÄÊ±ºòÂä×ÓµÄÊ±ºòÓ
 extern long int empty_score_total_black[15][15];
 extern long int empty_score_total_white[15][15];
 extern bool banned_point_sheet[15][15];
+CFPoint Capped_Four_sheet[15][15];//¼ÇÂ¼³åËÄµÄÆåÅÌ
+bool find_a_Capped_Four;
+
 bool stop_searching = false;
 rp RootBoard[15][15];//¸ù½ÚµãÆåÅÌ
 rp * be_searched_point;//Ä¿Ç°ÕıÔÚ±»ËÑË÷µÄ¸ù½ÚµãµÄÖ¸Õë
@@ -95,6 +98,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 	{
 		if (my_turn)
 		{
+			find_a_Capped_Four = false;
 			status = before_evaluation_ver6(step_count);
 			if (status != 0)
 			{
@@ -136,51 +140,64 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 						if ((board[raw][column] != chess)
 							&& (board[raw][column] != opponent_chess))
 						{//³õÊ¼»¯¼ôÖ¦µÄ²ÎÊı
-							if (floor - 2 >= 0)
-								best_score_of_upper_ver2[floor - 2] = infinity;
-							temp_blank = board[raw][column];
-							board[raw][column] = chess;
-							temp_point[0] = raw;
-							temp_point[1] = column;
-							refresh_banned_point_whole();
-							refresh_score(step_count, my_turn);
-							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-							temp_score = Searching_Hashing(step_count, my_turn, 0, false, floor);
 
-							if (temp_score == 0)
+							if (Capped_Four_sheet[raw][column].this_is_Capped_Four && ai_first)
 							{
-								be_searched_point = &RootBoard[raw][column];
-								be_searched_point->raw = raw;
-								be_searched_point->column = column;//ÔÚµİ¹éÇ°£¬½«´ıËÑË÷µÄ¸ù½ÚµãÖ¸ÕëÖ¸ÏòÄÇ¸öÒª½øĞĞµİ¹éµÄ¿ÕÎ»
-								temp_score = Minimax4(step_count + 1, !my_turn, floor - 1, top_floor);
-							}
-
-							if (!initialized)
-							{
-								best_score = temp_score;
-								worst_score = temp_score;
-								initialized = true;
-								RootPoint_of_this_floor->best_leaf[0] = raw;
-								RootPoint_of_this_floor->best_leaf[1] = column;
-								if (abs_distance != 0)
+								int temp_blank2;
+								int temp_point2[2];
+								if (floor - 2 >= 0)
 								{
-									if ((best_score > best_score_of_upper_ver2[floor]) && (not_in_the_same_branch[floor]))//¼ôÖ¦
-									{
-										temp_point[0] = raw;
-										temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
-										board[raw][column] = temp_blank;
-										refresh_banned_point_whole();
-										refresh_score(step_count, my_turn);
-										hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-										return infinity;
-									}
+									best_score_of_upper_ver2[floor - 2] = infinity;
+									best_score_of_upper_ver2[floor - 3] = -infinity;
 								}
+								temp_blank = board[raw][column];
+								temp_blank2 = board[Capped_Four_sheet[raw][column].defend_raw][Capped_Four_sheet[raw][column].defend_column];
+								board[raw][column] = chess;
+								board[Capped_Four_sheet[raw][column].defend_raw][Capped_Four_sheet[raw][column].defend_column] = opponent_chess;
+								temp_point[0] = raw;
+								temp_point[1] = column;
+								temp_point2[0] = Capped_Four_sheet[raw][column].defend_raw;
+								temp_point2[1] = Capped_Four_sheet[raw][column].defend_column;
+								refresh_banned_point_whole();
+								refresh_score(step_count, my_turn);
+								hashValue ^= ZobristTable[raw][column][(step_count % 2)];
+								hashValue ^= ZobristTable[Capped_Four_sheet[raw][column].defend_raw][Capped_Four_sheet[raw][column].defend_column][((step_count % 2) + 1)];
+								temp_score = Searching_Hashing(step_count, my_turn, 0, false, floor);
+
+								if (temp_score == 0)
+								{
+									be_searched_point = &RootBoard[Capped_Four_sheet[raw][column].defend_raw][Capped_Four_sheet[raw][column].defend_column];
+									be_searched_point->raw = Capped_Four_sheet[raw][column].defend_raw;
+									be_searched_point->column = Capped_Four_sheet[raw][column].defend_column;//ÔÚµİ¹éÇ°£¬½«´ıËÑË÷µÄ¸ù½ÚµãÖ¸ÕëÖ¸ÏòÄÇ¸öÒª½øĞĞµİ¹éµÄ¿ÕÎ»
+									temp_score = Minimax4(step_count + 2, my_turn, floor, top_floor);
+								}//Ã»Ğ´Íê
 							}
 							else
 							{
-								if (temp_score > best_score)
+								if (floor - 2 >= 0)
+									best_score_of_upper_ver2[floor - 2] = infinity;
+								temp_blank = board[raw][column];
+								board[raw][column] = chess;
+								temp_point[0] = raw;
+								temp_point[1] = column;
+								refresh_banned_point_whole();
+								refresh_score(step_count, my_turn);
+								hashValue ^= ZobristTable[raw][column][(step_count % 2)];
+								temp_score = Searching_Hashing(step_count, my_turn, 0, false, floor);
+
+								if (temp_score == 0)
+								{
+									be_searched_point = &RootBoard[raw][column];
+									be_searched_point->raw = raw;
+									be_searched_point->column = column;//ÔÚµİ¹éÇ°£¬½«´ıËÑË÷µÄ¸ù½ÚµãÖ¸ÕëÖ¸ÏòÄÇ¸öÒª½øĞĞµİ¹éµÄ¿ÕÎ»
+									temp_score = Minimax4(step_count + 1, !my_turn, floor - 1, top_floor);
+								}
+
+								if (!initialized)
 								{
 									best_score = temp_score;
+									worst_score = temp_score;
+									initialized = true;
 									RootPoint_of_this_floor->best_leaf[0] = raw;
 									RootPoint_of_this_floor->best_leaf[1] = column;
 									if (abs_distance != 0)
@@ -197,24 +214,46 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 										}
 									}
 								}
-								if (temp_score < worst_score)
-									worst_score = temp_score;
-							}//¸´Ô­
-							board[raw][column] = temp_blank;
-							temp_point[0] = raw;
-							temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
-							refresh_banned_point_whole();
-							refresh_score(step_count, my_turn);//ÔÙË¢ĞÂÒ»´Î
-							if ((temp_score != -infinity) && (temp_score != infinity))//²»Òª°Ñ±»¼ôÖ¦µÄ·ÖÊı¸øÂ¼½øÈ¥
-								Searching_Hashing(step_count, my_turn, temp_score, true, floor);
-							hashValue ^= ZobristTable[raw][column][(step_count % 2)];
-							if (best_score > best_score_of_upper_ver2[floor - 1])
-							{
-								best_score_of_upper_ver2[floor - 1] = best_score;
-								not_in_the_same_branch[floor - 1] = false;
+								else
+								{
+									if (temp_score > best_score)
+									{
+										best_score = temp_score;
+										RootPoint_of_this_floor->best_leaf[0] = raw;
+										RootPoint_of_this_floor->best_leaf[1] = column;
+										if (abs_distance != 0)
+										{
+											if ((best_score > best_score_of_upper_ver2[floor]) && (not_in_the_same_branch[floor]))//¼ôÖ¦
+											{
+												temp_point[0] = raw;
+												temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
+												board[raw][column] = temp_blank;
+												refresh_banned_point_whole();
+												refresh_score(step_count, my_turn);
+												hashValue ^= ZobristTable[raw][column][(step_count % 2)];
+												return infinity;
+											}
+										}
+									}
+									if (temp_score < worst_score)
+										worst_score = temp_score;
+								}//¸´Ô­
+								board[raw][column] = temp_blank;
+								temp_point[0] = raw;
+								temp_point[1] = column;//ĞèÒªÖØĞÂ¸³ÖµÒ»±é£¬ÒòÎª¸üÏÂÒ»²ãµÄµİ¹éĞŞ¸Ä¹ıÕâ¸öÈ«¾Ö±äÁ¿
+								refresh_banned_point_whole();
+								refresh_score(step_count, my_turn);//ÔÙË¢ĞÂÒ»´Î
+								if ((temp_score != -infinity) && (temp_score != infinity))//²»Òª°Ñ±»¼ôÖ¦µÄ·ÖÊı¸øÂ¼½øÈ¥
+									Searching_Hashing(step_count, my_turn, temp_score, true, floor);
+								hashValue ^= ZobristTable[raw][column][(step_count % 2)];
+								if (best_score > best_score_of_upper_ver2[floor - 1])
+								{
+									best_score_of_upper_ver2[floor - 1] = best_score;
+									not_in_the_same_branch[floor - 1] = false;
+								}
+								if (best_score == infinity)
+									return best_score;
 							}
-							if (best_score == infinity)
-								return best_score;
 						}
 					}
 				}
@@ -230,6 +269,7 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 		}
 		else
 		{
+			find_a_Capped_Four = false;
 			status = before_evaluation_ver6(step_count);
 			if (status != 0)//my_turnÎª¼ÙµÄÊ±ºò²»¿ÉÄÜÊÇ×îÍâ²ã£¬Òò´ËÉÙÁËÒ»¸öifÓï¾ä
 				return -infinity;

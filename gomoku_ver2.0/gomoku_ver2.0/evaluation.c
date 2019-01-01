@@ -9,6 +9,7 @@ extern int board[15][15];
 extern int w;//白棋
 extern int b;//黑棋
 extern bool banned_point_sheet[15][15];
+extern CFPoint Capped_Four_sheet[15][15];
 int all_vector[4][2] = { {0,1}, {1,0}, {-1,1}, {1,1} };
 
 long int evaluation(int step_count, bool my_turn, int raw, int column)
@@ -16,6 +17,7 @@ long int evaluation(int step_count, bool my_turn, int raw, int column)
 	long int value = 0;
 	bool state[4] = { false, false, false, false };//状态记录，分为4个方向，分别是水平，竖直，右上左下，左上右下
 	int i;
+	Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 
 	if (banned_point_sheet[raw][column] && !(step_count % 2))//黑子禁手点直接返回0分，不评估
 		return 0;
@@ -158,6 +160,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				{
 					value -= Open_Four;
 					value += Capped_Four;
+					Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+					Capped_Four_sheet[raw][column].defend_raw = raw - 2 * dx;
+					Capped_Four_sheet[raw][column].defend_column = column - 2 * dy;
 				}
 			}
 			else if ((board[raw - 2 * dx][column - 2 * dy] == chess)//●_?●●●_另外一端不能下，不是活四
@@ -172,6 +177,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				{
 					value -= Open_Four;
 					value += Capped_Four;
+					Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+					Capped_Four_sheet[raw][column].defend_raw = raw + 5 * dx;
+					Capped_Four_sheet[raw][column].defend_column = column + 5 * dy;
 				}
 			}
 		}
@@ -205,6 +213,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				{
 					value -= Open_Four;
 					value += Capped_Four;
+					Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+					Capped_Four_sheet[raw][column].defend_raw = raw - 3 * dx;
+					Capped_Four_sheet[raw][column].defend_column = column - 3 * dy;
 				}
 			}
 			else if ((board[raw - 3 * dx][column - 3 * dy] == chess)//●_●?●●_另外一端不能下，不是活四
@@ -219,6 +230,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				{
 					value -= Open_Four;
 					value += Capped_Four;
+					Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+					Capped_Four_sheet[raw][column].defend_raw = raw + 4 * dx;
+					Capped_Four_sheet[raw][column].defend_column = column + 4 * dy;
 				}
 			}
 		}
@@ -252,6 +266,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				{
 					value -= Open_Four;
 					value += Capped_Four;
+					Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+					Capped_Four_sheet[raw][column].defend_raw = raw - 4 * dx;
+					Capped_Four_sheet[raw][column].defend_column = column - 4 * dy;
 				}
 			}
 			else if ((board[raw - 4 * dx][column - 4 * dy] == chess)//●_●●?●_另外一端不能下，不是活四
@@ -266,6 +283,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				{
 					value -= Open_Four;
 					value += Capped_Four;
+					Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+					Capped_Four_sheet[raw][column].defend_raw = raw + 3 * dx;
+					Capped_Four_sheet[raw][column].defend_column = column + 3 * dy;
 				}
 			}
 		}
@@ -298,6 +318,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				{
 					value -= Open_Four;
 					value += Capped_Four;
+					Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+					Capped_Four_sheet[raw][column].defend_raw = raw - 5 * dx;
+					Capped_Four_sheet[raw][column].defend_column = column - 5 * dy;
 				}
 			}
 			else if ((board[raw - 5 * dx][column - 5 * dy] == chess)//●_●●●?_另外一端不能下，不是活四
@@ -312,6 +335,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				{
 					value -= Open_Four;
 					value += Capped_Four;
+					Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+					Capped_Four_sheet[raw][column].defend_raw = raw + 2 * dx;
+					Capped_Four_sheet[raw][column].defend_column = column + 2 * dy;
 				}
 			}
 		}
@@ -331,6 +357,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		value += Gapped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 3 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 3 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
@@ -345,6 +374,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			{
 				state[direct_now] = false;
 				value += Capped_Three;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -355,6 +385,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -374,6 +405,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
 		value += Gapped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 2 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 2 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
@@ -388,6 +422,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			{
 				state[direct_now] = false;
 				value += Capped_Three;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -398,6 +433,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -417,6 +453,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 	{
 		value += Gapped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 1 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 1 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
@@ -431,6 +470,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			{
 				state[direct_now] = false;
 				value += Capped_Three;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -441,6 +481,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -458,6 +499,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		value += Gapped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 1 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 1 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
@@ -471,6 +515,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 5 * dy >= 0) && (column - 5 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -481,6 +526,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -503,6 +549,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		value += Gapped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 3 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 3 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
@@ -517,6 +566,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			{
 				state[direct_now] = false;
 				value += Capped_Three;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -527,6 +577,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -546,6 +597,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
 		value += Gapped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 2 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 2 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
@@ -560,6 +614,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			{
 				state[direct_now] = false;
 				value += Capped_Three;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -570,6 +625,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -589,6 +645,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 	{
 		value += Gapped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 1 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 1 * dx;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
@@ -603,6 +662,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 			{
 				state[direct_now] = false;
 				value += Capped_Three;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -613,6 +673,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -630,6 +691,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		value += Gapped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 1 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 1 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Four;
@@ -643,6 +707,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 5 * dy >= 0) && (column + 5 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -653,6 +718,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -870,6 +936,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		value += Gapped_Two_Two;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 2 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 2 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Two_Two;
@@ -883,6 +952,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 5 * dy >= 0) && (column + 5 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -893,6 +963,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 1 * dy >= 0) && (column - 1 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -913,6 +984,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
 		value += Gapped_Two_Two;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 1 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 1 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Two_Two;
@@ -926,6 +1000,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -936,6 +1011,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -955,6 +1031,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
 		value += Gapped_Two_Two;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 1 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 1 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Two_Two;
@@ -968,6 +1047,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -978,6 +1058,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -995,6 +1076,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		value += Gapped_Two_Two;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 2 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 2 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Gapped_Two_Two;
@@ -1008,6 +1092,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1018,6 +1103,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 5 * dy >= 0) && (column - 5 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1038,6 +1124,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 	{
 		value += Capped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 4 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 4 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Capped_Four;
@@ -1051,6 +1140,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 5 * dy >= 0) && (column + 5 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1071,6 +1161,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
 		value += Capped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 3 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 3 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Capped_Four;
@@ -1084,6 +1177,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 4 * dy >= 0) && (column + 4 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1104,6 +1198,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 	{
 		value += Capped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 2 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 2 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Capped_Four;
@@ -1117,6 +1214,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1137,6 +1235,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
 		value += Capped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw + 1 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column + 1 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Capped_Four;
@@ -1150,6 +1251,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1170,6 +1272,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 	{
 		value += Capped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 4 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 4 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Capped_Four;
@@ -1183,6 +1288,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 5 * dy >= 0) && (column - 5 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1203,6 +1309,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 1 * dy >= 0) && (column + 1 * dy <= 14))
 	{
 		value += Capped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 3 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 3 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Capped_Four;
@@ -1216,6 +1325,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 4 * dy >= 0) && (column - 4 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1236,6 +1346,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 2 * dy >= 0) && (column + 2 * dy <= 14))
 	{
 		value += Capped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 2 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 2 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Capped_Four;
@@ -1249,6 +1362,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 3 * dy >= 0) && (column - 3 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1269,6 +1383,9 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 		&& (column + 3 * dy >= 0) && (column + 3 * dy <= 14))
 	{
 		value += Capped_Four;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = true;
+		Capped_Four_sheet[raw][column].defend_raw = raw - 1 * dx;
+		Capped_Four_sheet[raw][column].defend_column = column - 1 * dy;
 		if (state[other_direct1] || state[other_direct2] || state[other_direct3])
 		{
 			value -= Capped_Four;
@@ -1282,6 +1399,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 				&& (column - 2 * dy >= 0) && (column - 2 * dy <= 14))
 			{
 				state[direct_now] = false;
+				Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 				if (state[other_direct1] || state[other_direct2] || state[other_direct3])//这种情况下是要扣除双四双三的分数
 					value -= Double_Chess;
 				else
@@ -1313,6 +1431,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 	{
 		value -= Gapped_Two_Two;
 		value += Double_Chess;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 	}
 	//X●●_●?_●●X
 	if ((board[raw + 2 * dx][column + 2 * dy] == chess)
@@ -1333,6 +1452,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 	{
 		value -= Gapped_Two_Two;
 		value += Double_Chess;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 	}
 	//检查X●●●_●_●●●X
 	//X●●●_?_●●●X
@@ -1355,6 +1475,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 	{
 		value -= Gapped_Four;
 		value += Double_Chess;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 	}
 
 	//检查X●_●●●_●X
@@ -1376,6 +1497,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 	{
 		value -= Gapped_Four;
 		value += Double_Chess;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 	}
 
 	//X●_●?●_●X
@@ -1396,6 +1518,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 	{
 		value -= Gapped_Four;
 		value += Double_Chess;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 	}
 
 	//X●_●●?_●X
@@ -1416,6 +1539,7 @@ long int line(bool state[], int vector[], int raw, int column, int step_count)//
 	{
 		value -= Gapped_Four;
 		value += Double_Chess;
+		Capped_Four_sheet[raw][column].this_is_Capped_Four = false;
 	}
 	//检查跳活三Gapped_Three  _●_●●_与_●●_●_
 		//要排除_●_●●_●_这种情况
