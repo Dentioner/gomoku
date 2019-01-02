@@ -49,13 +49,12 @@ long int iteration_search(int step_count, bool my_turn)
 		if (cost_time > time_limit)
 			stop_searching = true;//超过限定时间就停止思考
 	}
-	if (best_score != -infinity || floor == 2)
-	{
-		raw = RootBoard[coordinate[0]][coordinate[1]].best_leaf[0];//将最原始的那个根节点，也就是对方上一局落子的坐标 对应的那个根节点  的最佳坐标赋给coordinate
-		column = RootBoard[coordinate[0]][coordinate[1]].best_leaf[1];
-		coordinate[0] = raw;
-		coordinate[1] = column;
-	}
+	
+	raw = RootBoard[coordinate[0]][coordinate[1]].best_leaf[0];//将最原始的那个根节点，也就是对方上一局落子的坐标 对应的那个根节点  的最佳坐标赋给coordinate
+	column = RootBoard[coordinate[0]][coordinate[1]].best_leaf[1];
+	coordinate[0] = raw;
+	coordinate[1] = column;
+	
 	return best_score;
 }
 
@@ -90,6 +89,10 @@ long int Minimax4(int step_count, bool my_turn, int floor, int top_floor)
 		else
 			my_turn = true;
 	}
+
+	if (coordinate[0] == 8 && coordinate[1] == 11 && floor == top_floor)
+		printf("\n");
+
 
 	if (floor != 0)
 	{
