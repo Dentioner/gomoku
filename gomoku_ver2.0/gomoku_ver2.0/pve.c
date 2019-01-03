@@ -98,7 +98,7 @@ void pve(long int value)
 			}
 			end_time = clock();
 			cost_time = (end_time - start_time) / CLK_TCK;
-			printf("time=%fs.\n", cost_time);
+			//printf("time=%fs.\n", cost_time);
 			empty_score_total_black[coordinate[0]][coordinate[1]] = 0;//如果仅仅是将落子的部位无效化的话，不用在意我方是黑子还是白子，两个数组都将该点无效化即可
 			empty_score_total_white[coordinate[0]][coordinate[1]] = 0;
 			temp_point[0] = coordinate[0];

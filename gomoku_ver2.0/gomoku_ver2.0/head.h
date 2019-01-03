@@ -1,5 +1,5 @@
 #define FLOOR 8                   //每次更改FLOOR，需要将board.c中的priority, best_score_of_upper, not_in_the_same_branch这三个数组的大小改一下
-#define Range 6                   //搜索宽度
+#define MaxRange 12                   //搜索宽度
 #define Consecutive_Five 10000000 //连五
 #define Open_Four 2000000         //活四
 #define Double_Chess 1000000      //双活三、双冲四、冲四活三等
@@ -44,7 +44,7 @@ typedef struct RootPoint//根节点
 {
 	int raw;//自己的横坐标
 	int column;//自己的纵坐标
-	int LeafPoint[Range][2];//所属的10个叶节点的坐标
+	int LeafPoint[MaxRange][2];//所属的10个叶节点的坐标
 	int best_leaf[2];//最佳叶节点坐标
 }rp;
 

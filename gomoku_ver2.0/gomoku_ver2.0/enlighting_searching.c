@@ -119,7 +119,7 @@ int before_evaluation_ver6(int step_count)
 		}
 	}
 	current = head;
-	for (index = 0; (current != NULL) && (index < Range); index++)//将temp的前十大的坐标赋值给外面的prioriy_ver2
+	for (index = 0; (current != NULL) && (index < MaxRange); index++)//将temp的前十大的坐标赋值给外面的prioriy_ver2
 	{
 		be_searched_point->LeafPoint[index][0] = current->raw;
 		be_searched_point->LeafPoint[index][1] = current->column;
