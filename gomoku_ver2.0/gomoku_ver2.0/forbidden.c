@@ -1,7 +1,8 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdbool.h>
-#include"head.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include "head.h"
+#include <stdlib.h>
 
 extern int board[15][15];
 extern int w;//°×Æå

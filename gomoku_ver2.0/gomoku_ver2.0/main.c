@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include<string.h>
-#include<stdbool.h>
-#include<ctype.h>
-#include<math.h>
-#include"head.h"
-#include<time.h>
+#include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <math.h>
+#include "head.h"
+#include <time.h>
+#include <stdlib.h>
 
 int board[15][15] = { 0 };
 int coordinate[2] = { 0, 0 };
@@ -16,7 +17,7 @@ unsigned long long ZobristTable[15][15][2];//梅森旋转的哈希键值表
 unsigned long long hashValue = 0;//梅森旋转算法下，棋盘的哈希值
 HE hashing_value4[depth_of_hashing] = { {0,0,0,0} };//哈希表，0为哈希值，1、2位棋盘评分，3位搜索深度
 
-void main()
+int main()
 {
 	bool continue_playing = true; //确认游戏是否继续
 	long int value = 0;//评分函数的打分
@@ -30,6 +31,7 @@ void main()
 		pvp(value);
 	else
 		pve(value);
+	return 0;
 }
 
 void initial_board()

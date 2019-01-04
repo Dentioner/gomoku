@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include<string.h>
-#include<stdbool.h>
-#include<ctype.h>
-#include<math.h>
-#include"head.h"
-#include<time.h>
+#include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <math.h>
+#include "head.h"
+#include <time.h>
+#include <stdlib.h>
 
 extern int board[15][15];
 extern int coordinate[2];

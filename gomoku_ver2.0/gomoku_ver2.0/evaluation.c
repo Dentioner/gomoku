@@ -1,7 +1,8 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdbool.h>
-#include"head.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include "head.h"
+#include <stdlib.h>
 //形态的定义见https://www.cnblogs.com/songdechiu/p/5768999.html
 //https://baike.1688.com/doc/view-d3091513.html
 

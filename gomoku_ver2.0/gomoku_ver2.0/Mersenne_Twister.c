@@ -52,16 +52,16 @@
    http://www.math.hiroshima-u.ac.jp/~m-mat/MT/emt.html
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove spaces)
 */
-//以下有关随机数生成的算法来自网络
+//以下有关随机数生成的算法来自网络，但是有关五子棋的是自己的
 
 #include <stdio.h>
-#include<string.h>
-#include<stdbool.h>
-#include<ctype.h>
-#include<math.h>
-#include"head.h"
-#include<time.h>
-#include<stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <math.h>
+#include "head.h"
+#include <time.h>
+#include <stdlib.h>
 
 #define NN 312
 #define MM 156
