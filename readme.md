@@ -1,2 +1,3 @@
-#gomoku
-##A homework for C programming class
+gomoku
+=====
+My homework for C programming class
