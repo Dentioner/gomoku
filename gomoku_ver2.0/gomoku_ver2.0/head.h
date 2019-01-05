@@ -74,7 +74,7 @@ void re_calculate(int vector[], int step_count, bool my_turn);
 int before_evaluation_ver6(int step_count);
 int line_forbid(bool forbid_three[], bool forbid_four[], int vector[], int raw, int column);
 bool detect_forbidden_step(int raw, int column);
-void open_base();
+int open_base(int step_count);
 void randomly_choose_a_point(int raw, int column);
 void shallowest2(int step_count, bool my_turn);
 long int Minimax4(int step_count, bool my_turn, int floor, int top_floor);

@@ -72,7 +72,8 @@ void pve(long int value)
 			if (step_count > 2)
 			{
 				init_best_score_of_upper();
-				value = iteration_search(step_count, my_turn);
+				if (ai_first && !open_base(step_count))
+					value = iteration_search(step_count, my_turn);
 				if ((coordinate[0] == 0) && (coordinate[1] == 0))
 				{
 					auto_play(chess, opponent_chess);
@@ -91,7 +92,7 @@ void pve(long int value)
 			}
 			else
 			{
-				open_base();
+				open_base(step_count);
 				chess_play_ver2(step_count);
 				hashValue ^= ZobristTable[coordinate[0]][coordinate[1]][(step_count % 2)];
 				DrawBoard(value, 2, step_count);
