@@ -1,2 +1,2 @@
 #gomoku
-ver 2.0
+##A homework for C programming class
